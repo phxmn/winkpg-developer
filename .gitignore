@@ -1,0 +1,14 @@
+# Generated client output. Nothing generated is ever committed: every package is produced from
+# spec/openapi.raw.json by scripts/generate-clients.sh at release time.
+build/
+smoke/
+*.tgz
+*.nupkg
+
+node_modules/
+dist/
+__pycache__/
+*.py[cod]
+.venv/
+
+.DS_Store

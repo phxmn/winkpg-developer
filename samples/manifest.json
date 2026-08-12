@@ -1,0 +1,58 @@
+{
+  "_comment": [
+    "The catalog behind the Developer Portal's SDKs and samples page.",
+    "",
+    "The portal fetches this document from <DeveloperPortal.SamplesRepositoryUrl>/samples/manifest.json",
+    "and renders the `samples` array. Every other top-level property is ignored by the portal, so a",
+    "fork is free to keep its own metadata here.",
+    "",
+    "`sdks` is written by .github/workflows/publish-sdks.yml: on every release it stamps the new",
+    "version onto each entry and commits the result to main. The portal does not read it today.",
+    "",
+    "A `samples` entry needs `name` and an absolute HTTPS `link`; an entry missing either is dropped.",
+    "`description` and `language` are optional. The contract is documented in the platform repository",
+    "at modules/WinkPG.DeveloperPortal/docs/samples-manifest.md."
+  ],
+
+  "sdks": [
+    {
+      "id": "@winkpg/winkpg-api",
+      "language": "TypeScript",
+      "registry": "npm",
+      "version": "0.0.0"
+    },
+    {
+      "id": "WinkPg.Api.Client",
+      "language": "C#",
+      "registry": "nuget",
+      "version": "0.0.0"
+    },
+    {
+      "id": "winkpg-api",
+      "language": "Python",
+      "registry": "pypi",
+      "version": "0.0.0"
+    }
+  ],
+
+  "samples": [
+    {
+      "name": "WinkPG TypeScript client",
+      "description": "Generated client for the WinkPG API, published to npm. Install with npm install @winkpg/winkpg-api.",
+      "language": "TypeScript",
+      "link": "https://www.npmjs.com/package/@winkpg/winkpg-api"
+    },
+    {
+      "name": "WinkPG .NET client",
+      "description": "Generated client for the WinkPG API, published to NuGet. Targets net9.0.",
+      "language": "C#",
+      "link": "https://www.nuget.org/packages/WinkPg.Api.Client"
+    },
+    {
+      "name": "WinkPG Python client",
+      "description": "Generated client for the WinkPG API, published to PyPI. Install with pip install winkpg-api.",
+      "language": "Python",
+      "link": "https://pypi.org/project/winkpg-api/"
+    }
+  ]
+}

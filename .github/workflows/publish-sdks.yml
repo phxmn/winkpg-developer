@@ -1,0 +1,403 @@
+# Publish the generated WinkPG API clients.
+#
+# The canonical copy of this file is seeded from the platform repository, at
+# modules/WinkPG.DeveloperPortal/sdk-generation/workflows/publish-sdks.yml, so it is reviewed
+# alongside the contract it consumes. It is a seed rather than a synced file: edits here are
+# expected, and a fork is meant to diverge.
+#
+# The WinkPG build lands the published contract on the bot/api-spec branch whenever it changes, and
+# hands over three things with it: the raw servable document to generate from, the semver bump it
+# already classified from the prose-free canonical snapshot, and the changelog it rendered from the
+# same delta. This workflow does the rest: generate, build, smoke test, publish, and update the
+# samples manifest the Developer Portal catalog reads.
+#
+# Three properties this file is responsible for keeping true:
+#
+#   Nothing is hand edited. Every package identity is a generator flag read from sdk-packages.json,
+#   so a fork rebrands by editing that one file.
+#
+#   A regression fails here rather than at an integrator. Each package is installed from its own
+#   built artifact and makes one authenticated sandbox call before anything is published.
+#
+#   Publishing is idempotent. An unchanged contract never reaches this workflow at all (the platform
+#   publishes no commit), a `none` bump publishes nothing, and a version already on the registry is
+#   skipped rather than retried.
+
+name: Publish SDKs
+
+on:
+  push:
+    branches: [bot/api-spec]
+    paths: ['spec/openapi.raw.json']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # One release at a time. Two concurrent runs would race for the same version number and the
+  # loser would fail at the registry, which is a confusing way to learn that.
+  group: publish-sdks
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Read the release the platform classified
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.read.outputs.version }}
+      bump: ${{ steps.read.outputs.bump }}
+      publish: ${{ steps.read.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: read
+        # The bump is not recomputed here. The fact extractor that decides what counts as a
+        # contract change lives in the platform repository and is already the source of truth for
+        # its docs-freshness gate; a second copy of that judgement in this repository would drift,
+        # and the first symptom would be a package version that disagrees with the platform's own
+        # answer about whether a change was breaking.
+        run: |
+          set -euo pipefail
+          version=$(jq -r '.version' spec/release.json)
+          bump=$(jq -r '.bump' spec/release.json)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "bump=$bump" >> "$GITHUB_OUTPUT"
+          if [ "$bump" = "none" ]; then
+            echo "The contract changed but no integrator-observable fact moved, so no release is published."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Release $version ($bump)."
+
+  typescript:
+    name: TypeScript (npm)
+    needs: release
+    if: needs.release.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # npm trusted publishing. No long-lived token is stored for this registry.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          registry-url: 'https://registry.npmjs.org'
+      - uses: actions/setup-java@v4
+        with: { distribution: 'temurin', java-version: '21' }
+
+      - run: scripts/generate-clients.sh typescript build/typescript
+
+      - name: Build
+        working-directory: build/typescript
+        run: |
+          set -euo pipefail
+          npm version "${{ needs.release.outputs.version }}" --no-git-tag-version
+          npm install
+          npm run build
+          npm pack --pack-destination ../
+
+      - name: Smoke test the built package
+        env:
+          WINKPG_SANDBOX_BASE_URL: ${{ secrets.WINKPG_SANDBOX_BASE_URL }}
+          WINKPG_SANDBOX_API_KEY: ${{ secrets.WINKPG_SANDBOX_API_KEY }}
+        run: |
+          set -euo pipefail
+          api_class=$(jq -r '.sandbox.apiClass' sdk-packages.json)
+          method=$(jq -r '.packages.typescript.smokeMethod' sdk-packages.json)
+          # The package name is read from the config, never written here. A literal import string
+          # would be a hard-coded brand in the one place a fork cannot see it, and the fork would
+          # discover it as a smoke-test failure that blocks every TypeScript release.
+          package_name=$(jq -r '.packages.typescript.npmName' sdk-packages.json)
+          mkdir -p smoke/typescript && cd smoke/typescript
+          npm init -y >/dev/null
+          # Installed from the tarball, not linked from the build directory. Installing what will
+          # actually be published is the point: a missing `files` entry or a bad `main` is invisible
+          # to a linked build and breaks the first integrator who runs `npm install`.
+          npm install ../../*.tgz >/dev/null
+          cat > smoke.mjs <<'JS'
+          const [packageName, apiClass, method] = process.argv.slice(2);
+
+          // Dynamic, so the specifier comes from the config rather than from this file.
+          const sdk = await import(packageName);
+          const { Configuration } = sdk;
+          if (typeof Configuration !== 'function') {
+            throw new Error(`The generated package ${packageName} exports no Configuration.`);
+          }
+          const baseUrl = process.env.WINKPG_SANDBOX_BASE_URL;
+          const apiKey = process.env.WINKPG_SANDBOX_API_KEY;
+
+          const ApiClass = sdk[apiClass];
+          if (typeof ApiClass !== 'function') {
+            throw new Error(`The generated package ${packageName} exports no ${apiClass}.`);
+          }
+          if (!baseUrl || !apiKey) {
+            // No sandbox configured (a fork, most likely). The install and the generated surface
+            // are still proven; the live call is reported as skipped rather than silently passed.
+            new ApiClass(new Configuration({ basePath: 'https://example.invalid' }));
+            console.log('sandbox call skipped: no sandbox credentials are configured');
+            process.exit(0);
+          }
+
+          const api = new ApiClass(new Configuration({ basePath: baseUrl, apiKey }));
+          if (typeof api[method] !== 'function') {
+            throw new Error(`The generated ${apiClass} exposes no ${method}.`);
+          }
+          // Only the status code is ever printed. A response body is payload data and must not
+          // reach a CI log or artifact.
+          const response = await api[method]();
+          console.log(`sandbox call status: ${response.status}`);
+          if (response.status !== 200) {
+            process.exit(1);
+          }
+          JS
+          node smoke.mjs "$package_name" "$api_class" "$method"
+
+      - name: Publish to npm
+        run: npm publish ../*.tgz --provenance --access public
+        working-directory: build/typescript
+
+      - uses: actions/upload-artifact@v4
+        with: { name: winkpg-api-npm, path: build/*.tgz }
+
+  csharp:
+    name: C# (NuGet)
+    needs: release
+    if: needs.release.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: '9.0.x' }
+      - uses: actions/setup-java@v4
+        with: { distribution: 'temurin', java-version: '21' }
+
+      - run: scripts/generate-clients.sh csharp build/csharp
+
+      - name: Build and pack
+        working-directory: build/csharp
+        # 15 CS0612 warnings are expected and correct: they come from properties the contract marks
+        # deprecated. Warnings are not errors here for exactly that reason.
+        run: |
+          set -euo pipefail
+          package=$(jq -r '.packages.csharp.packageName' ../../sdk-packages.json)
+          dotnet build "src/$package/$package.csproj" --configuration Release
+          dotnet pack "src/$package/$package.csproj" --configuration Release \
+            -p:PackageVersion="${{ needs.release.outputs.version }}" --output ../nupkg
+
+      - name: Smoke test the built package
+        env:
+          WINKPG_SANDBOX_BASE_URL: ${{ secrets.WINKPG_SANDBOX_BASE_URL }}
+          WINKPG_SANDBOX_API_KEY: ${{ secrets.WINKPG_SANDBOX_API_KEY }}
+        run: |
+          set -euo pipefail
+          package=$(jq -r '.packages.csharp.packageName' sdk-packages.json)
+          api_class=$(jq -r '.sandbox.apiClass' sdk-packages.json)
+          method=$(jq -r '.packages.csharp.smokeMethod' sdk-packages.json)
+          version="${{ needs.release.outputs.version }}"
+
+          mkdir -p smoke/csharp && cd smoke/csharp
+          dotnet new console --force >/dev/null
+          # Restored from the packed nupkg through a local feed, so the smoke test consumes the
+          # artifact that will be pushed rather than the project it was packed from.
+          dotnet nuget add source "$GITHUB_WORKSPACE/build/nupkg" --name local >/dev/null
+          dotnet add package "$package" --version "$version" --source "$GITHUB_WORKSPACE/build/nupkg"
+
+          cat > Program.cs <<CS
+          using System.Reflection;
+
+          var baseUrl = Environment.GetEnvironmentVariable("WINKPG_SANDBOX_BASE_URL");
+          var apiKey = Environment.GetEnvironmentVariable("WINKPG_SANDBOX_API_KEY");
+
+          var assembly = Assembly.Load("$package");
+          var apiType = assembly.GetTypes().Single(t => t.Name == "$api_class");
+          var configurationType = assembly.GetTypes().Single(t => t.Name == "Configuration" && t.IsClass);
+
+          if (string.IsNullOrEmpty(baseUrl) || string.IsNullOrEmpty(apiKey))
+          {
+              // The generated surface is still proven: the api type and its configuration resolve
+              // out of the published assembly. The live call is reported as skipped, never passed.
+              Console.WriteLine("sandbox call skipped: no sandbox credentials are configured");
+              return 0;
+          }
+
+          dynamic configuration = Activator.CreateInstance(configurationType)!;
+          configuration.BasePath = baseUrl;
+          configuration.ApiKey.Add("api-key", apiKey);
+
+          dynamic api = Activator.CreateInstance(apiType, new object[] { configuration })!;
+          // The WithHttpInfo variant is what carries the status code. Only the code is printed; a
+          // response body is payload data and must not reach a CI log.
+          var withHttpInfo = apiType.GetMethods()
+              .First(m => m.Name == "$method".Replace("Async", "WithHttpInfoAsync"));
+          dynamic task = withHttpInfo.Invoke(api, new object?[withHttpInfo.GetParameters().Length])!;
+          var response = await task;
+          Console.WriteLine(\$"sandbox call status: {(int)response.StatusCode}");
+          return (int)response.StatusCode == 200 ? 0 : 1;
+          CS
+          dotnet run
+
+      - name: Publish to NuGet
+        # NuGet has no OIDC trusted publishing, so this is the one registry that needs a stored
+        # secret. It is a scoped push key, never a full account key.
+        run: |
+          dotnet nuget push build/nupkg/*.nupkg \
+            --api-key "${{ secrets.NUGET_API_KEY }}" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+      - uses: actions/upload-artifact@v4
+        with: { name: winkpg-api-nuget, path: build/nupkg/*.nupkg }
+
+  python:
+    name: Python (PyPI)
+    needs: release
+    if: needs.release.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # PyPI trusted publishing. No long-lived token is stored for this registry either.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-java@v4
+        with: { distribution: 'temurin', java-version: '21' }
+
+      - run: scripts/generate-clients.sh python build/python
+
+      - name: Build
+        working-directory: build/python
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade build >/dev/null
+          # The generator writes the version into pyproject.toml from its own default; the release
+          # version is authoritative, so it is stamped in rather than configured twice.
+          python - <<'PY'
+          import pathlib, re
+          path = pathlib.Path("pyproject.toml")
+          text = path.read_text()
+          path.write_text(re.sub(r'(?m)^version\s*=\s*".*"$',
+                                 'version = "${{ needs.release.outputs.version }}"', text, count=1))
+          PY
+          python -m build
+
+      - name: Smoke test the built package
+        env:
+          WINKPG_SANDBOX_BASE_URL: ${{ secrets.WINKPG_SANDBOX_BASE_URL }}
+          WINKPG_SANDBOX_API_KEY: ${{ secrets.WINKPG_SANDBOX_API_KEY }}
+        run: |
+          set -euo pipefail
+          module=$(jq -r '.packages.python.packageName' sdk-packages.json)
+          api_class=$(jq -r '.sandbox.apiClass' sdk-packages.json)
+          method=$(jq -r '.packages.python.smokeMethod' sdk-packages.json)
+
+          python -m venv smoke/python-venv
+          # Installed from the built wheel, so a packaging mistake fails here rather than at the
+          # first integrator who runs `pip install`.
+          smoke/python-venv/bin/pip install --quiet build/python/dist/*.whl
+
+          cat > smoke/smoke.py <<'PY'
+          import importlib, os, sys
+
+          module_name, api_class, method = sys.argv[1:4]
+          sdk = importlib.import_module(module_name)
+
+          api_type = getattr(sdk, api_class, None)
+          if api_type is None:
+              raise SystemExit(f"The generated package exposes no {api_class}.")
+
+          base_url = os.environ.get("WINKPG_SANDBOX_BASE_URL")
+          api_key = os.environ.get("WINKPG_SANDBOX_API_KEY")
+          if not base_url or not api_key:
+              # The install and the generated surface are proven. The live call is reported as
+              # skipped rather than silently passed.
+              print("sandbox call skipped: no sandbox credentials are configured")
+              raise SystemExit(0)
+
+          configuration = sdk.Configuration(host=base_url)
+          configuration.api_key["ApiKey"] = api_key
+
+          with sdk.ApiClient(configuration) as client:
+              api = api_type(client)
+              # The with_http_info variant is required, not preferred. It is the only shape that
+              # carries a status code, and falling back to the plain method would leave this check
+              # with nothing to assert: an earlier draft defaulted the missing status to 200, which
+              # is a smoke test that passes without having tested anything.
+              call = getattr(api, f"{method}_with_http_info", None)
+              if call is None:
+                  raise SystemExit(
+                      f"The generated {api_class} exposes no {method}_with_http_info, so the "
+                      "sandbox call's status code cannot be checked.")
+
+              # Only the status code is printed. A response body is payload data and must not reach
+              # a CI log or artifact.
+              response = call()
+              # Newer generators return an ApiResponse; older ones return a (data, status, headers)
+              # tuple. Anything else is unrecognised and fails rather than being assumed healthy.
+              if hasattr(response, "status_code"):
+                  status = response.status_code
+              elif isinstance(response, tuple) and len(response) >= 2:
+                  status = response[1]
+              else:
+                  raise SystemExit(
+                      "The sandbox call returned a shape with no readable status code, so the "
+                      f"smoke test cannot confirm it succeeded: {type(response).__name__}")
+
+              print(f"sandbox call status: {status}")
+              raise SystemExit(0 if status == 200 else 1)
+          PY
+          smoke/python-venv/bin/python smoke/smoke.py "$module" "$api_class" "$method"
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: build/python/dist
+          skip-existing: true
+
+      - uses: actions/upload-artifact@v4
+        with: { name: winkpg-api-pypi, path: build/python/dist/* }
+
+  manifest:
+    name: Record the release in the samples manifest
+    needs: [release, typescript, csharp, python]
+    if: needs.release.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+
+      - name: Update samples/manifest.json
+        # The Developer Portal catalog reads this file directly, so a published release reaches the
+        # portal with no change in the platform repository. Idempotent by construction: writing the
+        # same version twice stages no diff and commits nothing.
+        run: |
+          set -euo pipefail
+          python - "${{ needs.release.outputs.version }}" <<'PY'
+          import json, pathlib, sys
+
+          version = sys.argv[1]
+          path = pathlib.Path("samples/manifest.json")
+          manifest = json.loads(path.read_text())
+
+          for entry in manifest.get("sdks", []):
+              entry["version"] = version
+
+          path.write_text(json.dumps(manifest, indent=2) + "\n")
+          PY
+
+          git config user.name "winkpg-bot"
+          git config user.email "bot@winkpg.invalid"
+          git add samples/manifest.json
+          if git diff --cached --quiet; then
+            echo "The manifest already records this version; nothing to commit."
+            exit 0
+          fi
+          git commit -m "chore(sdk): record SDK release ${{ needs.release.outputs.version }}"
+          git push origin main

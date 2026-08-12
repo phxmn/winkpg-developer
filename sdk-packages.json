@@ -1,0 +1,98 @@
+{
+  "_comment": [
+    "The single file a fork edits to rebrand every generated SDK. Nothing else in the samples",
+    "repository carries a package identity, and no generated file is ever hand edited.",
+    "Every value below is passed straight through to the OpenAPI Generator CLI as a flag, which is",
+    "what keeps that promise true: rebranding is a change to this file, not a patch over output.",
+    "The decision record lives in the platform repository, at",
+    "modules/WinkPG.DeveloperPortal/docs/sdk-generation.md."
+  ],
+
+  "_comment_generatorVersion": [
+    "Pinned, and the pin is the whole reproducibility story: an unpinned generator turns an",
+    "unchanged contract into a changed package. Raising it is a deliberate change with its own",
+    "review, because a generator upgrade can rename a method as surely as a contract change can."
+  ],
+  "generatorVersion": "7.24.0",
+
+  "_comment_spec": [
+    "Written by the WinkPG build, on the bot/api-spec branch. The raw servable document is the",
+    "generation input (it carries the prose that becomes every doc comment, docstring and JSDoc",
+    "block); release.json carries the version and the bump the platform already classified from the",
+    "prose-free canonical snapshot; CHANGELOG.md ships inside each package."
+  ],
+  "specPath": "spec/openapi.raw.json",
+  "releasePath": "spec/release.json",
+  "changelogPath": "spec/CHANGELOG.md",
+
+  "metadata": {
+    "author": "WinkPG",
+    "license": "MIT",
+    "homepage": "https://github.com/phxmn/winkpg-developer",
+    "repository": "https://github.com/phxmn/winkpg-developer"
+  },
+
+  "_comment_sandbox": [
+    "The smoke call every package must complete before it is published. The api class name comes",
+    "from the operation's OpenAPI tag and the method name from its operationId, which is exactly",
+    "why operationId stability is guarded upstream: these three names are generated, not chosen.",
+    "Nothing here records a credential. The base URL and api key arrive as repository secrets, and",
+    "the smoke scripts persist only the HTTP status code."
+  ],
+  "sandbox": {
+    "baseUrlSecret": "WINKPG_SANDBOX_BASE_URL",
+    "apiKeySecret": "WINKPG_SANDBOX_API_KEY",
+    "operationId": "transactionsGetList",
+    "apiClass": "TransactionsApi"
+  },
+
+  "packages": {
+    "typescript": {
+      "generator": "typescript-axios",
+      "registry": "npm",
+      "npmName": "@winkpg/winkpg-api",
+      "smokeMethod": "transactionsGetList",
+      "additionalProperties": {
+        "supportsES6": "true",
+        "withInterfaces": "true"
+      }
+    },
+    "csharp": {
+      "generator": "csharp",
+      "registry": "nuget",
+      "packageName": "WinkPg.Api.Client",
+      "smokeMethod": "TransactionsGetListAsync",
+      "_comment_targetFramework": [
+        "The generator defaults C# output to net10.0, which the SDK pinned in the platform's",
+        "global.json cannot build. Verified during the spike: with this pin and the two model name",
+        "mappings below, the C# client builds with 0 errors."
+      ],
+      "additionalProperties": {
+        "targetFramework": "net9.0",
+        "packageName": "WinkPg.Api.Client",
+        "nullableReferenceTypes": "true"
+      },
+      "_comment_modelNameMappings": [
+        "DayOfWeek and IPAddress are published schemas whose generated models collide with the",
+        "System types the generated client itself uses. Without these two mappings the build fails",
+        "with CS0104 on both. Fixed by CLI flag rather than by editing output, which is the bar."
+      ],
+      "modelNameMappings": {
+        "DayOfWeek": "DayOfWeekValue",
+        "IPAddress": "IpAddressValue"
+      }
+    },
+    "python": {
+      "generator": "python",
+      "registry": "pypi",
+      "packageName": "winkpg_api",
+      "projectName": "winkpg-api",
+      "smokeMethod": "transactions_get_list",
+      "additionalProperties": {
+        "packageName": "winkpg_api",
+        "projectName": "winkpg-api",
+        "library": "urllib3"
+      }
+    }
+  }
+}
