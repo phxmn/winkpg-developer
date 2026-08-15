@@ -1,7 +1,10 @@
-## 5.0.0
+## 5.1.0
 
-No contract change: this version is a rebuild of the previous published surface.
+Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
-No integrator-observable change was detected in the API contract.
+### Additions
+
+- field BatchSequenceStateDto.maxBatchNumber: type=integer format=int32
+- field BatchSequenceStateDto.minBatchNumber: type=integer format=int32
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
