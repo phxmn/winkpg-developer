@@ -1,46 +1,62 @@
-## 7.0.0
+## 7.1.0
 
-Major release: this version changes or removes surface that earlier versions published. Read the breaking changes below before upgrading.
-
-### Breaking changes
-
-- Changed field Address.postalCode: type=string nullable=true -> type=string nullable=true maxLength=20
-- Changed field AddressInputModel.postalCode: type=string nullable=true -> type=string nullable=true maxLength=20
-- Changed field CustomerAddress.postalCode: type=string nullable=true -> type=string nullable=true maxLength=20
-- Changed field MerchantAddress.postalCode: type=string nullable=true -> type=string nullable=true maxLength=20
+Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
 ### Additions
 
-- field CustomerCreateDto.displayName: type=string nullable=true maxLength=100
-- field CustomerDto.displayName: type=string nullable=true
-- field CustomerUpdateDto.displayName: type=string nullable=true maxLength=100
-- field GetNotificationDeliveryOutcomeSummaryInput.eventType: type=string nullable=true maxLength=512
-- field GetNotificationDeliveryOutcomeSummaryInput.fromUtc: required type=string format=date-time
-- field GetNotificationDeliveryOutcomeSummaryInput.merchantId: type=string format=uuid nullable=true
-- field GetNotificationDeliveryOutcomeSummaryInput.toUtc: required type=string format=date-time exclusiveMinimum=true
-- field NotificationDeliveryOutcomeSummaryDto.deadLettered: type=integer format=int64
-- field NotificationDeliveryOutcomeSummaryDto.failed: type=integer format=int64
-- field NotificationDeliveryOutcomeSummaryDto.fromUtc: type=string format=date-time
-- field NotificationDeliveryOutcomeSummaryDto.pending: type=integer format=int64
-- field NotificationDeliveryOutcomeSummaryDto.processing: type=integer format=int64
-- field NotificationDeliveryOutcomeSummaryDto.skipped: type=integer format=int64
-- field NotificationDeliveryOutcomeSummaryDto.succeeded: type=integer format=int64
-- field NotificationDeliveryOutcomeSummaryDto.toUtc: type=string format=date-time
-- field NotificationDeliveryOutcomeSummaryDto.total: type=integer format=int64 readOnly=true
-- operation POST /api/notifications/deliveries/outcome-summary
-- parameter POST /api/notifications/deliveries/outcome-summary query:suppressNulls: optional type=boolean
-- request body POST /api/notifications/deliveries/outcome-summary (application/*+json): optional GetNotificationDeliveryOutcomeSummaryInput
-- request body POST /api/notifications/deliveries/outcome-summary (application/json): optional GetNotificationDeliveryOutcomeSummaryInput
-- request body POST /api/notifications/deliveries/outcome-summary (text/json): optional GetNotificationDeliveryOutcomeSummaryInput
-- response POST /api/notifications/deliveries/outcome-summary 200 (application/json): NotificationDeliveryOutcomeSummaryDto
-- response POST /api/notifications/deliveries/outcome-summary 200 (text/json): NotificationDeliveryOutcomeSummaryDto
-- response POST /api/notifications/deliveries/outcome-summary 200 (text/plain): NotificationDeliveryOutcomeSummaryDto
-- response POST /api/notifications/deliveries/outcome-summary 400: no body
-- response POST /api/notifications/deliveries/outcome-summary 403: no body
-- response POST /api/notifications/deliveries/outcome-summary 429: no body
-- response POST /api/notifications/deliveries/outcome-summary default (application/json): RemoteServiceErrorResponse
-- schema GetNotificationDeliveryOutcomeSummaryInput: type=object additionalProperties=false
-- schema NotificationDeliveryOutcomeSummaryDto: type=object additionalProperties=false
-- operation id notificationsGetDeliveryOutcomeSummary (POST /api/notifications/deliveries/outcome-summary)
+- error code Notifications:DestinationConfigUnreadable: 409
+- error code Notifications:SecretRotationAlreadyInProgress: 409
+- error code Notifications:SecretRotationNoPrimarySecret: 409
+- error code Notifications:SecretRotationNotInProgress: 409
+- error code Notifications:SecretRotationNotSupported: 400
+- error code Notifications:SecretRotationSecretInvalid: 400
+- error code Notifications:SecretRotationSecretUnchanged: 409
+- field BeginWebhookSecretRotationInput.incomingSecretKey: type=string nullable=true
+- field BeginWebhookSecretRotationResultDto.incomingSecretKey: type=string nullable=true
+- field BeginWebhookSecretRotationResultDto.state: WebhookSecretRotationStateDto
+- field WebhookSecretRotationStateDto.isRotating: type=boolean
+- field WebhookSecretRotationStateDto.rotationStartedUtc: type=string format=date-time nullable=true
+- operation GET /api/notifications/destinations/{id}/secret-rotation
+- operation POST /api/notifications/destinations/{id}/secret-rotation/begin
+- operation POST /api/notifications/destinations/{id}/secret-rotation/cancel
+- operation POST /api/notifications/destinations/{id}/secret-rotation/promote
+- parameter GET /api/notifications/destinations/{id}/secret-rotation path:id: required type=string format=uuid
+- parameter GET /api/notifications/destinations/{id}/secret-rotation query:suppressNulls: optional type=boolean
+- parameter POST /api/notifications/destinations/{id}/secret-rotation/begin path:id: required type=string format=uuid
+- parameter POST /api/notifications/destinations/{id}/secret-rotation/begin query:suppressNulls: optional type=boolean
+- parameter POST /api/notifications/destinations/{id}/secret-rotation/cancel path:id: required type=string format=uuid
+- parameter POST /api/notifications/destinations/{id}/secret-rotation/cancel query:suppressNulls: optional type=boolean
+- parameter POST /api/notifications/destinations/{id}/secret-rotation/promote path:id: required type=string format=uuid
+- parameter POST /api/notifications/destinations/{id}/secret-rotation/promote query:suppressNulls: optional type=boolean
+- request body POST /api/notifications/destinations/{id}/secret-rotation/begin (application/*+json): optional BeginWebhookSecretRotationInput
+- request body POST /api/notifications/destinations/{id}/secret-rotation/begin (application/json): optional BeginWebhookSecretRotationInput
+- request body POST /api/notifications/destinations/{id}/secret-rotation/begin (text/json): optional BeginWebhookSecretRotationInput
+- response GET /api/notifications/destinations/{id}/secret-rotation 200 (application/json): WebhookSecretRotationStateDto
+- response GET /api/notifications/destinations/{id}/secret-rotation 200 (text/json): WebhookSecretRotationStateDto
+- response GET /api/notifications/destinations/{id}/secret-rotation 200 (text/plain): WebhookSecretRotationStateDto
+- response GET /api/notifications/destinations/{id}/secret-rotation 429: no body
+- response GET /api/notifications/destinations/{id}/secret-rotation default (application/json): RemoteServiceErrorResponse
+- response POST /api/notifications/destinations/{id}/secret-rotation/begin 200 (application/json): BeginWebhookSecretRotationResultDto
+- response POST /api/notifications/destinations/{id}/secret-rotation/begin 200 (text/json): BeginWebhookSecretRotationResultDto
+- response POST /api/notifications/destinations/{id}/secret-rotation/begin 200 (text/plain): BeginWebhookSecretRotationResultDto
+- response POST /api/notifications/destinations/{id}/secret-rotation/begin 429: no body
+- response POST /api/notifications/destinations/{id}/secret-rotation/begin default (application/json): RemoteServiceErrorResponse
+- response POST /api/notifications/destinations/{id}/secret-rotation/cancel 200 (application/json): WebhookSecretRotationStateDto
+- response POST /api/notifications/destinations/{id}/secret-rotation/cancel 200 (text/json): WebhookSecretRotationStateDto
+- response POST /api/notifications/destinations/{id}/secret-rotation/cancel 200 (text/plain): WebhookSecretRotationStateDto
+- response POST /api/notifications/destinations/{id}/secret-rotation/cancel 429: no body
+- response POST /api/notifications/destinations/{id}/secret-rotation/cancel default (application/json): RemoteServiceErrorResponse
+- response POST /api/notifications/destinations/{id}/secret-rotation/promote 200 (application/json): WebhookSecretRotationStateDto
+- response POST /api/notifications/destinations/{id}/secret-rotation/promote 200 (text/json): WebhookSecretRotationStateDto
+- response POST /api/notifications/destinations/{id}/secret-rotation/promote 200 (text/plain): WebhookSecretRotationStateDto
+- response POST /api/notifications/destinations/{id}/secret-rotation/promote 429: no body
+- response POST /api/notifications/destinations/{id}/secret-rotation/promote default (application/json): RemoteServiceErrorResponse
+- schema BeginWebhookSecretRotationInput: type=object additionalProperties=false
+- schema BeginWebhookSecretRotationResultDto: type=object additionalProperties=false
+- schema WebhookSecretRotationStateDto: type=object additionalProperties=false
+- operation id notificationsBeginSecretRotation (POST /api/notifications/destinations/{id}/secret-rotation/begin)
+- operation id notificationsCancelSecretRotation (POST /api/notifications/destinations/{id}/secret-rotation/cancel)
+- operation id notificationsGetSecretRotationState (GET /api/notifications/destinations/{id}/secret-rotation)
+- operation id notificationsPromoteSecretRotation (POST /api/notifications/destinations/{id}/secret-rotation/promote)
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
