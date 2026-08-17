@@ -1,24 +1,17 @@
-## 6.0.0
+## 6.1.0
 
-Major release: this version changes or removes surface that earlier versions published. Read the breaking changes below before upgrading.
-
-### Breaking changes
-
-- Removed field WalletCertificateSnapshot.certificateName: type=string nullable=true
-- Removed field WalletCertificateSnapshot.certificateType: type=string nullable=true
-- Removed field WalletCertificateSnapshot.daysUntilExpiry: type=integer format=int32 nullable=true
-- Removed field WalletCertificateSnapshot.hasPendingRenewal: type=boolean nullable=true
-- Removed field WalletCertificateSnapshot.id: type=string format=uuid
-- Removed field WalletCertificateSnapshot.lastSyncedAt: type=string format=date-time nullable=true
-- Removed field WalletCertificateSnapshot.notAfter: type=string format=date-time nullable=true
-- Removed field WalletCertificateSnapshot.notBefore: type=string format=date-time nullable=true
-- Removed field WalletCertificateSnapshot.status: type=string nullable=true
-- Removed field WalletCertificateSnapshot.thumbprint: type=string nullable=true
-- Removed field WalletProviderRegistrationDto.certificates: type=array nullable=true items(WalletCertificateSnapshot)
-- Removed schema WalletCertificateSnapshot: type=object additionalProperties=false
+Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
 ### Additions
 
-- error code WinkPG.Scoring:MerchantAccessDenied: 403
+- error code ADJUSTMENT_TYPE_NOT_SUPPORTED: 409
+- error code CustomerAddress:Address1Required: 400
+- error code CustomerAddress:AddressEntryMustNotBeNull: 400
+- error code CustomerAddress:CityRequired: 400
+- error code CustomerAddress:SingleDefaultAddressRequired: 400
+- error code CustomerAddress:StateRequired: 400
+- error code CustomerAddress:ZipRequired: 400
+- error code Customers:DuplicateCustomerName: 400
+- error code OPERATION_TARGET_NOT_FOUND: 404
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
