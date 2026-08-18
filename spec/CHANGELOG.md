@@ -1,9 +1,109 @@
-## 7.5.0
+## 7.6.0
 
 Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
 ### Additions
 
-- error code WinkPG.Scoring:UnknownDecayModel: 400
+- error code Transactions:PartialApprovalAcknowledgmentUnavailable: 409
+- error code Transactions:PartialApprovalNotFound: 404
+- error code Transactions:PartialApprovalNotObserved: 429
+- error code Transactions:PartialApprovalNotPending: 409
+- error code Transactions:PartialApprovalTransactionNotFound: 404
+- error code Transactions:PartialApprovalVoidReasonNotPermitted: 400
+- error code Transactions:PartialApprovalVoidReasonTooLong: 400
+- field PartialApprovalVoidInput.voidReason: type=string nullable=true maxLength=256
+- field SplitTenderContextDto.remainingAmount: type=number format=double
+- field SplitTenderContextDto.role: SplitTenderRole
+- field SplitTenderContextDto.sequence: type=integer format=int32
+- field SplitTenderContextDto.splitTenderGroupId: type=string format=uuid
+- field SplitTenderContextDto.tenderCount: type=integer format=int32
+- field SplitTenderContextDto.totalApprovedAmount: type=number format=double
+- field SplitTenderContextDto.totalRequestedAmount: type=number format=double
+- operation POST /api/transactions/{id}/partial-approval/accept
+- operation POST /api/transactions/{id}/partial-approval/split-tender
+- operation POST /api/transactions/{id}/partial-approval/void
+- parameter POST /api/transactions/{id}/partial-approval/accept path:id: required type=string format=uuid
+- parameter POST /api/transactions/{id}/partial-approval/accept query:suppressNulls: optional type=boolean
+- parameter POST /api/transactions/{id}/partial-approval/split-tender path:id: required type=string format=uuid
+- parameter POST /api/transactions/{id}/partial-approval/split-tender query:suppressNulls: optional type=boolean
+- parameter POST /api/transactions/{id}/partial-approval/void path:id: required type=string format=uuid
+- parameter POST /api/transactions/{id}/partial-approval/void query:suppressNulls: optional type=boolean
+- request body POST /api/transactions/{id}/partial-approval/void (application/*+json): optional PartialApprovalVoidInput
+- request body POST /api/transactions/{id}/partial-approval/void (application/json): optional PartialApprovalVoidInput
+- request body POST /api/transactions/{id}/partial-approval/void (text/json): optional PartialApprovalVoidInput
+- response POST /api/transactions/{id}/partial-approval/accept 200 (application/json): TransactionDto
+- response POST /api/transactions/{id}/partial-approval/accept 200 (text/json): TransactionDto
+- response POST /api/transactions/{id}/partial-approval/accept 200 (text/plain): TransactionDto
+- response POST /api/transactions/{id}/partial-approval/accept 400 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 400 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 400 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 401 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 401 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 401 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 403 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 403 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 403 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 404 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 404 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 404 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 429: no body
+- response POST /api/transactions/{id}/partial-approval/accept 500 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 500 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 500 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 501 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 501 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept 501 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/accept default (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 200 (application/json): SplitTenderContextDto
+- response POST /api/transactions/{id}/partial-approval/split-tender 200 (text/json): SplitTenderContextDto
+- response POST /api/transactions/{id}/partial-approval/split-tender 200 (text/plain): SplitTenderContextDto
+- response POST /api/transactions/{id}/partial-approval/split-tender 400 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 400 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 400 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 401 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 401 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 401 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 403 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 403 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 403 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 404 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 404 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 404 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 429: no body
+- response POST /api/transactions/{id}/partial-approval/split-tender 500 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 500 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 500 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 501 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 501 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender 501 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/split-tender default (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 200 (application/json): TransactionDto
+- response POST /api/transactions/{id}/partial-approval/void 200 (text/json): TransactionDto
+- response POST /api/transactions/{id}/partial-approval/void 200 (text/plain): TransactionDto
+- response POST /api/transactions/{id}/partial-approval/void 400 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 400 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 400 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 401 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 401 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 401 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 403 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 403 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 403 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 404 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 404 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 404 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 429: no body
+- response POST /api/transactions/{id}/partial-approval/void 500 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 500 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 500 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 501 (application/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 501 (text/json): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void 501 (text/plain): RemoteServiceErrorResponse
+- response POST /api/transactions/{id}/partial-approval/void default (application/json): RemoteServiceErrorResponse
+- schema PartialApprovalVoidInput: type=object additionalProperties=false
+- schema SplitTenderContextDto: type=object additionalProperties=false
+- operation id partialApprovalAccept (POST /api/transactions/{id}/partial-approval/accept)
+- operation id partialApprovalInitiateSplitTender (POST /api/transactions/{id}/partial-approval/split-tender)
+- operation id partialApprovalVoid (POST /api/transactions/{id}/partial-approval/void)
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
