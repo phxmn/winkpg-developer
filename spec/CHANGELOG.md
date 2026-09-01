@@ -1,9 +1,10 @@
-## 13.2.0
+## 14.0.0
 
-Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
+Major release: this version changes or removes surface that earlier versions published. Read the breaking changes below before upgrading.
 
-### Additions
+### Breaking changes
 
-- field ContractDto.deactivationReason: ContractDeactivationReason
+- Changed field VirtualTerminalConvenienceFeeField.alternativeChannelAttestedBy: type=string nullable=true -> type=string nullable=true readOnly=true
+- Changed field VirtualTerminalConvenienceFeeField.alternativeChannelAttestedOn: type=string format=date-time nullable=true -> type=string format=date-time nullable=true readOnly=true
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
