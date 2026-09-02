@@ -1,58 +1,197 @@
-## 15.1.0
+## 16.0.0
 
-Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
+Major release: this version changes or removes surface that earlier versions published. Read the breaking changes below before upgrading.
+
+### Breaking changes
+
+- Changed field ApiKeyDetailDto.environment: ApiKeyEnvironment -> nullable=true allOf(ApiKeyEnvironment)
+- Changed field ApiKeyDto.environment: ApiKeyEnvironment -> nullable=true allOf(ApiKeyEnvironment)
+- Changed field ApiKeyRevealedDto.environment: ApiKeyEnvironment -> nullable=true allOf(ApiKeyEnvironment)
+- Changed field BatchFileTransactionDto.resultCode: ResultCode -> nullable=true allOf(ResultCode)
+- Changed field BillingRunDto.status: MerchantBillingRunStatus -> nullable=true allOf(MerchantBillingRunStatus)
+- Changed field BillingRunDto.triggerType: BillingRunTriggerType -> nullable=true allOf(BillingRunTriggerType)
+- Changed field BillingRunExclusionDto.reason: BillingRunPreSelectionReason -> nullable=true allOf(BillingRunPreSelectionReason)
+- Changed field BillingRunLineItemDto.customChargeType: CustomChargeType -> nullable=true allOf(CustomChargeType)
+- Changed field BillingRunLineItemDto.pricingStrategy: MerchantBillingPricingStrategy -> nullable=true allOf(MerchantBillingPricingStrategy)
+- Changed field BillingRunResultDto.fulfillmentPath: BillingFulfillmentPath -> nullable=true allOf(BillingFulfillmentPath)
+- Changed field BillingRunResultDto.status: MerchantBillingRunResultStatus -> nullable=true allOf(MerchantBillingRunResultStatus)
+- Changed field BinData.fundingSource: CardFundingSource -> nullable=true allOf(CardFundingSource)
+- Changed field CardData.tenderType: CardTenderType -> nullable=true allOf(CardTenderType)
+- Changed field CheckData.secCode: SecCode -> nullable=true allOf(SecCode)
+- Changed field Contract.deactivationReason: ContractDeactivationReason -> nullable=true allOf(ContractDeactivationReason)
+- Changed field ContractDto.deactivationReason: ContractDeactivationReason -> nullable=true readOnly=true allOf(ContractDeactivationReason)
+- Changed field ContractPayMethod.card: StoredCard -> nullable=true allOf(StoredCard)
+- Changed field ContractPayMethod.check: StoredCheck -> nullable=true allOf(StoredCheck)
+- Changed field ContractSchedule.firstDayOfWeek: DayOfWeek -> nullable=true allOf(DayOfWeek)
+- Changed field ContractThresholds.failurePeriod: Period -> nullable=true allOf(Period)
+- Changed field CreateHppSessionInput.captureMode: HppCaptureMode -> nullable=true allOf(HppCaptureMode)
+- Changed field CreateHppSessionInput.customerEmailVisibility: HppFieldVisibility -> nullable=true allOf(HppFieldVisibility)
+- Changed field CreateHppSessionInput.pagePurpose: HppPagePurpose -> nullable=true allOf(HppPagePurpose)
+- Changed field CreateHppSessionInput.requestedCredentialStorage: StoredCredentialUsage -> nullable=true allOf(StoredCredentialUsage)
+- Changed field CreateSurchargeConfigurationDto.channelRestrictions: SurchargeChannelFlags -> nullable=true allOf(SurchargeChannelFlags)
+- Changed field CustomerStoredPaymentMethod.origin: StoredPaymentMethodOrigin -> nullable=true allOf(StoredPaymentMethodOrigin)
+- Changed field CustomerStoredPaymentMethodDto.origin: StoredPaymentMethodOrigin -> nullable=true allOf(StoredPaymentMethodOrigin)
+- Changed field DestinationSuppressionStateDto.reason: DestinationSuppressionReason -> nullable=true allOf(DestinationSuppressionReason)
+- Changed field DeveloperAccountDto.role: DeveloperPortalRole -> nullable=true allOf(DeveloperPortalRole)
+- Changed field DeveloperAccountDto.status: DeveloperAccountStatus -> nullable=true allOf(DeveloperAccountStatus)
+- Changed field DeveloperPortalInvitationDto.role: DeveloperPortalRole -> nullable=true allOf(DeveloperPortalRole)
+- Changed field DeveloperPortalInvitationDto.status: DeveloperPortalInvitationStatus -> nullable=true allOf(DeveloperPortalInvitationStatus)
+- Changed field ExecuteTransactionOperationInput.initiationType: InitiationType -> nullable=true allOf(InitiationType)
+- Changed field ExecuteTransactionOperationInput.mitReason: MITReasonCode -> nullable=true allOf(MITReasonCode)
+- Changed field FraudReviewData.disposition: FraudReviewDisposition -> nullable=true allOf(FraudReviewDisposition)
+- Changed field GetDeveloperAccountContinuationInput.role: DeveloperPortalRole -> nullable=true allOf(DeveloperPortalRole)
+- Changed field GetDeveloperAccountContinuationInput.status: DeveloperAccountStatus -> nullable=true allOf(DeveloperAccountStatus)
+- Changed field GetDeveloperPortalInvitationContinuationInput.role: DeveloperPortalRole -> nullable=true allOf(DeveloperPortalRole)
+- Changed field GetDeveloperPortalInvitationContinuationInput.status: DeveloperPortalInvitationStatus -> nullable=true allOf(DeveloperPortalInvitationStatus)
+- Changed field GetHostedPaymentPageContinuationInput.pagePurpose: HppPagePurpose -> nullable=true allOf(HppPagePurpose)
+- Changed field GetNotificationDestinationContinuationInput.status: DestinationStatus -> nullable=true allOf(DestinationStatus)
+- Changed field GetNotificationDestinationContinuationInput.type: DestinationType -> nullable=true allOf(DestinationType)
+- Changed field GetNotificationSubscriptionContinuationInput.scope: SubscriptionScope -> nullable=true allOf(SubscriptionScope)
+- Changed field GetTransactionContinuationInput.reviewDisposition: FraudReviewDisposition -> nullable=true allOf(FraudReviewDisposition)
+- Changed field GetWalletProviderRegistrationContinuationInput.level: WalletRegistrationLevel -> nullable=true allOf(WalletRegistrationLevel)
+- Changed field GetWalletProviderRegistrationContinuationInput.providerType: WalletProviderType -> nullable=true allOf(WalletProviderType)
+- Changed field GetWalletProviderRegistrationContinuationInput.status: WalletRegistrationStatus -> nullable=true allOf(WalletRegistrationStatus)
+- Changed field HostedPageFieldsAndPanels.fieldTip: HppFieldVisibility -> nullable=true allOf(HppFieldVisibility)
+- Changed field HostedPaymentPageCreateDto.captureMode: HppCaptureMode -> nullable=true allOf(HppCaptureMode)
+- Changed field HostedPaymentPageCreateDto.checkoutLayout: CheckoutLayout -> nullable=true allOf(CheckoutLayout)
+- Changed field HostedPaymentPageCreateDto.pageMode: HostedPaymentPageMode -> nullable=true allOf(HostedPaymentPageMode)
+- Changed field HostedPaymentPageCreateDto.pagePurpose: HppPagePurpose -> nullable=true allOf(HppPagePurpose)
+- Changed field HostedPaymentPageDto.captureMode: HppCaptureMode -> nullable=true allOf(HppCaptureMode)
+- Changed field HostedPaymentPageDto.checkoutLayout: CheckoutLayout -> nullable=true allOf(CheckoutLayout)
+- Changed field HostedPaymentPageDto.pageMode: HostedPaymentPageMode -> nullable=true allOf(HostedPaymentPageMode)
+- Changed field HostedPaymentPageDto.pagePurpose: HppPagePurpose -> nullable=true allOf(HppPagePurpose)
+- Changed field HostedPaymentPageUpdateDto.captureMode: HppCaptureMode -> nullable=true allOf(HppCaptureMode)
+- Changed field HostedPaymentPageUpdateDto.checkoutLayout: CheckoutLayout -> nullable=true allOf(CheckoutLayout)
+- Changed field HostedPaymentPageUpdateDto.pageMode: HostedPaymentPageMode -> nullable=true allOf(HostedPaymentPageMode)
+- Changed field HostedPaymentPageUpdateDto.pagePurpose: HppPagePurpose -> nullable=true allOf(HppPagePurpose)
+- Changed field HppSessionDto.requestedCredentialStorage: StoredCredentialUsage -> nullable=true allOf(StoredCredentialUsage)
+- Changed field HppSessionEffectiveShapeDto.customerEmailVisibility: HppFieldVisibility -> nullable=true allOf(HppFieldVisibility)
+- Changed field HppSessionEffectiveShapeDto.requestedCredentialStorage: StoredCredentialUsage -> nullable=true allOf(StoredCredentialUsage)
+- Changed field IdentityRoleCreateDto.roleType: RoleType -> nullable=true allOf(RoleType)
+- Changed field IdentityRoleDto.roleType: RoleType -> nullable=true allOf(RoleType)
+- Changed field IdentityRoleUpdateDto.roleType: RoleType -> nullable=true allOf(RoleType)
+- Changed field IdentityUserCreateDto.userType: required UserType -> required nullable=true allOf(UserType)
+- Changed field IdentityUserDto.userType: UserType -> nullable=true allOf(UserType)
+- Changed field IdentityUserUpdateDto.userType: required UserType -> required nullable=true allOf(UserType)
+- Changed field InvoiceCreateDto.depositType: InvoiceDepositType -> nullable=true allOf(InvoiceDepositType)
+- Changed field InvoiceCreateDto.paymentTermsValue: PaymentTerms -> nullable=true allOf(PaymentTerms)
+- Changed field InvoiceCreateDto.sourceType: InvoiceSourceType -> nullable=true allOf(InvoiceSourceType)
+- Changed field InvoiceCreateDto.vaultRestriction: VaultRestriction -> nullable=true allOf(VaultRestriction)
+- Changed field InvoiceDto.paymentTermsValue: PaymentTerms -> nullable=true allOf(PaymentTerms)
+- Changed field InvoiceDto.sourceType: InvoiceSourceType -> nullable=true allOf(InvoiceSourceType)
+- Changed field InvoiceDto.vaultRestriction: VaultRestriction -> nullable=true allOf(VaultRestriction)
+- Changed field InvoiceLineItemDto.discountType: DiscountType -> nullable=true allOf(DiscountType)
+- Changed field InvoiceLineItemDto.pricingSource: PricingSource -> nullable=true allOf(PricingSource)
+- Changed field InvoiceLineItemInputDto.discountType: DiscountType -> nullable=true allOf(DiscountType)
+- Changed field InvoiceLineItemInputDto.pricingSource: PricingSource -> nullable=true allOf(PricingSource)
+- Changed field InvoiceListDto.paymentTermsValue: PaymentTerms -> nullable=true allOf(PaymentTerms)
+- Changed field InvoiceListDto.sourceType: InvoiceSourceType -> nullable=true allOf(InvoiceSourceType)
+- Changed field InvoiceProductCreateDto.pricingModel: PricingModel -> nullable=true allOf(PricingModel)
+- Changed field InvoiceProductCreateDto.productType: ProductType -> nullable=true allOf(ProductType)
+- Changed field InvoiceProductDto.pricingModel: PricingModel -> nullable=true allOf(PricingModel)
+- Changed field InvoiceProductDto.productType: ProductType -> nullable=true allOf(ProductType)
+- Changed field InvoiceProductUpdateDto.pricingModel: PricingModel -> nullable=true allOf(PricingModel)
+- Changed field InvoiceProductUpdateDto.productType: ProductType -> nullable=true allOf(ProductType)
+- Changed field InvoiceReminderConfigDto.dunningEndAction: DunningEndAction -> nullable=true allOf(DunningEndAction)
+- Changed field InvoiceUpdateDto.depositType: InvoiceDepositType -> nullable=true allOf(InvoiceDepositType)
+- Changed field InvoiceUpdateDto.paymentTermsValue: PaymentTerms -> nullable=true allOf(PaymentTerms)
+- Changed field InvoiceUpdateDto.sourceType: InvoiceSourceType -> nullable=true allOf(InvoiceSourceType)
+- Changed field InvoiceUpdateDto.vaultRestriction: VaultRestriction -> nullable=true allOf(VaultRestriction)
+- Changed field Level3LineItem.wicBenefitType: WicBenefitType -> nullable=true allOf(WicBenefitType)
+- Changed field LodgingData.chargeDescriptor: LodgingChargeDescriptor -> nullable=true allOf(LodgingChargeDescriptor)
+- Changed field LodgingData.extraCharges: LodgingExtraCharges -> nullable=true allOf(LodgingExtraCharges)
+- Changed field LodgingData.saleCode: LodgingSaleCode -> nullable=true allOf(LodgingSaleCode)
+- Changed field MerchantBillingAssignment.fulfillmentPath: BillingFulfillmentPath -> nullable=true allOf(BillingFulfillmentPath)
+- Changed field MerchantBillingCaptureLinkStatusDto.kind: MerchantBillingPaymentMethodKind -> nullable=true allOf(MerchantBillingPaymentMethodKind)
+- Changed field MerchantBillingHistoryItemDto.resultStatus: MerchantBillingRunResultStatus -> nullable=true allOf(MerchantBillingRunResultStatus)
+- Changed field MerchantBillingHistoryItemDto.runStatus: MerchantBillingRunStatus -> nullable=true allOf(MerchantBillingRunStatus)
+- Changed field MerchantBillingPaymentMethodDto.achAccountType: MerchantBillingAchAccountType -> nullable=true allOf(MerchantBillingAchAccountType)
+- Changed field MerchantBillingPaymentMethodDto.kind: MerchantBillingPaymentMethodKind -> nullable=true allOf(MerchantBillingPaymentMethodKind)
+- Changed field MerchantBusinessInfo.ownershipType: OwnershipType -> nullable=true allOf(OwnershipType)
+- Changed field MerchantCreateDto.environment: MerchantEnvironment -> nullable=true allOf(MerchantEnvironment)
+- Changed field MerchantCreateDto.processorMode: MerchantProcessorMode -> nullable=true allOf(MerchantProcessorMode)
+- Changed field MerchantDigitalWallet.walletProviderType: WalletProviderType -> nullable=true allOf(WalletProviderType)
+- Changed field MerchantDto.processorMode: MerchantProcessorMode -> nullable=true allOf(MerchantProcessorMode)
+- Changed field MerchantUpdateDto.environment: MerchantEnvironment -> nullable=true allOf(MerchantEnvironment)
+- Changed field MerchantUpdateDto.processorMode: MerchantProcessorMode -> nullable=true allOf(MerchantProcessorMode)
+- Changed field NotificationChannelDto.scope: EntityScopeKind -> nullable=true allOf(EntityScopeKind)
+- Changed field NotificationDestinationDto.scope: EntityScopeKind -> nullable=true allOf(EntityScopeKind)
+- Changed field OriginalTransaction.entryMode: EntryModes -> nullable=true allOf(EntryModes)
+- Changed field OriginalTransaction.paymentMethodsGranular: PaymentMethodsGranular -> nullable=true allOf(PaymentMethodsGranular)
+- Changed field OriginalTransaction.transactionType: TransactionType -> nullable=true allOf(TransactionType)
+- Changed field PartialApprovalData.disposition: PartialApprovalDisposition -> nullable=true allOf(PartialApprovalDisposition)
+- Changed field PaymentDetailSnapshot.paymentMethodType: TokenPaymentMethodType -> readOnly=true allOf(TokenPaymentMethodType)
+- Changed field PaymentTokenCreateDto.regenerationReason: TokenRegenerationReason -> nullable=true allOf(TokenRegenerationReason)
+- Changed field PaymentTokenDto.regenerationReason: TokenRegenerationReason -> nullable=true allOf(TokenRegenerationReason)
+- Changed field PaymentTokenUpdateDto.regenerationReason: TokenRegenerationReason -> nullable=true allOf(TokenRegenerationReason)
+- Changed field PolicyRejectionData.reversalResultCode: ResultCode -> nullable=true allOf(ResultCode)
+- Changed field PricePlanHistoryRowDto.fulfillmentPath: BillingFulfillmentPath -> nullable=true allOf(BillingFulfillmentPath)
+- Changed field PricePlanHistoryRowDto.resultStatus: MerchantBillingRunResultStatus -> nullable=true allOf(MerchantBillingRunResultStatus)
+- Changed field RateLimitRuleCreateDto.algorithm: RateLimitAlgorithm -> nullable=true allOf(RateLimitAlgorithm)
+- Changed field RateLimitRuleDto.algorithm: RateLimitAlgorithm -> nullable=true allOf(RateLimitAlgorithm)
+- Changed field RateLimitRuleUpdateDto.algorithm: RateLimitAlgorithm -> nullable=true allOf(RateLimitAlgorithm)
+- Changed field RecurringInvoiceScheduleCreateDto.paymentTermsValue: PaymentTerms -> nullable=true allOf(PaymentTerms)
+- Changed field RecurringInvoiceScheduleCreateDto.vaultRestriction: VaultRestriction -> nullable=true allOf(VaultRestriction)
+- Changed field RecurringInvoiceScheduleDto.paymentTermsValue: PaymentTerms -> nullable=true allOf(PaymentTerms)
+- Changed field RecurringInvoiceScheduleDto.vaultRestriction: VaultRestriction -> nullable=true allOf(VaultRestriction)
+- Changed field RecurringInvoiceScheduleUpdateDto.paymentTermsValue: PaymentTerms -> nullable=true allOf(PaymentTerms)
+- Changed field RecurringInvoiceScheduleUpdateDto.vaultRestriction: VaultRestriction -> nullable=true allOf(VaultRestriction)
+- Changed field ResellerBillingPreferences.defaultFulfillmentPath: BillingFulfillmentPath -> nullable=true allOf(BillingFulfillmentPath)
+- Changed field RoutingResult.routingIndicator: RoutingIndicator -> nullable=true allOf(RoutingIndicator)
+- Changed field SandboxAchStatusAdvanceRequestDto.targetStatus: required SandboxAchTargetStatus -> required nullable=true allOf(SandboxAchTargetStatus)
+- Changed field ScreeningProviderProfileDto.onFailureBehavior: ScreeningFailureBehavior -> nullable=true allOf(ScreeningFailureBehavior)
+- Changed field ScreeningProviderProfileDto.reviewAction: ScreeningReviewAction -> nullable=true allOf(ScreeningReviewAction)
+- Changed field ScreeningProviderProfileDto.reviewHoldExpiryAction: ReviewHoldExpiryAction -> nullable=true allOf(ReviewHoldExpiryAction)
+- Changed field SettlementOverrideAttemptResult.newStatus: SettlementStatus -> nullable=true allOf(SettlementStatus)
+- Changed field SettlementOverrideAttemptResult.previousStatus: SettlementStatus -> nullable=true allOf(SettlementStatus)
+- Changed field SettlementStatusOverrideRecord.newStatus: SettlementStatus -> nullable=true allOf(SettlementStatus)
+- Changed field SettlementStatusOverrideRecord.previousStatus: SettlementStatus -> nullable=true allOf(SettlementStatus)
+- Changed field SmsConsentCheckResultDto.status: SmsConsentStatus -> nullable=true allOf(SmsConsentStatus)
+- Changed field StoredNetworkToken.tokenStatus: StoredTokenStatus -> nullable=true allOf(StoredTokenStatus)
+- Changed field StoredProcessorToken.tokenStatus: StoredTokenStatus -> nullable=true allOf(StoredTokenStatus)
+- Changed field SurchargeConfigurationDto.channelRestrictions: SurchargeChannelFlags -> nullable=true allOf(SurchargeChannelFlags)
+- Changed field SurchargeConfigurationDto.status: SurchargeConfigurationStatus -> nullable=true allOf(SurchargeConfigurationStatus)
+- Changed field SurchargeEffectiveStatePolicyDto.merchantRestrictionType: SurchargeStateRestrictionType -> nullable=true allOf(SurchargeStateRestrictionType)
+- Changed field SurchargeEffectiveStatePolicyDto.platformRestrictionType: SurchargeStateRestrictionType -> nullable=true allOf(SurchargeStateRestrictionType)
+- Changed field SurchargeStatePolicyDto.restrictionType: required SurchargeStateRestrictionType -> required nullable=true allOf(SurchargeStateRestrictionType)
+- Changed field TokenData.providerType: TokenProviderType -> nullable=true allOf(TokenProviderType)
+- Changed field TransactionCreateDto.cardholderPresence: CardholderPresence -> nullable=true allOf(CardholderPresence)
+- Changed field TransactionCreateDto.initiationType: InitiationType -> nullable=true allOf(InitiationType)
+- Changed field TransactionCreateDto.mitReason: MITReasonCode -> nullable=true allOf(MITReasonCode)
+- Changed field TransactionCreateDto.specialCondition: SpecialCondition -> nullable=true allOf(SpecialCondition)
+- Changed field TransactionCreateDto.tender: TenderKind -> nullable=true allOf(TenderKind)
+- Changed field TransactionDto.cardholderPresence: CardholderPresence -> nullable=true allOf(CardholderPresence)
+- Changed field TransactionDto.idempotencyStatus: CreateIdempotencyStatus -> nullable=true allOf(CreateIdempotencyStatus)
+- Changed field TransactionDto.initiationType: InitiationType -> nullable=true allOf(InitiationType)
+- Changed field TransactionDto.linkedChargeKind: LinkedChargeKind -> nullable=true allOf(LinkedChargeKind)
+- Changed field TransactionDto.mitReason: MITReasonCode -> nullable=true allOf(MITReasonCode)
+- Changed field TransactionDto.refundKind: RefundKind -> nullable=true allOf(RefundKind)
+- Changed field TransactionDto.resultCode: ResultCode -> nullable=true readOnly=true allOf(ResultCode)
+- Changed field TransactionDto.source: TransactionSource -> nullable=true allOf(TransactionSource)
+- Changed field TransactionDto.specialCondition: SpecialCondition -> nullable=true allOf(SpecialCondition)
+- Changed field TransactionDto.splitTenderRole: SplitTenderRole -> nullable=true allOf(SplitTenderRole)
+- Changed field TransactionDto.tender: TenderKind -> nullable=true allOf(TenderKind)
+- Changed field TransactionHistoryItem.linkedReceiptType: ReceiptType -> nullable=true allOf(ReceiptType)
+- Changed field TransactionResponseData.associationResponseCode: AssociationResponseCode -> nullable=true allOf(AssociationResponseCode)
+- Changed field TransactionResponseData.responseCategoryCode: ResponseCategoryCode -> nullable=true allOf(ResponseCategoryCode)
+- Changed field TransactionResponseData.routingIndicator: RoutingIndicator -> nullable=true allOf(RoutingIndicator)
+- Changed field TransactionSettleData.settlementStatus: SettlementStatus -> nullable=true allOf(SettlementStatus)
+- Changed field TransactionSourceData.source: TransactionSource -> nullable=true allOf(TransactionSource)
+- Changed field UpdateSurchargeConfigurationDto.channelRestrictions: SurchargeChannelFlags -> nullable=true allOf(SurchargeChannelFlags)
+- Changed field VirtualTerminalConvenienceFeeField.alternativeChannel: ConvenienceFeePaymentChannel -> nullable=true allOf(ConvenienceFeePaymentChannel)
+- Changed field VirtualTerminalConvenienceFeeField.mode: ConvenienceFeeMode -> nullable=true allOf(ConvenienceFeeMode)
+- Changed field VirtualTerminalConvenienceFeeField.standardChannel: ConvenienceFeePaymentChannel -> nullable=true allOf(ConvenienceFeePaymentChannel)
+- Changed field VirtualTerminalSettings.partialApprovalStrategy: PartialApprovalStrategy -> nullable=true allOf(PartialApprovalStrategy)
+- Changed field WalletCheckoutSnapshot.status: WalletRegistrationStatus -> nullable=true allOf(WalletRegistrationStatus)
+- Changed field WalletDomainVerification.status: DomainVerificationStatus -> nullable=true allOf(DomainVerificationStatus)
+- Changed field WalletPaymentSessionOutput.providerType: WalletProviderType -> nullable=true allOf(WalletProviderType)
+- Changed field WalletProviderRegistrationDto.providerType: WalletProviderType -> nullable=true allOf(WalletProviderType)
+- Changed field WalletProviderRegistrationDto.status: WalletRegistrationStatus -> nullable=true allOf(WalletRegistrationStatus)
 
 ### Additions
 
-- error code Customers:SandboxRecurringBillingCohortTooLarge: 400
-- error code Customers:SandboxRecurringBillingEvidenceUnknown: 403
-- error code Customers:SandboxRecurringBillingInProgress: 409
-- error code Customers:SandboxRecurringBillingMerchantUnknown: 403
-- error code Customers:SandboxRecurringBillingProductionKeyRefused: 403
-- error code Customers:SandboxRecurringBillingProductionMerchantRefused: 403
-- field SandboxRecurringBillingContractResultDto.amountBilled: type=number format=double
-- field SandboxRecurringBillingContractResultDto.contractId: type=string format=uuid
-- field SandboxRecurringBillingContractResultDto.customerId: type=string format=uuid
-- field SandboxRecurringBillingContractResultDto.failureReason: type=string nullable=true
-- field SandboxRecurringBillingContractResultDto.processorResponseCode: type=string nullable=true
-- field SandboxRecurringBillingContractResultDto.skipped: type=boolean
-- field SandboxRecurringBillingContractResultDto.success: type=boolean
-- field SandboxRecurringBillingContractResultDto.transactionId: type=string format=uuid nullable=true
-- field SandboxRecurringBillingRunResultDto.advancedContractCount: type=integer format=int32
-- field SandboxRecurringBillingRunResultDto.billedContractCount: type=integer format=int32
-- field SandboxRecurringBillingRunResultDto.contracts: type=array nullable=true items(SandboxRecurringBillingContractResultDto)
-- field SandboxRecurringBillingRunResultDto.failedContractCount: type=integer format=int32
-- field SandboxRecurringBillingRunResultDto.merchantId: type=string format=uuid
-- field SandboxRecurringBillingRunResultDto.runId: type=string format=uuid
-- field SandboxRecurringBillingRunResultDto.skippedContractCount: type=integer format=int32
-- field SandboxRecurringBillingRunResultDto.totalAmount: type=number format=double
-- operation POST /api/customers/recurring-billing/sandbox/run-now
-- parameter POST /api/customers/recurring-billing/sandbox/run-now query:suppressNulls: optional type=boolean
-- response POST /api/customers/recurring-billing/sandbox/run-now 200 (application/json): SandboxRecurringBillingRunResultDto
-- response POST /api/customers/recurring-billing/sandbox/run-now 200 (text/json): SandboxRecurringBillingRunResultDto
-- response POST /api/customers/recurring-billing/sandbox/run-now 200 (text/plain): SandboxRecurringBillingRunResultDto
-- response POST /api/customers/recurring-billing/sandbox/run-now 400 (application/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 400 (text/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 400 (text/plain): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 401 (application/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 401 (text/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 401 (text/plain): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 403 (application/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 403 (text/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 403 (text/plain): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 404 (application/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 404 (text/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 404 (text/plain): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 429: no body
-- response POST /api/customers/recurring-billing/sandbox/run-now 500 (application/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 500 (text/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 500 (text/plain): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 501 (application/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 501 (text/json): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now 501 (text/plain): RemoteServiceErrorResponse
-- response POST /api/customers/recurring-billing/sandbox/run-now default (application/json): RemoteServiceErrorResponse
-- schema SandboxRecurringBillingContractResultDto: type=object additionalProperties=false
-- schema SandboxRecurringBillingRunResultDto: type=object additionalProperties=false
-- operation id sandboxRecurringBillingRunNow (POST /api/customers/recurring-billing/sandbox/run-now)
+- field HostedPageFieldsAndPanels.flatShippingAmount: type=number format=double nullable=true
+- field HostedPageFieldsAndPanels.shippingAmountMode: nullable=true allOf(HppShippingAmountMode)
+- schema HppShippingAmountMode: type=string enum=[CardholderEntered,Flat,ProviderCalculated]
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
