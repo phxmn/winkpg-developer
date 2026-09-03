@@ -1,7 +1,172 @@
-## 17.0.0
+## 17.1.0
 
-No contract change: this version is a rebuild of the previous published surface.
+Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
-No integrator-observable change was detected in the API contract.
+### Additions
+
+- error code ThreeDSecure.Fake:AssertionSignatureMissing: 400
+- error code ThreeDSecure.Fake:ChallengeResultMissing: 400
+- error code ThreeDSecure:CapabilityNotSupported: 403
+- error code ThreeDSecure:ProviderNotRegistered: 403
+- field MerchantCreateDto.threeDSBindings: type=array nullable=true items(MerchantThreeDSBinding)
+- field MerchantDto.threeDSBindings: type=array nullable=true items(MerchantThreeDSBinding)
+- field MerchantThreeDSBinding.apiKey: type=string nullable=true maxLength=256
+- field MerchantThreeDSBinding.challengeEnabled: type=boolean nullable=true
+- field MerchantThreeDSBinding.endpointEnvironment: nullable=true allOf(ThreeDSEndpointEnvironment)
+- field MerchantThreeDSBinding.isEnabled: type=boolean nullable=true
+- field MerchantThreeDSBinding.jwtSecret: type=string nullable=true maxLength=512
+- field MerchantThreeDSBinding.policyMode: nullable=true allOf(ThreeDSPolicyMode)
+- field MerchantThreeDSBinding.protocolVersion: type=string nullable=true maxLength=16
+- field MerchantThreeDSBinding.providerRegistrationId: type=string format=uuid nullable=true
+- field MerchantThreeDSBinding.providerType: nullable=true allOf(ThreeDSProviderType)
+- field MerchantThreeDSBinding.requestorUrl: type=string nullable=true maxLength=512
+- field MerchantUpdateDto.threeDSBindings: type=array nullable=true items(MerchantThreeDSBinding)
+- field ThreeDSBindingConnectionTestResultDto.reason: type=string nullable=true
+- field ThreeDSBindingConnectionTestResultDto.succeeded: type=boolean
+- operation DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType}
+- operation GET /api/merchants/{id}/three-d-secure-bindings
+- operation GET /api/merchants/{id}/three-d-secure-bindings/{providerType}
+- operation POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection
+- operation PUT /api/merchants/{id}/three-d-secure-bindings/{providerType}
+- parameter DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} path:id: required type=string format=uuid
+- parameter DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} path:providerType: required ThreeDSProviderType
+- parameter DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} query:suppressNulls: optional type=boolean
+- parameter GET /api/merchants/{id}/three-d-secure-bindings path:id: required type=string format=uuid
+- parameter GET /api/merchants/{id}/three-d-secure-bindings query:suppressNulls: optional type=boolean
+- parameter GET /api/merchants/{id}/three-d-secure-bindings/{providerType} path:id: required type=string format=uuid
+- parameter GET /api/merchants/{id}/three-d-secure-bindings/{providerType} path:providerType: required ThreeDSProviderType
+- parameter GET /api/merchants/{id}/three-d-secure-bindings/{providerType} query:suppressNulls: optional type=boolean
+- parameter POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection path:id: required type=string format=uuid
+- parameter POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection path:providerType: required ThreeDSProviderType
+- parameter POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection query:suppressNulls: optional type=boolean
+- parameter PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} path:id: required type=string format=uuid
+- parameter PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} path:providerType: required ThreeDSProviderType
+- parameter PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} query:suppressNulls: optional type=boolean
+- request body PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} (application/*+json): optional MerchantThreeDSBinding
+- request body PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} (application/json): optional MerchantThreeDSBinding
+- request body PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} (text/json): optional MerchantThreeDSBinding
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 200: no body
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 400 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 400 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 400 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 401 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 401 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 401 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 403 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 403 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 403 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 404 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 404 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 404 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 429: no body
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 500 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 500 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 500 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 501 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 501 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 501 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} default (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 200 (application/json): type=array items(MerchantThreeDSBinding)
+- response GET /api/merchants/{id}/three-d-secure-bindings 200 (text/json): type=array items(MerchantThreeDSBinding)
+- response GET /api/merchants/{id}/three-d-secure-bindings 200 (text/plain): type=array items(MerchantThreeDSBinding)
+- response GET /api/merchants/{id}/three-d-secure-bindings 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 429: no body
+- response GET /api/merchants/{id}/three-d-secure-bindings 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings default (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 200 (application/json): MerchantThreeDSBinding
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 200 (text/json): MerchantThreeDSBinding
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 200 (text/plain): MerchantThreeDSBinding
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 429: no body
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/three-d-secure-bindings/{providerType} default (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 200 (application/json): ThreeDSBindingConnectionTestResultDto
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 200 (text/json): ThreeDSBindingConnectionTestResultDto
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 200 (text/plain): ThreeDSBindingConnectionTestResultDto
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 400 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 400 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 400 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 401 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 401 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 401 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 403 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 403 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 403 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 404 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 404 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 404 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 429: no body
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 500 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 500 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 500 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 501 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 501 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection 501 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection default (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 200 (application/json): MerchantThreeDSBinding
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 200 (text/json): MerchantThreeDSBinding
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 200 (text/plain): MerchantThreeDSBinding
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 400 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 400 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 400 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 401 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 401 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 401 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 403 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 403 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 403 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 404 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 404 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 404 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 429: no body
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 500 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 500 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 500 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 501 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 501 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} 501 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/three-d-secure-bindings/{providerType} default (application/json): RemoteServiceErrorResponse
+- schema MerchantThreeDSBinding: type=object additionalProperties=false
+- schema ThreeDSBindingConnectionTestResultDto: type=object additionalProperties=false
+- schema ThreeDSEndpointEnvironment: type=string enum=[Live,Sandbox]
+- schema ThreeDSPolicyMode: type=string enum=[Attempt,Off,Require]
+- schema ThreeDSProviderType: type=string enum=[Fake,Paay]
+- operation id merchantThreeDSBindingDeleteThreeDSBinding (DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType})
+- operation id merchantThreeDSBindingGetThreeDSBinding (GET /api/merchants/{id}/three-d-secure-bindings/{providerType})
+- operation id merchantThreeDSBindingGetThreeDSBindingList (GET /api/merchants/{id}/three-d-secure-bindings)
+- operation id merchantThreeDSBindingTestThreeDSBindingConnection (POST /api/merchants/{id}/three-d-secure-bindings/{providerType}/test-connection)
+- operation id merchantThreeDSBindingUpsertThreeDSBinding (PUT /api/merchants/{id}/three-d-secure-bindings/{providerType})
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
