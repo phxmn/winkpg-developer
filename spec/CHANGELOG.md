@@ -1,7 +1,169 @@
-## 18.6.0
+## 18.7.0
 
-No contract change: this version is a rebuild of the previous published surface.
+Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
-No integrator-observable change was detected in the API contract.
+### Additions
+
+- field MerchantCreateDto.taxBindings: type=array nullable=true items(MerchantTaxBinding)
+- field MerchantDto.taxBindings: type=array nullable=true items(MerchantTaxBinding)
+- field MerchantTaxBinding.credentialSource: nullable=true allOf(TaxCredentialSource)
+- field MerchantTaxBinding.defaultCountryCode: type=string nullable=true maxLength=3
+- field MerchantTaxBinding.fieldValues: type=array nullable=true items(TaxBindingFieldValue)
+- field MerchantTaxBinding.isEnabled: type=boolean nullable=true
+- field MerchantTaxBinding.providerName: type=string nullable=true maxLength=64
+- field MerchantUpdateDto.taxBindings: type=array nullable=true items(MerchantTaxBinding)
+- field TaxBindingConnectionTestResultDto.reason: type=string nullable=true
+- field TaxBindingConnectionTestResultDto.succeeded: type=boolean
+- field TaxBindingFieldValue.isConfigured: type=boolean nullable=true
+- field TaxBindingFieldValue.isSecret: type=boolean nullable=true
+- field TaxBindingFieldValue.key: type=string nullable=true
+- field TaxBindingFieldValue.value: type=string nullable=true
+- operation DELETE /api/merchants/{id}/tax-bindings/{providerName}
+- operation GET /api/merchants/{id}/tax-bindings
+- operation GET /api/merchants/{id}/tax-bindings/{providerName}
+- operation POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection
+- operation PUT /api/merchants/{id}/tax-bindings/{providerName}
+- parameter DELETE /api/merchants/{id}/tax-bindings/{providerName} path:id: required type=string format=uuid
+- parameter DELETE /api/merchants/{id}/tax-bindings/{providerName} path:providerName: required type=string
+- parameter DELETE /api/merchants/{id}/tax-bindings/{providerName} query:suppressNulls: optional type=boolean
+- parameter GET /api/merchants/{id}/tax-bindings path:id: required type=string format=uuid
+- parameter GET /api/merchants/{id}/tax-bindings query:suppressNulls: optional type=boolean
+- parameter GET /api/merchants/{id}/tax-bindings/{providerName} path:id: required type=string format=uuid
+- parameter GET /api/merchants/{id}/tax-bindings/{providerName} path:providerName: required type=string
+- parameter GET /api/merchants/{id}/tax-bindings/{providerName} query:suppressNulls: optional type=boolean
+- parameter POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection path:id: required type=string format=uuid
+- parameter POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection path:providerName: required type=string
+- parameter POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection query:suppressNulls: optional type=boolean
+- parameter PUT /api/merchants/{id}/tax-bindings/{providerName} path:id: required type=string format=uuid
+- parameter PUT /api/merchants/{id}/tax-bindings/{providerName} path:providerName: required type=string
+- parameter PUT /api/merchants/{id}/tax-bindings/{providerName} query:suppressNulls: optional type=boolean
+- request body POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection (application/*+json): optional MerchantTaxBinding
+- request body POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection (application/json): optional MerchantTaxBinding
+- request body POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection (text/json): optional MerchantTaxBinding
+- request body PUT /api/merchants/{id}/tax-bindings/{providerName} (application/*+json): optional MerchantTaxBinding
+- request body PUT /api/merchants/{id}/tax-bindings/{providerName} (application/json): optional MerchantTaxBinding
+- request body PUT /api/merchants/{id}/tax-bindings/{providerName} (text/json): optional MerchantTaxBinding
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 200: no body
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 400 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 400 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 400 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 401 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 401 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 401 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 403 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 403 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 403 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 404 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 404 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 404 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 429: no body
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 500 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 500 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 500 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 501 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 501 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 501 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} default (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 200 (application/json): type=array items(MerchantTaxBinding)
+- response GET /api/merchants/{id}/tax-bindings 200 (text/json): type=array items(MerchantTaxBinding)
+- response GET /api/merchants/{id}/tax-bindings 200 (text/plain): type=array items(MerchantTaxBinding)
+- response GET /api/merchants/{id}/tax-bindings 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 429: no body
+- response GET /api/merchants/{id}/tax-bindings 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings default (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 200 (application/json): MerchantTaxBinding
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 200 (text/json): MerchantTaxBinding
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 200 (text/plain): MerchantTaxBinding
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 429: no body
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/tax-bindings/{providerName} default (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 200 (application/json): TaxBindingConnectionTestResultDto
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 200 (text/json): TaxBindingConnectionTestResultDto
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 200 (text/plain): TaxBindingConnectionTestResultDto
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 400 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 400 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 400 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 401 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 401 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 401 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 403 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 403 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 403 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 404 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 404 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 404 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 429: no body
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 500 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 500 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 500 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 501 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 501 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection 501 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection default (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 200 (application/json): MerchantTaxBinding
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 200 (text/json): MerchantTaxBinding
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 200 (text/plain): MerchantTaxBinding
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 400 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 400 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 400 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 401 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 401 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 401 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 403 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 403 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 403 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 404 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 404 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 404 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 429: no body
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 500 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 500 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 500 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 501 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 501 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} 501 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/tax-bindings/{providerName} default (application/json): RemoteServiceErrorResponse
+- schema MerchantTaxBinding: type=object additionalProperties=false
+- schema TaxBindingConnectionTestResultDto: type=object additionalProperties=false
+- schema TaxBindingFieldValue: type=object additionalProperties=false
+- schema TaxCredentialSource: type=string enum=[Gateway,Merchant]
+- operation id merchantTaxBindingDeleteTaxBinding (DELETE /api/merchants/{id}/tax-bindings/{providerName})
+- operation id merchantTaxBindingGetTaxBinding (GET /api/merchants/{id}/tax-bindings/{providerName})
+- operation id merchantTaxBindingGetTaxBindingList (GET /api/merchants/{id}/tax-bindings)
+- operation id merchantTaxBindingTestTaxBindingConnection (POST /api/merchants/{id}/tax-bindings/{providerName}/test-connection)
+- operation id merchantTaxBindingUpsertTaxBinding (PUT /api/merchants/{id}/tax-bindings/{providerName})
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
