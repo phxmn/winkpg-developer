@@ -1,14 +1,14 @@
-## 18.25.0
+## 18.26.0
 
 Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
 ### Additions
 
-- error code Transactions:PayoutRequiresCheckData: 400
-- field ProcessorPaymentTypeRefDto.displayName: type=string nullable=true
+- error code Merchants:ResellerRestrictsMerchantToSandbox: 409
+- field TransactionHistoryItem.lifecycleOccurredAtUtc: type=string format=date-time nullable=true
 
 ### Compatible changes
 
-- Widened schema TransactionType: type=string enum=[Activate,Adjustment,Authorization,Capture,CaptureAll,Deactivate,Force,Inquire,Redeem,Reload,RepeatSale,Return,Sale,Void,VoucherClear] -> type=string enum=[Activate,Adjustment,Authorization,Capture,CaptureAll,Deactivate,Force,Inquire,Payout,Redeem,Reload,RepeatSale,Return,Sale,Void,VoucherClear]
+- Widened schema SettlementStatus: type=string enum=[NotEligible,Pending,ReversalFailed,SettlementFailed,SettlementInProgress,SettlementOnHold,SettlementRolledBack,SettlementSucceeded,WaitingForSettlement] -> type=string enum=[Accepted,NotEligible,Originated,PartiallySettled,Pending,ReversalFailed,SettlementFailed,SettlementInProgress,SettlementOnHold,SettlementRolledBack,SettlementSucceeded,Verifying,WaitingForSettlement]
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
