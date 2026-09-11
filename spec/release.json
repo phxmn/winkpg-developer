@@ -1,6 +1,6 @@
 {
-  "specCommit": "4635eab1b02cfd56751d6acec98e790e2a66f775",
+  "specCommit": "e0dff6f3492f2b177f9cb139e70f182f5b1e4fef",
   "bump": "minor",
-  "version": "20.6.0",
-  "previousVersion": "20.5.0"
+  "version": "20.7.0",
+  "previousVersion": "20.6.0"
 }
