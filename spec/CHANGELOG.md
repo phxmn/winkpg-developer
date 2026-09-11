@@ -1,9 +1,7 @@
 ## 21.0.0
 
-Major release: this version changes or removes surface that earlier versions published. Read the breaking changes below before upgrading.
+No contract change: this version is a rebuild of the previous published surface.
 
-### Breaking changes
-
-- Changed field TransactionDto.fraudScreenResult: FraudScreenResult -> allOf(FraudScreenResult)
+No integrator-observable change was detected in the API contract.
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
