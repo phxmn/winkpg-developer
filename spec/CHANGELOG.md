@@ -1,106 +1,33 @@
-## 22.4.0
+## 22.5.0
 
 Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
 ### Additions
 
-- error code Transactions:CashbackNotAllowedOnOperation: 400
-- error code Transactions:CashbackRequiresCardPresent: 400
-- error code Transactions:CashbackRequiresPin: 400
-- field CampaignDto.clonedFromCampaignId: type=string format=uuid nullable=true
-- field CampaignDto.endedAtUtc: type=string format=date-time nullable=true
-- field FraudReviewApproveInput.reasonCode: type=string nullable=true maxLength=256
-- field FraudReviewDeclineInput.reasonCode: required type=string nullable=true maxLength=256
-- operation POST /api/campaigns/{id}/clone
-- operation POST /api/transactions/{id}/fraud-review/approve
-- operation POST /api/transactions/{id}/fraud-review/decline
-- parameter POST /api/campaigns/{id}/clone path:id: required type=string format=uuid
-- parameter POST /api/campaigns/{id}/clone query:suppressNulls: optional type=boolean
-- parameter POST /api/transactions/{id}/fraud-review/approve path:id: required type=string format=uuid
-- parameter POST /api/transactions/{id}/fraud-review/approve query:suppressNulls: optional type=boolean
-- parameter POST /api/transactions/{id}/fraud-review/decline path:id: required type=string format=uuid
-- parameter POST /api/transactions/{id}/fraud-review/decline query:suppressNulls: optional type=boolean
-- request body POST /api/transactions/{id}/fraud-review/approve (application/*+json): optional FraudReviewApproveInput
-- request body POST /api/transactions/{id}/fraud-review/approve (application/json): optional FraudReviewApproveInput
-- request body POST /api/transactions/{id}/fraud-review/approve (text/json): optional FraudReviewApproveInput
-- request body POST /api/transactions/{id}/fraud-review/decline (application/*+json): optional FraudReviewDeclineInput
-- request body POST /api/transactions/{id}/fraud-review/decline (application/json): optional FraudReviewDeclineInput
-- request body POST /api/transactions/{id}/fraud-review/decline (text/json): optional FraudReviewDeclineInput
-- response POST /api/campaigns/{id}/clone 200 (application/json): CampaignDto
-- response POST /api/campaigns/{id}/clone 200 (text/json): CampaignDto
-- response POST /api/campaigns/{id}/clone 200 (text/plain): CampaignDto
-- response POST /api/campaigns/{id}/clone 400 (application/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 400 (text/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 400 (text/plain): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 401 (application/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 401 (text/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 401 (text/plain): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 403 (application/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 403 (text/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 403 (text/plain): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 404 (application/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 404 (text/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 404 (text/plain): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 429: no body
-- response POST /api/campaigns/{id}/clone 500 (application/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 500 (text/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 500 (text/plain): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 501 (application/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 501 (text/json): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone 501 (text/plain): RemoteServiceErrorResponse
-- response POST /api/campaigns/{id}/clone default (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 200 (application/json): TransactionDto
-- response POST /api/transactions/{id}/fraud-review/approve 200 (text/json): TransactionDto
-- response POST /api/transactions/{id}/fraud-review/approve 200 (text/plain): TransactionDto
-- response POST /api/transactions/{id}/fraud-review/approve 400 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 400 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 400 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 401 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 401 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 401 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 403 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 403 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 403 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 404 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 404 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 404 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 409: no body
-- response POST /api/transactions/{id}/fraud-review/approve 429: no body
-- response POST /api/transactions/{id}/fraud-review/approve 500 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 500 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 500 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 501 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 501 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve 501 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/approve default (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 200 (application/json): TransactionDto
-- response POST /api/transactions/{id}/fraud-review/decline 200 (text/json): TransactionDto
-- response POST /api/transactions/{id}/fraud-review/decline 200 (text/plain): TransactionDto
-- response POST /api/transactions/{id}/fraud-review/decline 400 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 400 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 400 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 401 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 401 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 401 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 403 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 403 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 403 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 404 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 404 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 404 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 409: no body
-- response POST /api/transactions/{id}/fraud-review/decline 429: no body
-- response POST /api/transactions/{id}/fraud-review/decline 500 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 500 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 500 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 501 (application/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 501 (text/json): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline 501 (text/plain): RemoteServiceErrorResponse
-- response POST /api/transactions/{id}/fraud-review/decline default (application/json): RemoteServiceErrorResponse
-- schema FraudReviewApproveInput: type=object additionalProperties=false
-- schema FraudReviewDeclineInput: type=object additionalProperties=false
-- operation id campaignsClone (POST /api/campaigns/{id}/clone)
-- operation id fraudReviewApprove (POST /api/transactions/{id}/fraud-review/approve)
-- operation id fraudReviewDecline (POST /api/transactions/{id}/fraud-review/decline)
+- field AddStoredPaymentMethodInput.readerTokenCardBrand: type=string nullable=true
+- field AddStoredPaymentMethodInput.readerTokenMaskedCardNumber: type=string nullable=true
+- field InvoiceProductCreateDto.dimensionUnit: nullable=true allOf(ShippingDimensionUnit)
+- field InvoiceProductCreateDto.height: type=number format=double nullable=true minimum=0 maximum=99999.9999 exclusiveMinimum=true
+- field InvoiceProductCreateDto.length: type=number format=double nullable=true minimum=0 maximum=99999.9999 exclusiveMinimum=true
+- field InvoiceProductCreateDto.requiresShipping: type=boolean nullable=true
+- field InvoiceProductCreateDto.weight: type=number format=double nullable=true minimum=0 maximum=999999.9999 exclusiveMinimum=true
+- field InvoiceProductCreateDto.weightUnit: nullable=true allOf(ShippingWeightUnit)
+- field InvoiceProductCreateDto.width: type=number format=double nullable=true minimum=0 maximum=99999.9999 exclusiveMinimum=true
+- field InvoiceProductDto.dimensionUnit: nullable=true allOf(ShippingDimensionUnit)
+- field InvoiceProductDto.height: type=number format=double nullable=true
+- field InvoiceProductDto.length: type=number format=double nullable=true
+- field InvoiceProductDto.requiresShipping: type=boolean nullable=true
+- field InvoiceProductDto.weight: type=number format=double nullable=true
+- field InvoiceProductDto.weightUnit: nullable=true allOf(ShippingWeightUnit)
+- field InvoiceProductDto.width: type=number format=double nullable=true
+- field InvoiceProductUpdateDto.dimensionUnit: nullable=true allOf(ShippingDimensionUnit)
+- field InvoiceProductUpdateDto.height: type=number format=double nullable=true minimum=0 maximum=99999.9999 exclusiveMinimum=true
+- field InvoiceProductUpdateDto.length: type=number format=double nullable=true minimum=0 maximum=99999.9999 exclusiveMinimum=true
+- field InvoiceProductUpdateDto.requiresShipping: type=boolean nullable=true
+- field InvoiceProductUpdateDto.weight: type=number format=double nullable=true minimum=0 maximum=999999.9999 exclusiveMinimum=true
+- field InvoiceProductUpdateDto.weightUnit: nullable=true allOf(ShippingWeightUnit)
+- field InvoiceProductUpdateDto.width: type=number format=double nullable=true minimum=0 maximum=99999.9999 exclusiveMinimum=true
+- schema ShippingDimensionUnit: type=string enum=[Centimeter,Inch]
+- schema ShippingWeightUnit: type=string enum=[Gram,Kilogram,Ounce,Pound]
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
