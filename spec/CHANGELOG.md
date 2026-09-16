@@ -1,12 +1,7 @@
 ## 22.18.0
 
-Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
+No contract change: this version is a rebuild of the previous published surface.
 
-### Additions
-
-- error code WinkPG.StepUp:MfaEnrolmentRequired: 403
-- error code WinkPG.StepUp:NoInteractiveSession: 403
-- error code WinkPG.StepUp:Required: 403
-- error code WinkPG.StepUp:UnknownAction: 403
+No integrator-observable change was detected in the API contract.
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
