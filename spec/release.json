@@ -1,6 +1,6 @@
 {
-  "specCommit": "347079d00de1560b7d40ddbc021005a55f8e00ba",
+  "specCommit": "070dd27f44ed55754545a188eca2725655cbf1bd",
   "bump": "major",
-  "version": "23.0.0",
-  "previousVersion": "22.20.0"
+  "version": "24.0.0",
+  "previousVersion": "23.0.0"
 }
