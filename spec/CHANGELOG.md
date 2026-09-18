@@ -1,7 +1,169 @@
-## 27.1.0
+## 27.2.0
 
-No contract change: this version is a rebuild of the previous published surface.
+Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
-No integrator-observable change was detected in the API contract.
+### Additions
+
+- field MerchantCreateDto.shippingBindings: type=array nullable=true items(MerchantShippingBinding)
+- field MerchantDto.shippingBindings: type=array nullable=true items(MerchantShippingBinding)
+- field MerchantShippingBinding.credentialSource: nullable=true allOf(ProviderCredentialSource)
+- field MerchantShippingBinding.fieldValues: type=array nullable=true items(ShippingBindingFieldValue)
+- field MerchantShippingBinding.isEnabled: type=boolean nullable=true
+- field MerchantShippingBinding.providerName: type=string nullable=true maxLength=64
+- field MerchantUpdateDto.shippingBindings: type=array nullable=true items(MerchantShippingBinding)
+- field ShippingBindingConnectionTestResultDto.message: type=string nullable=true
+- field ShippingBindingConnectionTestResultDto.steps: type=array nullable=true items(ConnectionTestStepDto)
+- field ShippingBindingConnectionTestResultDto.succeeded: type=boolean
+- field ShippingBindingFieldValue.isConfigured: type=boolean nullable=true
+- field ShippingBindingFieldValue.isSecret: type=boolean nullable=true
+- field ShippingBindingFieldValue.key: type=string nullable=true
+- field ShippingBindingFieldValue.value: type=string nullable=true
+- operation DELETE /api/merchants/{id}/shipping-bindings/{providerName}
+- operation GET /api/merchants/{id}/shipping-bindings
+- operation GET /api/merchants/{id}/shipping-bindings/{providerName}
+- operation POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection
+- operation PUT /api/merchants/{id}/shipping-bindings/{providerName}
+- parameter DELETE /api/merchants/{id}/shipping-bindings/{providerName} path:id: required type=string format=uuid
+- parameter DELETE /api/merchants/{id}/shipping-bindings/{providerName} path:providerName: required type=string
+- parameter DELETE /api/merchants/{id}/shipping-bindings/{providerName} query:suppressNulls: optional type=boolean
+- parameter GET /api/merchants/{id}/shipping-bindings path:id: required type=string format=uuid
+- parameter GET /api/merchants/{id}/shipping-bindings query:suppressNulls: optional type=boolean
+- parameter GET /api/merchants/{id}/shipping-bindings/{providerName} path:id: required type=string format=uuid
+- parameter GET /api/merchants/{id}/shipping-bindings/{providerName} path:providerName: required type=string
+- parameter GET /api/merchants/{id}/shipping-bindings/{providerName} query:suppressNulls: optional type=boolean
+- parameter POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection path:id: required type=string format=uuid
+- parameter POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection path:providerName: required type=string
+- parameter POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection query:suppressNulls: optional type=boolean
+- parameter PUT /api/merchants/{id}/shipping-bindings/{providerName} path:id: required type=string format=uuid
+- parameter PUT /api/merchants/{id}/shipping-bindings/{providerName} path:providerName: required type=string
+- parameter PUT /api/merchants/{id}/shipping-bindings/{providerName} query:suppressNulls: optional type=boolean
+- request body POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection (application/*+json): optional MerchantShippingBinding
+- request body POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection (application/json): optional MerchantShippingBinding
+- request body POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection (text/json): optional MerchantShippingBinding
+- request body PUT /api/merchants/{id}/shipping-bindings/{providerName} (application/*+json): optional MerchantShippingBinding
+- request body PUT /api/merchants/{id}/shipping-bindings/{providerName} (application/json): optional MerchantShippingBinding
+- request body PUT /api/merchants/{id}/shipping-bindings/{providerName} (text/json): optional MerchantShippingBinding
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 200: no body
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 400 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 400 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 400 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 401 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 401 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 401 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 403 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 403 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 403 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 404 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 404 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 404 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 429: no body
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 500 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 500 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 500 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 501 (application/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 501 (text/json): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 501 (text/plain): RemoteServiceErrorResponse
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} default (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 200 (application/json): type=array items(MerchantShippingBinding)
+- response GET /api/merchants/{id}/shipping-bindings 200 (text/json): type=array items(MerchantShippingBinding)
+- response GET /api/merchants/{id}/shipping-bindings 200 (text/plain): type=array items(MerchantShippingBinding)
+- response GET /api/merchants/{id}/shipping-bindings 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 429: no body
+- response GET /api/merchants/{id}/shipping-bindings 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings default (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 200 (application/json): MerchantShippingBinding
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 200 (text/json): MerchantShippingBinding
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 200 (text/plain): MerchantShippingBinding
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 429: no body
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/merchants/{id}/shipping-bindings/{providerName} default (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 200 (application/json): ShippingBindingConnectionTestResultDto
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 200 (text/json): ShippingBindingConnectionTestResultDto
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 200 (text/plain): ShippingBindingConnectionTestResultDto
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 400 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 400 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 400 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 401 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 401 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 401 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 403 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 403 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 403 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 404 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 404 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 404 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 429: no body
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 500 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 500 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 500 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 501 (application/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 501 (text/json): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection 501 (text/plain): RemoteServiceErrorResponse
+- response POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection default (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 200 (application/json): MerchantShippingBinding
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 200 (text/json): MerchantShippingBinding
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 200 (text/plain): MerchantShippingBinding
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 400 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 400 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 400 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 401 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 401 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 401 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 403 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 403 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 403 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 404 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 404 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 404 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 429: no body
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 500 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 500 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 500 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 501 (application/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 501 (text/json): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} 501 (text/plain): RemoteServiceErrorResponse
+- response PUT /api/merchants/{id}/shipping-bindings/{providerName} default (application/json): RemoteServiceErrorResponse
+- schema MerchantShippingBinding: type=object additionalProperties=false
+- schema ProviderCredentialSource: type=string enum=[Gateway,Merchant]
+- schema ShippingBindingConnectionTestResultDto: type=object additionalProperties=false
+- schema ShippingBindingFieldValue: type=object additionalProperties=false
+- operation id merchantShippingBindingDeleteShippingBinding (DELETE /api/merchants/{id}/shipping-bindings/{providerName})
+- operation id merchantShippingBindingGetShippingBinding (GET /api/merchants/{id}/shipping-bindings/{providerName})
+- operation id merchantShippingBindingGetShippingBindingList (GET /api/merchants/{id}/shipping-bindings)
+- operation id merchantShippingBindingTestShippingBindingConnection (POST /api/merchants/{id}/shipping-bindings/{providerName}/test-connection)
+- operation id merchantShippingBindingUpsertShippingBinding (PUT /api/merchants/{id}/shipping-bindings/{providerName})
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
