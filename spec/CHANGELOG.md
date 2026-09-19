@@ -1,7 +1,126 @@
-## 28.2.0
+## 28.3.0
 
-No contract change: this version is a rebuild of the previous published surface.
+Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
-No integrator-observable change was detected in the API contract.
+### Additions
+
+- error code Customers:ContractNotActiveForPause: 409
+- error code Customers:ContractNotPaused: 409
+- error code Customers:ContractResumeScheduleExhausted: 409
+- field ContinuationPagedResultDtoOfInvoiceProductDto.approxTotalCount: type=integer format=int64 nullable=true
+- field ContinuationPagedResultDtoOfInvoiceProductDto.items: type=array nullable=true items(InvoiceProductDto)
+- field ContinuationPagedResultDtoOfInvoiceProductDto.nextContinuationToken: type=string nullable=true
+- field ContinuationPagedResultDtoOfInvoiceProductDto.pageItemCount: type=integer format=int32 readOnly=true
+- field ContinuationPagedResultDtoOfInvoiceProductDto.retrievedAt: type=string format=date-time
+- field Contract.expectedResumeDate: type=string format=date-time nullable=true
+- field Contract.pauseReason: type=string nullable=true
+- field Contract.pausedDate: type=string format=date-time nullable=true
+- field ContractDto.expectedResumeDate: type=string format=date-time nullable=true readOnly=true
+- field ContractDto.pauseReason: type=string nullable=true readOnly=true
+- field ContractDto.pausedDate: type=string format=date-time nullable=true readOnly=true
+- field ContractPauseDto.expectedResumeDate: type=string format=date-time nullable=true
+- field ContractPauseDto.reason: type=string nullable=true maxLength=500
+- operation GET /api/invoicing/products/continuation-list
+- operation POST /api/contracts/{id}/pause
+- operation POST /api/contracts/{id}/resume
+- parameter GET /api/invoicing/products/continuation-list query:BillerId: optional type=string format=uuid
+- parameter GET /api/invoicing/products/continuation-list query:ContinuationToken: optional type=string
+- parameter GET /api/invoicing/products/continuation-list query:Filter.Groups: optional type=array items(FilterGroup)
+- parameter GET /api/invoicing/products/continuation-list query:Filter.Logic: optional FilterLogic
+- parameter GET /api/invoicing/products/continuation-list query:Filter.Rules: optional type=array items(FilterRule)
+- parameter GET /api/invoicing/products/continuation-list query:IncludeApproxTotalCount: optional type=boolean
+- parameter GET /api/invoicing/products/continuation-list query:IncludeDeleted: optional type=boolean
+- parameter GET /api/invoicing/products/continuation-list query:IncludeInactive: optional type=boolean
+- parameter GET /api/invoicing/products/continuation-list query:IsActive: optional type=boolean
+- parameter GET /api/invoicing/products/continuation-list query:MaxResultCount: optional type=integer format=int32
+- parameter GET /api/invoicing/products/continuation-list query:Search: optional type=string
+- parameter GET /api/invoicing/products/continuation-list query:Sorting.Descending: optional type=boolean
+- parameter GET /api/invoicing/products/continuation-list query:Sorting.Field: optional type=string
+- parameter GET /api/invoicing/products/continuation-list query:suppressNulls: optional type=boolean
+- parameter POST /api/contracts/{id}/pause path:id: required type=string format=uuid
+- parameter POST /api/contracts/{id}/pause query:suppressNulls: optional type=boolean
+- parameter POST /api/contracts/{id}/resume path:id: required type=string format=uuid
+- parameter POST /api/contracts/{id}/resume query:suppressNulls: optional type=boolean
+- request body POST /api/contracts/{id}/pause (application/*+json): optional ContractPauseDto
+- request body POST /api/contracts/{id}/pause (application/json): optional ContractPauseDto
+- request body POST /api/contracts/{id}/pause (text/json): optional ContractPauseDto
+- response GET /api/invoicing/products/continuation-list 200 (application/json): ContinuationPagedResultDtoOfInvoiceProductDto
+- response GET /api/invoicing/products/continuation-list 200 (text/json): ContinuationPagedResultDtoOfInvoiceProductDto
+- response GET /api/invoicing/products/continuation-list 200 (text/plain): ContinuationPagedResultDtoOfInvoiceProductDto
+- response GET /api/invoicing/products/continuation-list 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 429: no body
+- response GET /api/invoicing/products/continuation-list 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/invoicing/products/continuation-list default (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 200 (application/json): ContractDto
+- response POST /api/contracts/{id}/pause 200 (text/json): ContractDto
+- response POST /api/contracts/{id}/pause 200 (text/plain): ContractDto
+- response POST /api/contracts/{id}/pause 400 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 400 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 400 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 401 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 401 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 401 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 403 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 403 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 403 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 404 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 404 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 404 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 429: no body
+- response POST /api/contracts/{id}/pause 500 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 500 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 500 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 501 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 501 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause 501 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/pause default (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 200 (application/json): ContractDto
+- response POST /api/contracts/{id}/resume 200 (text/json): ContractDto
+- response POST /api/contracts/{id}/resume 200 (text/plain): ContractDto
+- response POST /api/contracts/{id}/resume 400 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 400 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 400 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 401 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 401 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 401 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 403 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 403 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 403 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 404 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 404 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 404 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 429: no body
+- response POST /api/contracts/{id}/resume 500 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 500 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 500 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 501 (application/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 501 (text/json): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume 501 (text/plain): RemoteServiceErrorResponse
+- response POST /api/contracts/{id}/resume default (application/json): RemoteServiceErrorResponse
+- schema ContinuationPagedResultDtoOfInvoiceProductDto: type=object additionalProperties=false
+- schema ContractPauseDto: type=object additionalProperties=false
+- operation id contractsPause (POST /api/contracts/{id}/pause)
+- operation id contractsResume (POST /api/contracts/{id}/resume)
+- operation id invoiceProductGetContinuationList (GET /api/invoicing/products/continuation-list)
+
+### Compatible changes
+
+- Widened schema ContractDeactivationReason: type=string enum=[CancelledByCardholder,Manual,MaxAmountReached,MaxPaymentsReached,MaxSuccessfulBillsReached,ScheduleExhausted,Suspended] -> type=string enum=[CancelledByCardholder,Manual,MaxAmountReached,MaxPaymentsReached,MaxSuccessfulBillsReached,Paused,ScheduleExhausted,Suspended]
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
