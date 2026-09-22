@@ -1,6 +1,6 @@
 {
-  "specCommit": "3b778267efef831339a704e1cd5633a1b95e5166",
-  "bump": "none",
-  "version": "29.0.0",
+  "specCommit": "799987fc4372815b6d14e5c6819d83a1b35f6d30",
+  "bump": "minor",
+  "version": "29.1.0",
   "previousVersion": "29.0.0"
 }
