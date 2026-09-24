@@ -93519,7 +93519,7 @@
           "Resellers"
         ],
         "summary": "Check Reseller access",
-        "description": "Perform permission/access checks for a Reseller by id\n\n---\n**Required permissions**: `Resellers`  \n**Scope**: reseller",
+        "description": "Perform permission/access checks for a Reseller by id",
         "operationId": "resellersHasEntityAccess",
         "parameters": [
           {
@@ -93694,11 +93694,7 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        },
-        "x-permissions": [
-          "Resellers.Resellers"
-        ],
-        "x-scope": "reseller"
+        }
       }
     },
     "/api/resellers/list/continuation/summary-counts": {
@@ -93707,7 +93703,7 @@
           "Resellers"
         ],
         "summary": "Counts Resellers for several filters at once.",
-        "description": "Runs each named filter variant against a shared base filter and returns one count per\r\nvariant in a single request. This is what fills the summary boxes above a list, such as\r\nAll, Succeeded and Failed. The counts are approximate in the same way as the single\r\ncount endpoint, so treat them as display figures rather than reconciliation totals.\n\n---\n**Required permissions**: `Resellers`  \n**Scope**: reseller",
+        "description": "Runs each named filter variant against a shared base filter and returns one count per\r\nvariant in a single request. This is what fills the summary boxes above a list, such as\r\nAll, Succeeded and Failed. The counts are approximate in the same way as the single\r\ncount endpoint, so treat them as display figures rather than reconciliation totals.",
         "operationId": "resellersGetSummaryCounts",
         "parameters": [
           {
@@ -93904,11 +93900,7 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        },
-        "x-permissions": [
-          "Resellers.Resellers"
-        ],
-        "x-scope": "reseller"
+        }
       }
     },
     "/api/resellers/list/continuation/count": {
@@ -93917,7 +93909,7 @@
           "Resellers"
         ],
         "summary": "Counts the Resellers that match a filter.",
-        "description": "Takes the same request body as the continuation list endpoint and returns how many\r\nResellers match it, without returning the records themselves. The count is\r\napproximate and is intended to sit alongside a paged list, so treat it as a display\r\nfigure rather than a reconciliation total.\n\n---\n**Required permissions**: `Resellers`  \n**Scope**: reseller",
+        "description": "Takes the same request body as the continuation list endpoint and returns how many\r\nResellers match it, without returning the records themselves. The count is\r\napproximate and is intended to sit alongside a paged list, so treat it as a display\r\nfigure rather than a reconciliation total.",
         "operationId": "resellersGetApproximateTotalCount",
         "parameters": [
           {
@@ -94105,11 +94097,7 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        },
-        "x-permissions": [
-          "Resellers.Resellers"
-        ],
-        "x-scope": "reseller"
+        }
       }
     },
     "/api/resellers": {
@@ -94406,7 +94394,7 @@
           "Resellers"
         ],
         "summary": "Create a Reseller",
-        "description": "Create a new Reseller\n\n---\n**Required permissions**: `Resellers`, `Resellers.Create`  \n**Scope**: reseller",
+        "description": "Create a new Reseller\n\n---\n**Required permissions**: `Resellers.Create`  \n**Scope**: reseller",
         "operationId": "resellersCreate",
         "parameters": [
           {
@@ -94629,7 +94617,6 @@
           }
         },
         "x-permissions": [
-          "Resellers.Resellers",
           "Resellers.Resellers.Create"
         ],
         "x-scope": "reseller"
@@ -94827,7 +94814,7 @@
           "Resellers"
         ],
         "summary": "Update a Reseller",
-        "description": "Update an existing Reseller by id\n\n---\n**Required permissions**: `Resellers`, `Resellers.Update`  \n**Scope**: reseller",
+        "description": "Update an existing Reseller by id\n\n---\n**Required permissions**: `Resellers.Update`  \n**Scope**: reseller",
         "operationId": "resellersUpdate",
         "parameters": [
           {
@@ -95023,7 +95010,6 @@
           }
         },
         "x-permissions": [
-          "Resellers.Resellers",
           "Resellers.Resellers.Update"
         ],
         "x-scope": "reseller"
@@ -95033,7 +95019,7 @@
           "Resellers"
         ],
         "summary": "Delete a Reseller",
-        "description": "Delete an existing Reseller by id\n\n---\n**Required permissions**: `Resellers`, `Resellers.Delete`  \n**Scope**: reseller",
+        "description": "Delete an existing Reseller by id\n\n---\n**Required permissions**: `Resellers.Delete`  \n**Scope**: reseller",
         "operationId": "resellersDelete",
         "parameters": [
           {
@@ -95193,7 +95179,6 @@
           }
         },
         "x-permissions": [
-          "Resellers.Resellers",
           "Resellers.Resellers.Delete"
         ],
         "x-scope": "reseller"
@@ -95205,7 +95190,7 @@
           "Resellers"
         ],
         "summary": "Get a Reseller name by id",
-        "description": "Return the name of a Reseller given the id\n\n---\n**Required permissions**: `Resellers`  \n**Scope**: reseller",
+        "description": "Return the name of a Reseller given the id",
         "operationId": "resellersGetName",
         "parameters": [
           {
@@ -95380,11 +95365,7 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        },
-        "x-permissions": [
-          "Resellers.Resellers"
-        ],
-        "x-scope": "reseller"
+        }
       }
     },
     "/api/resellers/get-default-reseller-user-async": {
@@ -95580,7 +95561,7 @@
           "Resellers"
         ],
         "summary": "Reads a reseller in full for the merchant-billing setup flow.",
-        "description": "The billing setup flow needs more than the preferences alone, so this returns the whole\nreseller rather than just its billing preferences. Available to an administrator, to a\nreseller reading its own record, and to a reseller reading one it manages; like the\npreferences read, it reaches the caller's own reseller record. Returns `null` when no\nsuch reseller exists.\n\n---\n**Required permissions**: `Resellers`, `Resellers.Update`  \n**Scope**: reseller",
+        "description": "The billing setup flow needs more than the preferences alone, so this returns the whole\nreseller rather than just its billing preferences. Available to an administrator, to a\nreseller reading its own record, and to a reseller reading one it manages; like the\npreferences read, it reaches the caller's own reseller record. Returns `null` when no\nsuch reseller exists.\n\n---\n**Required permissions**: `Resellers.Update`  \n**Scope**: reseller",
         "operationId": "resellersGetForBillingSelfService",
         "parameters": [
           {
@@ -95757,7 +95738,6 @@
           }
         },
         "x-permissions": [
-          "Resellers.Resellers",
           "Resellers.Resellers.Update"
         ],
         "x-scope": "reseller"
@@ -95769,7 +95749,7 @@
           "Resellers"
         ],
         "summary": "Reads a reseller's billing preferences.",
-        "description": "Available to an administrator, to a reseller reading its own record, and to a reseller\nreading one it manages. Unlike the general read, this reaches the caller's own reseller\nrecord, which the ordinary reseller listing does not return. Returns `null` when the\nreseller has no billing preferences yet.\n\n---\n**Required permissions**: `Resellers`, `Resellers.Update`  \n**Scope**: reseller",
+        "description": "Available to an administrator, to a reseller reading its own record, and to a reseller\nreading one it manages. Unlike the general read, this reaches the caller's own reseller\nrecord, which the ordinary reseller listing does not return. Returns `null` when the\nreseller has no billing preferences yet.\n\n---\n**Required permissions**: `Resellers.Update`  \n**Scope**: reseller",
         "operationId": "resellersGetBillingPreferences",
         "parameters": [
           {
@@ -95946,7 +95926,6 @@
           }
         },
         "x-permissions": [
-          "Resellers.Resellers",
           "Resellers.Resellers.Update"
         ],
         "x-scope": "reseller"
@@ -95958,7 +95937,7 @@
           "Resellers"
         ],
         "summary": "Reads a reseller's effective collection configuration.",
-        "description": "The effective configuration is the one that governs the reseller's merchant billing after\ninheritance from its ancestors has been applied.\nA reseller with a collection merchant of its own is governed by its own configuration. A\nreseller with none is governed by the nearest ancestor that has one, as a whole set. The\nresult names the reseller the configuration comes from, so a caller can tell an inherited\nconfiguration from a local one. Nothing is written to the reseller.\n\nAvailable to an administrator, to a reseller reading its own record, and to a reseller\nreading one it manages, the same rule as the billing preferences read.\n\n---\n**Required permissions**: `Resellers`, `Resellers.Update`  \n**Scope**: reseller",
+        "description": "The effective configuration is the one that governs the reseller's merchant billing after\ninheritance from its ancestors has been applied.\nA reseller with a collection merchant of its own is governed by its own configuration. A\nreseller with none is governed by the nearest ancestor that has one, as a whole set. The\nresult names the reseller the configuration comes from, so a caller can tell an inherited\nconfiguration from a local one. Nothing is written to the reseller.\n\nAvailable to an administrator, to a reseller reading its own record, and to a reseller\nreading one it manages, the same rule as the billing preferences read.\n\n---\n**Required permissions**: `Resellers.Update`  \n**Scope**: reseller",
         "operationId": "resellersGetEffectiveCollectionConfiguration",
         "parameters": [
           {
@@ -96135,7 +96114,6 @@
           }
         },
         "x-permissions": [
-          "Resellers.Resellers",
           "Resellers.Resellers.Update"
         ],
         "x-scope": "reseller"
@@ -96147,7 +96125,7 @@
           "Resellers"
         ],
         "summary": "Reads the billing preferences of the calling operator's own reseller.",
-        "description": "The reseller is resolved from the signed-in user, so this route takes no reseller id and\ncannot be pointed at another reseller. A caller with no reseller of its own, an\nadministrator for instance, is refused; use the id-taking read instead. Returns `null`\nwhen the reseller has no billing preferences yet.\n\n---\n**Required permissions**: `Resellers`, `Resellers.Update`  \n**Scope**: reseller",
+        "description": "The reseller is resolved from the signed-in user, so this route takes no reseller id and\ncannot be pointed at another reseller. A caller with no reseller of its own, an\nadministrator for instance, is refused; use the id-taking read instead. Returns `null`\nwhen the reseller has no billing preferences yet.\n\n---\n**Required permissions**: `Resellers.Update`  \n**Scope**: reseller",
         "operationId": "resellersGetOwnBillingPreferences",
         "parameters": [
           {
@@ -96315,7 +96293,6 @@
           }
         },
         "x-permissions": [
-          "Resellers.Resellers",
           "Resellers.Resellers.Update"
         ],
         "x-scope": "reseller"
@@ -96327,7 +96304,7 @@
           "Resellers"
         ],
         "summary": "Reads the calling operator's own effective collection configuration.",
-        "description": "The effective configuration is the one that governs the reseller's merchant billing after\ninheritance from its ancestors has been applied.\nThe reseller is resolved from the signed-in user, so this route takes no reseller id and\ncannot be pointed at another reseller. A caller with no reseller of its own, an\nadministrator for instance, is refused; use the id-taking read instead.\n\n---\n**Required permissions**: `Resellers`, `Resellers.Update`  \n**Scope**: reseller",
+        "description": "The effective configuration is the one that governs the reseller's merchant billing after\ninheritance from its ancestors has been applied.\nThe reseller is resolved from the signed-in user, so this route takes no reseller id and\ncannot be pointed at another reseller. A caller with no reseller of its own, an\nadministrator for instance, is refused; use the id-taking read instead.\n\n---\n**Required permissions**: `Resellers.Update`  \n**Scope**: reseller",
         "operationId": "resellersGetOwnEffectiveCollectionConfiguration",
         "parameters": [
           {
@@ -96495,7 +96472,6 @@
           }
         },
         "x-permissions": [
-          "Resellers.Resellers",
           "Resellers.Resellers.Update"
         ],
         "x-scope": "reseller"
@@ -96507,7 +96483,7 @@
           "Resellers"
         ],
         "summary": "Replaces a reseller's billing preferences.",
-        "description": "Only the billing preferences change; every other field on the reseller is left as it is.\nThe same server-side billing rules that apply to a full reseller edit apply here, including\nthe collection merchant, capture page and invoice default checks.\n\nThe preferences are replaced wholesale, so a caller changing one field must first read the\ncurrent preferences and post them back with that field changed.\n\n---\n**Required permissions**: `Resellers`, `Resellers.Update`  \n**Scope**: reseller",
+        "description": "Only the billing preferences change; every other field on the reseller is left as it is.\nThe same server-side billing rules that apply to a full reseller edit apply here, including\nthe collection merchant, capture page and invoice default checks.\n\nThe preferences are replaced wholesale, so a caller changing one field must first read the\ncurrent preferences and post them back with that field changed.\n\n---\n**Required permissions**: `Resellers.Update`  \n**Scope**: reseller",
         "operationId": "resellersUpdateBillingPreferences",
         "parameters": [
           {
@@ -96703,7 +96679,6 @@
           }
         },
         "x-permissions": [
-          "Resellers.Resellers",
           "Resellers.Resellers.Update"
         ],
         "x-scope": "reseller"
@@ -96715,7 +96690,7 @@
           "Resellers"
         ],
         "summary": "Replaces the billing preferences of the calling operator's own reseller.",
-        "description": "The reseller is resolved from the signed-in user, so this route takes no reseller id. Every\nrule that applies to an administrator's edit of the same preferences applies here too.\n\nThe preferences are replaced wholesale, so a caller changing one field must first read the\ncurrent preferences and post them back with that field changed.\n\n---\n**Required permissions**: `Resellers`, `Resellers.Update`  \n**Scope**: reseller",
+        "description": "The reseller is resolved from the signed-in user, so this route takes no reseller id. Every\nrule that applies to an administrator's edit of the same preferences applies here too.\n\nThe preferences are replaced wholesale, so a caller changing one field must first read the\ncurrent preferences and post them back with that field changed.\n\n---\n**Required permissions**: `Resellers.Update`  \n**Scope**: reseller",
         "operationId": "resellersUpdateOwnBillingPreferences",
         "parameters": [
           {
@@ -96902,7 +96877,6 @@
           }
         },
         "x-permissions": [
-          "Resellers.Resellers",
           "Resellers.Resellers.Update"
         ],
         "x-scope": "reseller"
@@ -97102,7 +97076,7 @@
           "Resellers"
         ],
         "summary": "Retrieves a continuation-based page of Resellers.",
-        "description": "This endpoint uses continuation tokens instead of skip/take paging.\n\n---\n**Required permissions**: `Resellers`  \n**Scope**: reseller",
+        "description": "This endpoint uses continuation tokens instead of skip/take paging.",
         "operationId": "resellersGetContinuationList",
         "parameters": [
           {
@@ -97287,11 +97261,7 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        },
-        "x-permissions": [
-          "Resellers.Resellers"
-        ],
-        "x-scope": "reseller"
+        }
       }
     },
     "/api/identity/roles": {
@@ -179186,7 +179156,7 @@
           "percentage": {
             "minimum": 0,
             "type": "number",
-            "description": "Percentage of the transaction base applied when Phoenix.SharedModels.Merchant.VirtualTerminal.VirtualTerminalConvenienceFeeField.Mode is\r\nPhoenix.SharedModels.Merchant.VirtualTerminal.ConvenienceFeeMode.Percentage. Structurally permitted only when\r\nPhoenix.SharedModels.Merchant.VirtualTerminal.VirtualTerminalConvenienceFeeField.GovEducationAttested is set (enforced by the validator); the per-network\r\napplicability guard is applied separately at transaction time.\nRequired: Conditional (see validator source).",
+            "description": "Whole percent (2.5 means 2.5%). Unlike `attestedCostOfAcceptanceRate`, this is not a\r\nfraction. Send a value greater than 1: a value of 1 or less is read as a fraction and charged\r\n100 times over (0.5 is charged as 50%, 1 as 100%), and is refused when that exceeds the\r\nconfigured maximum percentage. The percentage of the transaction base applied when `mode` is\r\n`Percentage`. Permitted only when `govEducationAttested` is set; the per-network\r\napplicability guard is applied separately at transaction time.\nRequired: Conditional (see validator source).",
             "format": "double",
             "nullable": true,
             "x-validation-rules": [
