@@ -132905,7 +132905,7 @@
           "IncrementalAuthorization"
         ],
         "type": "string",
-        "description": "Per-processor advertised support for the two adjustment-shaped follow-up operations\r\nagainst an authorized transaction. A processor may legitimately support either, both,\r\nor neither — modeled as a [Flags] enum so capability contributors compose cleanly and\r\ncallers can ask \"does this processor support `X`\" with a single `HasFlag`.",
+        "description": "Per-processor advertised support for the two adjustment-shaped follow-up operations\r\nagainst an authorized transaction. A processor may legitimately support either, both,\r\nor neither — modeled as a [Flags] enum so capability contributors compose cleanly and\r\ncallers can ask \"does this processor support `X`\" with a single `HasFlag`. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
         "x-flags": true,
         "x-enumDescriptions": [
           "Processor advertises no adjustment support. Both OfflineAdjustment and IncrementalAuthorization requests are rejected at the AppService boundary.",
@@ -141629,7 +141629,7 @@
                 "$ref": "#/components/schemas/StoredCredentialUsage"
               }
             ],
-            "description": "Optional. Declares that the merchant intends to capture stored-credential consent on\n            this session. When set, the HPP checkout page renders the consent prompt; whether the\n            cardholder must tick it before submitting is governed by  (or\n            the tenant default when that is unset). null or\n             leaves the prompt off. The flags describe the\n            permitted usage scopes the cardholder is being asked to consent to (Recurring,\n            Installment, UnscheduledCOF, OneTimeFuture) and are persisted on the\n            resulting StoredCredentialConsent record.",
+            "description": "Optional. Declares that the merchant intends to capture stored-credential consent on\n            this session. When set, the HPP checkout page renders the consent prompt; whether the\n            cardholder must tick it before submitting is governed by  (or\n            the tenant default when that is unset). null or\n             leaves the prompt off. The flags describe the\n            permitted usage scopes the cardholder is being asked to consent to (Recurring,\n            Installment, UnscheduledCOF, OneTimeFuture) and are persisted on the\n            resulting StoredCredentialConsent record. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
             "nullable": true
           },
           "requireConsent": {
@@ -142623,7 +142623,7 @@
                 "$ref": "#/components/schemas/SurchargeChannelFlags"
               }
             ],
-            "description": "A combination of channel flags. Send member names separated by a comma and a space (for example\n            \"Api, HostedPaymentPage\") or the integer sum (VirtualTerminal = 1, Api = 2, HostedPaymentPage = 4,\n            RecurringBilling = 8). None (0) turns surcharging off on every channel. Replaced on update; null\n            or omitted stores no channels.\nConditional: When ChannelRestrictions and HasValue meet conditions.",
+            "description": "A combination of channel flags. Send member names separated by a comma and a space (for example\n            \"Api, HostedPaymentPage\") or the integer sum (VirtualTerminal = 1, Api = 2, HostedPaymentPage = 4,\n            RecurringBilling = 8). None (0) turns surcharging off on every channel. Replaced on update; null\n            or omitted stores no channels.\nConditional: When ChannelRestrictions and HasValue meet conditions. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -151156,7 +151156,7 @@
                 "$ref": "#/components/schemas/StoredCredentialUsage"
               }
             ],
-            "description": "When non-null, the session is configured to capture stored-credential consent on its\n            resulting transaction. Shown on admin screens so operators can see which sessions were\n            set up to require cardholder consent.",
+            "description": "When non-null, the session is configured to capture stored-credential consent on its\n            resulting transaction. Shown on admin screens so operators can see which sessions were\n            set up to require cardholder consent. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
             "nullable": true
           },
           "tokenizeOnPayment": {
@@ -151236,7 +151236,7 @@
                 "$ref": "#/components/schemas/StoredCredentialUsage"
               }
             ],
-            "description": "The stored-credential usage scopes the cardholder is being asked to consent to, after\n            server-side defaulting and purpose forcing: a tokenizing session that declared no scope\n            resolves to , and a Save Card with Initial\n            Charge session always has  unioned in on top of\n            whatever the request asked for. null means no credential storage was requested.",
+            "description": "The stored-credential usage scopes the cardholder is being asked to consent to, after\n            server-side defaulting and purpose forcing: a tokenizing session that declared no scope\n            resolves to , and a Save Card with Initial\n            Charge session always has  unioned in on top of\n            whatever the request asked for. null means no credential storage was requested. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
             "nullable": true
           },
           "pagePurpose": {
@@ -154646,13 +154646,13 @@
           },
           "convenienceFeeAmount": {
             "type": "number",
-            "description": "The convenience fee charged on top of WinkPG.Invoicing.InvoicePaymentDto.Amount, when one was assessed.",
+            "description": "The convenience fee charged on top of WinkPG.Invoicing.InvoicePaymentDto.Amount, in the invoice currency, when one was\r\nassessed.",
             "format": "double",
             "nullable": true
           },
           "surchargeAmount": {
             "type": "number",
-            "description": "The credit-card surcharge charged on top of WinkPG.Invoicing.InvoicePaymentDto.Amount, when one was assessed.",
+            "description": "The credit-card surcharge charged on top of WinkPG.Invoicing.InvoicePaymentDto.Amount, in the invoice currency, when one\r\nwas assessed.",
             "format": "double",
             "nullable": true
           },
@@ -157822,6 +157822,10 @@
             "description": "The per-staged-event delivery id, forwarded as `X-WinkPG-Delivery-Id`.",
             "format": "uuid"
           },
+          "isSample": {
+            "type": "boolean",
+            "description": "Whether this event was staged by a sample request rather than a live occurrence. When true, the\r\nforward to the local target carries `X-WinkPG-Sample: true`, the same marker a sample sent\r\nto a saved endpoint carries. The body is identical either way."
+          },
           "payload": {
             "type": "string",
             "description": "The webhook body, verbatim. Forwarded to the local target byte for byte: re-serializing it\r\nclient-side would change the bytes the signature covers and break verification.",
@@ -157978,7 +157982,7 @@
                 "$ref": "#/components/schemas/LodgingExtraCharges"
               }
             ],
-            "description": "The ancillary items the folio included beyond the room.\nConditional: When ExtraCharges and HasValue meet conditions.",
+            "description": "The ancillary items the folio included beyond the room.\nConditional: When ExtraCharges and HasValue meet conditions. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -158043,7 +158047,7 @@
           "Other"
         ],
         "type": "string",
-        "description": "The ancillary items a lodging charge included, beyond the room itself.",
+        "description": "The ancillary items a lodging charge included, beyond the room itself. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
         "x-flags": true,
         "x-enumDescriptions": [
           "Room charges only. An explicit statement, not an absent one.",
@@ -165452,7 +165456,7 @@
                 "$ref": "#/components/schemas/AdjustmentTypes"
               }
             ],
-            "description": "The adjustment-shaped follow-up operations the processor advertises (offline adjustment,\n            incremental authorization, both, or none)."
+            "description": "The adjustment-shaped follow-up operations the processor advertises (offline adjustment,\n            incremental authorization, both, or none). Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names."
           }
         },
         "additionalProperties": false,
@@ -166334,13 +166338,13 @@
           },
           "convenienceFeeAmount": {
             "type": "number",
-            "description": "The convenience fee this payment carried on top of WinkPG.Invoicing.PublicInvoicePaymentSummaryDto.Amount, when one was\r\nassessed. New and optional: WinkPG.Invoicing.PublicInvoicePaymentSummaryDto.Amount and every invoice-level amount on the\r\nparent view keep their existing base-only meaning.",
+            "description": "The convenience fee this payment carried on top of WinkPG.Invoicing.PublicInvoicePaymentSummaryDto.Amount, in the invoice currency,\r\nwhen one was assessed. New and optional: WinkPG.Invoicing.PublicInvoicePaymentSummaryDto.Amount and every invoice-level amount on the\r\nparent view keep their existing base-only meaning.",
             "format": "double",
             "nullable": true
           },
           "surchargeAmount": {
             "type": "number",
-            "description": "The credit-card surcharge this payment carried, when one was assessed. New and optional; see\r\nWinkPG.Invoicing.PublicInvoicePaymentSummaryDto.ConvenienceFeeAmount.",
+            "description": "The credit-card surcharge this payment carried, in the invoice currency, when one was assessed.\r\nNew and optional; see\r\nWinkPG.Invoicing.PublicInvoicePaymentSummaryDto.ConvenienceFeeAmount.",
             "format": "double",
             "nullable": true
           },
@@ -172869,7 +172873,7 @@
           "OneTimeFuture"
         ],
         "type": "string",
-        "description": "Flags describing the permitted uses of a stored payment credential. Captured at consent time\r\nand checked when a subsequent merchant-initiated transaction is submitted against the credential.\r\nA consent's `AllowedUsages` must include the MIT reason's corresponding usage before the\r\nMIT can proceed.",
+        "description": "Flags describing the permitted uses of a stored payment credential. Captured at consent time\r\nand checked when a subsequent merchant-initiated transaction is submitted against the credential.\r\nA consent's `AllowedUsages` must include the MIT reason's corresponding usage before the\r\nMIT can proceed. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
         "x-flags": true,
         "x-enumDescriptions": [
           "No permitted uses. Consent record is effectively inactive.",
@@ -173164,7 +173168,7 @@
           "RecurringBilling"
         ],
         "type": "string",
-        "description": "The payment channels a merchant's surcharge configuration applies to. A bit flag so a merchant can\r\nenable surcharging on any combination of channels. Stored on the configuration as\r\n`ChannelRestrictions`; a channel is surchargeable only when its bit is set.",
+        "description": "The payment channels a merchant's surcharge configuration applies to. A bit flag so a merchant can\r\nenable surcharging on any combination of channels. Stored on the configuration as\r\n`ChannelRestrictions`; a channel is surchargeable only when its bit is set. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
         "x-flags": true,
         "x-enumDescriptions": [
           "No channels enabled.",
@@ -173280,7 +173284,7 @@
                 "$ref": "#/components/schemas/SurchargeChannelFlags"
               }
             ],
-            "description": "The channels surcharging applies to.",
+            "description": "The channels surcharging applies to. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
             "nullable": true
           },
           "processorAccountId": {
@@ -173669,7 +173673,7 @@
             "minimum": 0,
             "exclusiveMinimum": true,
             "type": "number",
-            "description": "The base transaction amount a surcharge would apply to.",
+            "description": "The base transaction amount a surcharge would apply to, in the transaction currency.",
             "format": "double"
           },
           "cardholderState": {
@@ -173716,18 +173720,18 @@
           },
           "surchargeAmount": {
             "type": "number",
-            "description": "The computed surcharge amount; null when ineligible.",
+            "description": "The computed surcharge amount, in the transaction currency; null when ineligible.",
             "format": "double",
             "nullable": true
           },
           "baseAmount": {
             "type": "number",
-            "description": "The base transaction amount the quote was computed against.",
+            "description": "The base transaction amount the quote was computed against, in the transaction currency.",
             "format": "double"
           },
           "totalWithSurcharge": {
             "type": "number",
-            "description": "The base amount plus the computed surcharge; equals WinkPG.Surcharging.Eligibility.SurchargeQuoteResultDto.BaseAmount when ineligible.",
+            "description": "The base amount plus the computed surcharge, in the transaction currency; equals\r\nWinkPG.Surcharging.Eligibility.SurchargeQuoteResultDto.BaseAmount when ineligible.",
             "format": "double"
           },
           "ineligibilityReason": {
@@ -173762,43 +173766,43 @@
           },
           "baseAmount": {
             "type": "number",
-            "description": "The transaction base amount the surcharge rate was applied against.",
+            "description": "The transaction base amount the surcharge rate was applied against, in the transaction currency.",
             "format": "double",
             "nullable": true
           },
           "surchargeAmount": {
             "type": "number",
-            "description": "The computed surcharge amount; null when not surcharged.",
+            "description": "The computed surcharge amount, in the transaction currency; null when not surcharged.",
             "format": "double",
             "nullable": true
           },
           "appliedRate": {
             "type": "number",
-            "description": "The rate actually applied (the lesser-of PhoeniXGate.Transactions.Surcharging.SurchargeResult.MerchantRate and the caps below).",
+            "description": "The rate actually applied, as a decimal fraction (0.03 = 3%): the lesser of PhoeniXGate.Transactions.Surcharging.SurchargeResult.MerchantRate\r\nand the caps below.",
             "format": "double",
             "nullable": true
           },
           "merchantRate": {
             "type": "number",
-            "description": "The merchant-configured surcharge rate at evaluation time.",
+            "description": "The merchant-configured surcharge rate at evaluation time, as a decimal fraction (0.03 = 3%).",
             "format": "double",
             "nullable": true
           },
           "networkCap": {
             "type": "number",
-            "description": "The card network's rate cap at evaluation time, if applicable.",
+            "description": "The card network's rate cap at evaluation time, as a decimal fraction, if applicable.",
             "format": "double",
             "nullable": true
           },
           "stateCap": {
             "type": "number",
-            "description": "The governing state's rate cap at evaluation time, if applicable.",
+            "description": "The governing state's rate cap at evaluation time, as a decimal fraction, if applicable.",
             "format": "double",
             "nullable": true
           },
           "costOfAcceptanceCap": {
             "type": "number",
-            "description": "The merchant's cost-of-acceptance rate cap at evaluation time, if applicable.",
+            "description": "The merchant's cost-of-acceptance rate cap at evaluation time, as a decimal fraction, if applicable.",
             "format": "double",
             "nullable": true
           },
@@ -175180,7 +175184,7 @@
           },
           "convenienceFeeCancelledAmount": {
             "type": "number",
-            "description": "The convenience-fee amount the Virtual Terminal operator declined on the disclosure-confirm\r\nmodal, removing it from this submission. Set by the VT cancel path (button, X, or Esc) so the\r\nauthorization pipeline can record a `CsrCancelledVtModal` convenience-fee decision note\r\ncarrying the amount that was waived: the fee is gone from the amounts by submit time, so the\r\nevaluator has nothing left to explain without this marker.\r\n\n\r\nAudit-only. It never adds to any total, never reaches the processor, and is honoured only when\r\nthe submitted transaction carries no convenience fee, originates from the Virtual Terminal, and\r\nbelongs to a merchant with an active convenience-fee configuration. Auth-time-only: the\r\nAutoMapper Update and recurring-billing maps both ignore it. null (the\r\ndefault) on every submission where no disclosed fee was cancelled.\r\n",
+            "description": "The convenience-fee amount, in the transaction currency, the Virtual Terminal operator declined\r\non the disclosure-confirm modal, removing it from this submission. Set by the VT cancel path (button, X, or Esc) so the\r\nauthorization pipeline can record a `CsrCancelledVtModal` convenience-fee decision note\r\ncarrying the amount that was waived: the fee is gone from the amounts by submit time, so the\r\nevaluator has nothing left to explain without this marker.\r\n\n\r\nAudit-only. It never adds to any total, never reaches the processor, and is honoured only when\r\nthe submitted transaction carries no convenience fee, originates from the Virtual Terminal, and\r\nbelongs to a merchant with an active convenience-fee configuration. Auth-time-only: the\r\nAutoMapper Update and recurring-billing maps both ignore it. null (the\r\ndefault) on every submission where no disclosed fee was cancelled.\r\n",
             "format": "double",
             "nullable": true
           },
@@ -175951,13 +175955,13 @@
           },
           "convenienceFeeCancelledAmount": {
             "type": "number",
-            "description": "The convenience-fee amount the Virtual Terminal operator declined on the disclosure-confirm\r\nmodal, removing it from the submission. Audit-only: it was never charged, and the matching\r\n`CsrCancelledVtModal` convenience-fee decision note carries the same amount. Read-only on\r\nthe API surface. null when no disclosed fee was cancelled.",
+            "description": "The convenience-fee amount, in the transaction currency, the Virtual Terminal operator declined on\r\nthe disclosure-confirm modal, removing it from the submission. Audit-only: it was never charged, and the matching\r\n`CsrCancelledVtModal` convenience-fee decision note carries the same amount. Read-only on\r\nthe API surface. null when no disclosed fee was cancelled.",
             "format": "double",
             "nullable": true
           },
           "surchargeRate": {
             "type": "number",
-            "description": "The surcharge rate actually applied to this transaction. Indexed top-level mirror of\r\nPhoeniXGate.Transactions.TransactionDto.SurchargeResult.AppliedRate (which is on the Cosmos indexing exclusion list).\r\nnull when no surcharge was assessed.",
+            "description": "The surcharge rate actually applied to this transaction, as a decimal fraction (0.03 = 3%).\r\nIndexed top-level mirror of\r\nPhoeniXGate.Transactions.TransactionDto.SurchargeResult.AppliedRate (which is on the Cosmos indexing exclusion list).\r\nnull when no surcharge was assessed.",
             "format": "double",
             "nullable": true
           },
@@ -175974,7 +175978,7 @@
           },
           "surchargeReversedAmount": {
             "type": "number",
-            "description": "The portion of the assessed surcharge amount reversed by a subsequent void or refund.\r\nRead-only on the API surface. null when nothing has been reversed.",
+            "description": "The portion of the assessed surcharge amount reversed by a subsequent void or refund, in the\r\ntransaction currency.\r\nRead-only on the API surface. null when nothing has been reversed.",
             "format": "double",
             "nullable": true
           },
@@ -178532,7 +178536,7 @@
                 "$ref": "#/components/schemas/SurchargeChannelFlags"
               }
             ],
-            "description": "A combination of channel flags. Send member names separated by a comma and a space (for example\n            \"Api, HostedPaymentPage\") or the integer sum (VirtualTerminal = 1, Api = 2, HostedPaymentPage = 4,\n            RecurringBilling = 8). None (0) turns surcharging off on every channel. Replaced on update; null\n            or omitted stores no channels.\nConditional: When ChannelRestrictions and HasValue meet conditions.",
+            "description": "A combination of channel flags. Send member names separated by a comma and a space (for example\n            \"Api, HostedPaymentPage\") or the integer sum (VirtualTerminal = 1, Api = 2, HostedPaymentPage = 4,\n            RecurringBilling = 8). None (0) turns surcharging off on every channel. Replaced on update; null\n            or omitted stores no channels.\nConditional: When ChannelRestrictions and HasValue meet conditions. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -178669,7 +178673,7 @@
                 "$ref": "#/components/schemas/SurchargeChannelFlags"
               }
             ],
-            "description": "A combination of channel flags. Send member names separated by a comma and a space (for example\n            \"Api, HostedPaymentPage\") or the integer sum (VirtualTerminal = 1, Api = 2, HostedPaymentPage = 4,\n            RecurringBilling = 8). None (0) turns surcharging off on every channel. Replaced on update; null\n            or omitted stores no channels.\nConditional: When ChannelRestrictions and HasValue meet conditions.",
+            "description": "A combination of channel flags. Send member names separated by a comma and a space (for example\n            \"Api, HostedPaymentPage\") or the integer sum (VirtualTerminal = 1, Api = 2, HostedPaymentPage = 4,\n            RecurringBilling = 8). None (0) turns surcharging off on every channel. Replaced on update; null\n            or omitted stores no channels.\nConditional: When ChannelRestrictions and HasValue meet conditions. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -179341,6 +179345,7 @@
           "calculationPercentage": {
             "minimum": 0,
             "type": "number",
+            "description": "Legacy: the percentage a configuration written before `mode` existed carried, as a whole\r\npercent (2.5 means 2.5%). Nothing is charged from it; it is kept only so the merchant review\r\nbanner can show the old value. Use `percentage`.",
             "format": "double",
             "nullable": true,
             "deprecated": true
@@ -179613,7 +179618,7 @@
             "maximum": 100000,
             "minimum": 0,
             "type": "number",
-            "description": "The fixed convenience-fee amount applied when Phoenix.SharedModels.Merchant.VirtualTerminal.VirtualTerminalConvenienceFeeField.Mode is\r\nPhoenix.SharedModels.Merchant.VirtualTerminal.ConvenienceFeeMode.Fixed. Also seeds the Virtual Terminal default amount.",
+            "description": "The fixed convenience-fee amount, in the transaction currency, applied when Phoenix.SharedModels.Merchant.VirtualTerminal.VirtualTerminalConvenienceFeeField.Mode is\r\nPhoenix.SharedModels.Merchant.VirtualTerminal.ConvenienceFeeMode.Fixed. Also seeds the Virtual Terminal default amount.",
             "format": "double",
             "nullable": true
           }
