@@ -49107,6 +49107,169 @@
         "x-scope": "merchant"
       }
     },
+    "/api/invoicing/public/invoice/{invoiceId}/pdf": {
+      "get": {
+        "tags": [
+          "Invoicing"
+        ],
+        "summary": "Downloads an invoice's PDF document using a view token.",
+        "description": "Authorized by the same view token as the public view, with no sign-in. Returns the cached\r\ndocument for the invoice's current version, rendering one only when none exists. The response\r\ncarries the `application/pdf` content type and an attachment disposition naming the file\r\nafter the invoice number. Downloading does not mark the invoice as viewed.",
+        "operationId": "invoicePublicDownloadPdfByViewToken",
+        "parameters": [
+          {
+            "name": "invoiceId",
+            "in": "path",
+            "description": "The invoice identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "The invoice's view token.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The invoice PDF.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The token is missing or blank."
+          },
+          "404": {
+            "description": "The token is invalid or expired, or the invoice is not found."
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "x-winkpg-subresource": "Public"
+      }
+    },
     "/api/invoicing/public/invoice/{invoiceId}": {
       "get": {
         "tags": [
@@ -166688,10 +166851,12 @@
           },
           "paymentLinkUrl": {
             "type": "string",
+            "description": "The absolute URL of the hosted payment page for this invoice, present while the invoice holds a\r\nlive payment link. Null when the invoice has no payment link, the link has expired, the invoice\r\nis fully paid, or the payment host's base URL is unavailable.",
             "nullable": true
           },
           "pdfDownloadUrl": {
             "type": "string",
+            "description": "The absolute URL that downloads this invoice's PDF document, authorized by the same view token\r\nused to read this response. Null when the platform's base URL is unavailable.",
             "nullable": true
           },
           "allowPartialPayment": {
