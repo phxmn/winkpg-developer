@@ -17958,7 +17958,7 @@
         "tags": [
           "Audit Log"
         ],
-        "description": "\n\r\nThe boxes are counted concurrently. Serially they were the slowest part of a first page\r\nload, because every box that misses the short-lived cache costs its own cross-partition\r\naggregate and they were paid one after another.\r\n\r\n\n\r\nEach concurrent count runs in its own unit of work, and that is load-bearing rather than\r\ntidiness. The repository resolves its DbContext from the ambient unit of work, so boxes\r\nsharing one would put two queries on one context and EF Core would throw \"a second\r\noperation was started on this context\" -- precisely in the two-or-more-cache-misses case\r\nthe concurrency exists to speed up. A fresh unit of work resolves from a fresh service\r\nscope, so each box gets its own context.\r\n\r\n\n\r\nA box that fails is dropped from the result rather than failing the call. The caller\r\nrenders a box with no entry as its placeholder, so one unlucky count costs its own box\r\nand no other.\r\n\n\n---\n**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant",
+        "description": "Each requested count is computed independently and may be served from a short-lived\r\ncache. A count that fails is omitted from the result rather than failing the call, so the\r\nresponse can hold fewer keys than were requested; treat a missing key as unavailable.\n\n---\n**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant",
         "operationId": "auditLogContinuationGetSummaryCounts",
         "parameters": [
           {
@@ -33888,7 +33888,7 @@
           "Hosted Payment Pages"
         ],
         "summary": "Accepts a single CSP violation report.",
-        "description": "Returns 204 No Content on a successful intake, 400 for an unparseable payload, 413 when the\r\nbody exceeds `MaxBodyBytes`, and 415 when the Content-Type is not one of the\r\naccepted CSP report media types.",
+        "description": "Returns 204 No Content on a successful intake, 400 for an unparseable payload, 413 when the\r\nbody exceeds 4 KiB, and 415 when the Content-Type is not one of the accepted CSP report media\r\ntypes (`application/reports+json` or `application/csp-report`).",
         "operationId": "hppCspReportPostReport",
         "parameters": [
           {
@@ -37755,7 +37755,7 @@
           "Hosted Payment Pages"
         ],
         "summary": "Records a single client interaction beacon.",
-        "description": "Returns 204 on a successful intake, 400 for an unparseable or rejected payload, and 413 when\r\nthe body exceeds `MaxBodyBytes`.",
+        "description": "Returns 204 on a successful intake, 400 for an unparseable or rejected payload, and 413 when\r\nthe body exceeds 2 KiB.",
         "operationId": "hppInteractionPostInteraction",
         "parameters": [
           {
@@ -62635,7 +62635,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The merchant id. Named `id` on the method, not only in the route template: an ABP\r\nclient proxy substitutes a path token by looking its name up among the parameters of the\r\ninvoked method, so a differently-named parameter fails the call while the URL is built.\r\nThe token cannot move the other way either, since a sibling that disagrees with\r\n`/api/merchants/{id}` at one path position aborts SDK generation outright.",
+            "description": "The merchant id.",
             "required": true,
             "schema": {
               "type": "string",
@@ -66105,7 +66105,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The merchant id. Named `id` on the method, not only in the route template: an ABP\r\nclient proxy substitutes a path token by looking its name up among the parameters of the\r\ninvoked method, so a differently-named parameter fails the call while the URL is built.\r\nThe token cannot move the other way either, since a sibling that disagrees with\r\n`/api/merchants/{id}` at one path position aborts SDK generation outright.",
+            "description": "The merchant id.",
             "required": true,
             "schema": {
               "type": "string",
@@ -66302,7 +66302,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The merchant id. See the list action for why the parameter carries the route token's name.",
+            "description": "The merchant id.",
             "required": true,
             "schema": {
               "type": "string",
@@ -66520,7 +66520,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The merchant id. See the list action for why the parameter carries the route token's name.",
+            "description": "The merchant id.",
             "required": true,
             "schema": {
               "type": "string",
@@ -66720,7 +66720,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The merchant id. See the list action for why the parameter carries the route token's name.",
+            "description": "The merchant id.",
             "required": true,
             "schema": {
               "type": "string",
@@ -66918,7 +66918,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The merchant id. See the list action for why the parameter carries the route token's name.",
+            "description": "The merchant id.",
             "required": true,
             "schema": {
               "type": "string",
@@ -67144,7 +67144,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The merchant id. See the list action for why the parameter carries the route token's name.",
+            "description": "The merchant id.",
             "required": true,
             "schema": {
               "type": "string",
@@ -74072,7 +74072,7 @@
         "tags": [
           "MySession"
         ],
-        "description": "\n\r\nThe boxes are counted concurrently. Serially they were the slowest part of a first page\r\nload, because every box that misses the short-lived cache costs its own cross-partition\r\naggregate and they were paid one after another.\r\n\r\n\n\r\nEach concurrent count runs in its own unit of work, and that is load-bearing rather than\r\ntidiness. The repository resolves its DbContext from the ambient unit of work, so boxes\r\nsharing one would put two queries on one context and EF Core would throw \"a second\r\noperation was started on this context\" -- precisely in the two-or-more-cache-misses case\r\nthe concurrency exists to speed up. A fresh unit of work resolves from a fresh service\r\nscope, so each box gets its own context.\r\n\r\n\n\r\nA box that fails is dropped from the result rather than failing the call. The caller\r\nrenders a box with no entry as its placeholder, so one unlucky count costs its own box\r\nand no other.\r\n",
+        "description": "Each requested count is computed independently and may be served from a short-lived\r\ncache. A count that fails is omitted from the result rather than failing the call, so the\r\nresponse can hold fewer keys than were requested; treat a missing key as unavailable.",
         "operationId": "mySessionGetSummaryCounts",
         "parameters": [
           {
@@ -83792,13 +83792,13 @@
           "Notifications"
         ],
         "summary": "Tests a destination configuration without requiring a saved entity.",
-        "description": "Rooted under the literal `types` segment for the same reason as\r\n`ValidateConfigAsync`. `TestConfigLegacyAsync` keeps the old URL working.\n\n---\n**Required permissions**: `Notifications.Destinations`, `Notifications.Destinations.Create`  \n**Scope**: merchant",
+        "description": "`type` names a destination transport, not a saved destination.\n\n---\n**Required permissions**: `Notifications.Destinations`, `Notifications.Destinations.Create`  \n**Scope**: merchant",
         "operationId": "notificationsTestConfig",
         "parameters": [
           {
             "name": "type",
             "in": "path",
-            "description": "Identifies the delivery transport for a notification destination.\r\nEach type has a corresponding `INotificationDestinationProcessor` implementation.",
+            "description": "Identifies the delivery transport for a notification destination.",
             "required": true,
             "schema": {
               "$ref": "#/components/schemas/DestinationType"
@@ -84036,13 +84036,13 @@
           "Notifications"
         ],
         "summary": "Validates destination configuration for a specific type.",
-        "description": "Rooted under the literal `types` segment (alongside `types/metadata`) because\r\n`{type}` names a transport kind, not a saved destination: sharing the position with the\r\n`{id}` routes above left the URL ambiguous to a reader and ungeneratable by SDK generators\r\nthat model a path as a tree. `ValidateConfigLegacyAsync` keeps the old URL working.\n\n---\n**Required permissions**: `Notifications.Destinations`  \n**Scope**: merchant",
+        "description": "`type` names a destination transport, not a saved destination. Returns the list of\r\nvalidation errors; an empty list means the configuration is valid.\n\n---\n**Required permissions**: `Notifications.Destinations`  \n**Scope**: merchant",
         "operationId": "notificationsValidateConfig",
         "parameters": [
           {
             "name": "type",
             "in": "path",
-            "description": "Identifies the delivery transport for a notification destination.\r\nEach type has a corresponding `INotificationDestinationProcessor` implementation.",
+            "description": "Identifies the delivery transport for a notification destination.",
             "required": true,
             "schema": {
               "$ref": "#/components/schemas/DestinationType"
@@ -101433,7 +101433,7 @@
         "tags": [
           "Security"
         ],
-        "description": "\n\r\nThe boxes are counted concurrently. Serially they were the slowest part of a first page\r\nload, because every box that misses the short-lived cache costs its own cross-partition\r\naggregate and they were paid one after another.\r\n\r\n\n\r\nEach concurrent count runs in its own unit of work, and that is load-bearing rather than\r\ntidiness. The repository resolves its DbContext from the ambient unit of work, so boxes\r\nsharing one would put two queries on one context and EF Core would throw \"a second\r\noperation was started on this context\" -- precisely in the two-or-more-cache-misses case\r\nthe concurrency exists to speed up. A fresh unit of work resolves from a fresh service\r\nscope, so each box gets its own context.\r\n\r\n\n\r\nA box that fails is dropped from the result rather than failing the call. The caller\r\nrenders a box with no entry as its placeholder, so one unlucky count costs its own box\r\nand no other.\r\n",
+        "description": "Each requested count is computed independently and may be served from a short-lived\r\ncache. A count that fails is omitted from the result rather than failing the call, so the\r\nresponse can hold fewer keys than were requested; treat a missing key as unavailable.",
         "operationId": "mySecurityLogGetSummaryCounts",
         "parameters": [
           {
@@ -119124,7 +119124,7 @@
           "Transactions"
         ],
         "summary": "Returns the merchant's open batch summary.",
-        "description": "\n\r\nGrouped by processor and then by payment type, with running totals per group.\r\n\r\n\n\r\nPublished so a caller that must distinguish \"closed the batch\" from \"there was nothing to\r\nclose\" can ask before triggering: `TriggerAsync` starts a run\r\neither way and its response cannot tell the two apart. Authorization is enforced by the\r\n`[Authorize(SettlementPermissions.View)]` on the app-service method, and merchant scoping\r\nby the repository's own data filters; this controller widens nothing.\r\n\n\n---\n**Required permissions**: `Transactions.Settlement.View`  \n**Scope**: merchant",
+        "description": "\n\r\nGrouped by processor and then by payment type, with running totals per group.\r\n\r\n\n\r\nCall this before triggering settlement when you need to tell \"closed the batch\" apart from\r\n\"there was nothing to close\": a settlement trigger starts a run either way, and its response\r\ncannot tell the two apart. Requires the settlement view permission, and returns data only for\r\na merchant the caller can access.\r\n\n\n---\n**Required permissions**: `Transactions.Settlement.View`  \n**Scope**: merchant",
         "operationId": "settlementGetOpenBatchesSummary",
         "parameters": [
           {
@@ -119319,7 +119319,7 @@
           "Transactions"
         ],
         "summary": "Trigger settlement for a specific merchant.",
-        "description": "The `[Authorize]` is what publishes this action's permission, and it is not redundant\r\nwith the one on `TriggerAsync`. Discovery matches an\r\napp-service member of the same name, and this action has none: it is a route-shape wrapper\r\nthat lifts the merchant out of the path and calls `TriggerAsync`. Without the attribute\r\nthe operation published no `x-permissions` at all, so the contract, the generated SDKs\r\nand the derived scope table all described a settlement trigger as needing no permission,\r\nwhile the runtime gate on the app service was in force the whole time.\n\n---\n**Required permissions**: `Transactions.Settlement.Trigger`  \n**Scope**: merchant",
+        "description": "Requires the settlement trigger permission. The merchant in the path overrides any merchant\r\nsupplied in the body. The call returns as soon as the run starts; the processor submission\r\ncompletes asynchronously.\n\n---\n**Required permissions**: `Transactions.Settlement.Trigger`  \n**Scope**: merchant",
         "operationId": "settlementTriggerForMerchant",
         "parameters": [
           {
@@ -132249,7 +132249,7 @@
           "Wallets"
         ],
         "summary": "Checkout Snapshot: returns the storefront-safe snapshot for the (provider, merchant) pair.",
-        "description": "WPG20-4751: this action owns the environment-wide wallet kill-switch read. The snapshot app\r\nservice cannot do it, because it is also resolved inside the TransactionManager Functions host,\r\nwhich populates no ABP property bag and so throws on any `FeatureChecker` read; here\r\n`IFeatureChecker` is a plain constructor dependency the Blazor host resolves\r\nnormally. The gate is not declared as a `[Feature]` attribute either: the provider is a\r\nroute segment, so an endpoint-level gate would withhold Google Pay (which carries no toggle by\r\ndesign) along with the flagged wallets.",
+        "description": "When the wallet is not available for the merchant, the response reports\r\n`isEnabled: false` rather than an error. Treat that as \"do not render the button\".",
         "operationId": "walletCheckoutSnapshotGetSnapshot",
         "parameters": [
           {
@@ -132501,7 +132501,7 @@
           "Xero"
         ],
         "type": "string",
-        "description": "Identifies a concrete accounting-system integration. The registry maps each key to its\r\n`IAccountingProvider` implementation. New external systems are added as their own\r\nprovider project and a new value here (mirrors the wallet-provider registration model).\r\nv1 ships only `Loopback`; QuickBooks Online and Xero are separate provider stories.",
+        "description": "Identifies the accounting system that an accounting sync record targets.",
         "x-enumDescriptions": [
           "No provider. Used for a Skipped record where no provider was involved.",
           "Synthetic in-process provider that exercises the sync seam without an external API.",
@@ -132665,7 +132665,7 @@
           },
           "readerToken": {
             "type": "string",
-            "description": "The processor reader token to store for a PAN-less card (a decrypt-and-forward processor such\r\nas MagTek DAF, where the gateway never sees the PAN). When set, this input mints a reader-token\r\nstored method: the token is written encrypted onto the backing vault token's\r\n`ProcessorTokens` and there is no card data to vault. Server-trusted only: carried on the\r\nnon-HTTP `IInternalCustomerStoredPaymentMethodService` seam and never over the HTTP\r\nwire (a client-supplied processor token would be a spoofing vector). Never logged.",
+            "description": "The processor reader token to store for a PAN-less card (a decrypt-and-forward processor such\r\nas MagTek DAF, where the gateway never sees the PAN). When set, this input mints a reader-token\r\nstored method: the token is written encrypted onto the backing vault token's\r\n`ProcessorTokens` and there is no card data to vault. Set by the server only: a value\r\nsupplied over the API is not accepted. Never logged.",
             "nullable": true
           },
           "readerTokenProcessorName": {
@@ -134367,7 +134367,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Request body for the Apple Pay \"process payment\" endpoint: the storefront\r\nposts this after the shopper authorises the payment in the Apple Pay sheet.\r\nShape mirrors the `ApplePayPayment.token` object the JS client delivers\r\nto `onpaymentauthorized`: only the `token` envelope is carried at\r\nthe top level because the rest of the JS event (billing/shipping contacts)\r\nisn't part of this stub flow.\r\n            \r\n\n\r\nThis endpoint is the production analog of the POC `ApplePayTestController.ProcessPayment`.\r\nIt accepts the encrypted Apple Pay token, logs sanitized metadata (network /\r\ntype / transaction identifier), and returns success. It does NOT decrypt the\r\ntoken here: encrypted-token decryption is performed inside the regular HPP /\r\ntransaction-submit pipeline.\r\n"
+        "description": "Request body for the Apple Pay \"process payment\" endpoint. The storefront\r\nposts this after the shopper authorizes the payment in the Apple Pay sheet.\r\nThe shape mirrors the `ApplePayPayment.token` object that Apple Pay JS\r\ndelivers to `onpaymentauthorized`: only the `token` envelope is\r\ncarried at the top level. Billing and shipping contacts are not accepted."
       },
       "ApplePayPaymentDataDto": {
         "type": "object",
@@ -134695,7 +134695,7 @@
           },
           "currentBatchId": {
             "type": "string",
-            "description": "Legacy single-scalar batch ID (the original shape, pre per-processor migration).\r\nRead-compat only: the\r\n`BatchIdManager` (in `PhoeniXGate.Transactions.Domain`) falls back to this\r\nwhen `CurrentBatchIds` has no\r\nentry for the requested processor, treating it as that processor's open batch. The first\r\nsuccessful rotation under the new code populates `CurrentBatchIds` for that\r\nprocessor and clears this scalar. New writes never set this field.",
+            "description": "Deprecated single batch ID, kept for reading older settings only. When\r\n`CurrentBatchIds` has no entry for a processor, the server treats this value as\r\nthat processor's open batch. The first successful batch rotation populates\r\n`CurrentBatchIds` for that processor and clears this value. The server never\r\nwrites this field; use `CurrentBatchIds` instead.",
             "nullable": true,
             "deprecated": true
           }
@@ -135282,7 +135282,7 @@
           },
           "orchestrationInstanceId": {
             "type": "string",
-            "description": "Durable orchestration instance id, once the workflow has been started.",
+            "description": "Identifier of the background job processing the batch. Null until processing has started.",
             "nullable": true
           },
           "periodKey": {
@@ -135679,8 +135679,8 @@
           "A completed (non-dry) run already exists for this reseller and period.",
           "A run is already in progress for this reseller.",
           "The reseller's run failed before completion (or failed to enqueue).",
-          "the interactive single-reseller run inserted its Running lock row and enqueued BillingRunWorkflow on the background-job framework. Per-merchant execution proceeds asynchronously in the Functions host; the terminal status (Completed / PartiallyCompleted / Failed) is written by the workflow and surfaces in the grid + run-detail page over time. The admin all-resellers fan-out tracks progress via the batch document instead.",
-          "The reseller has the \"Merchant Billing\" master switch (ResellerFeatures.MerchantBilling) turned off, so no run was created and no invoices were generated for its merchants (WPG20-5018)."
+          "The reseller's run was accepted and queued as a background job. Merchants are billed asynchronously; the run's final status (Completed, PartiallyCompleted or Failed) appears on the run once processing finishes. An all-resellers batch reports progress through the batch status instead.",
+          "The reseller has the \"Merchant Billing\" master switch (ResellerFeatures.MerchantBilling) turned off, so no run was created and no invoices were generated for its merchants."
         ]
       },
       "BillingRunResellerOutcomeDto": {
@@ -135816,7 +135816,7 @@
         "x-enumDescriptions": [
           "Triggered manually by a user through the UI or API.",
           "Triggered automatically by the scheduled billing job.",
-          "One reseller's slice of an admin all-resellers fan-out, executed headless in the BackgroundJobs Durable workflow. Runs under a system principal (like Scheduled) and so skips the interactive invoicing permission pre-flight that NREs against the Functions host's ABP permission-provider surface."
+          "One reseller's share of a billing run an administrator started for all resellers at once. It runs as a background job under a system identity, like Scheduled."
         ]
       },
       "BinData": {
@@ -137037,7 +137037,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Per-merchant accept-list of AVS and CVV response codes. A flag set to `true`\r\nmeans transactions returning that code are accepted; `false` means they are\r\nrejected after the processor answers. Where the processor approved and placed a\r\nhold, the gateway schedules a reversal to release that hold and records the\r\nreversal outcome on the transaction's `PolicyRejection`; where the processor\r\ndeclined on the rule itself, no hold was placed and nothing is reversed. US AVS\r\ncodes and every CVV code default to\r\n`true`, so a brand-new merchant accepts every domestic response out of the\r\nbox. The eight international AVS codes (B, C, D, F, G, I, M, P: the same set\r\ncanonicalised by `CardVerificationSettingsValidator.InternationalAvsCodes`)\r\ndefault to `false`, so a freshly-onboarded merchant rejects international\r\nresponses until it explicitly opts in."
+        "description": "Per-merchant accept-list of AVS and CVV response codes. A flag set to `true`\r\nmeans transactions returning that code are accepted; `false` means they are\r\nrejected after the processor answers. Where the processor approved and placed a\r\nhold, the gateway schedules a reversal to release that hold and records the\r\nreversal outcome on the transaction's `PolicyRejection`; where the processor\r\ndeclined on the rule itself, no hold was placed and nothing is reversed. US AVS\r\ncodes and every CVV code default to\r\n`true`, so a brand-new merchant accepts every domestic response out of the\r\nbox. The eight international AVS codes (B, C, D, F, G, I, M, P) default to\r\n`false`, so a freshly-onboarded merchant rejects international responses until\r\nit explicitly opts in."
       },
       "CardholderPresence": {
         "enum": [
@@ -137088,7 +137088,7 @@
           "A line item's product code is null, blank, or all zeros.",
           "A line item's commodity code is null, blank, or all zeros.",
           "A line item's unit of measure is null, blank, or all zeros.",
-          "Tax is present but falls outside the card brand's accepted share of the settled total. Bounds are on CedpQualificationEvaluator.",
+          "Tax is present but falls outside the card brand's accepted share of the settled total: at least 0.1%, and at most 22% for Visa or 30% for Mastercard.",
           "Tax is zero or absent and the transaction is not flagged tax exempt. Informational: a genuinely untaxed sale is legitimate, but it will not earn an enhanced rate without the exempt flag.",
           "No customer reference of any kind was supplied: purchase order, order number, and invoice number are all blank or placeholder.",
           "Level 3 header data was supplied with no line items, so the row settles on the Level 2 path and cannot reach a Level 3 rate.",
@@ -139551,7 +139551,7 @@
             "items": {
               "$ref": "#/components/schemas/ContractExecutionRecord"
             },
-            "description": "The most recent execution records for this contract (capped at 10, newest first).\r\nDefault-initialized to an empty list so new contract documents persist an empty\r\n`\"ExecutionHistory\": []` in Cosmos: EF Core Cosmos cannot reliably add\r\ndetached owned-collection items to a property whose loaded JObject path does\r\nnot contain the key (throws `NullReferenceException` in\r\n`DocumentSource.GetCurrentDocument` during `SaveChangesAsync`).\r\n\n\r\nRemains nullable because Newtonsoft deserialization overrides the C# initializer\r\nwhen the persisted document has an explicit `\"ExecutionHistory\": null`\r\n(legacy contracts predating this default-initialization fix). Callers must\r\nnormalize to an empty list before mutating (`ExecutionHistory ??= []`)\r\nuntil those docs are backfilled.\r\n",
+            "description": "The most recent execution records for this contract (capped at 10, newest first).\r\nMay be `null` on older contracts; treat `null` the same as an empty list.",
             "nullable": true
           },
           "pendingCredit": {
@@ -140730,7 +140730,7 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The earliest date on which this contract is eligible to bill. Set by the user\r\nwhen creating the contract (defaults to the creation date) and may be set to a\r\nfuture date to delay first billing. The recurrence engine anchors expansion to\r\nthis date and the daily billing job will not fire a contract whose\r\n`StartDate` is in the future.\r\n            \r\nNull on legacy documents that predate this field. The canonical fallback chain\r\ncallers MUST use is `StartDate ?? Contract.CreationTime ?? DateTime.UtcNow`,\r\napplied server-side by `ContractCrudAppService.ResolveScheduleAnchor`.\r\nThe UI does not expand the recurrence for a saved contract at all: it reads\r\n`NextScheduledRun` through `ContractNextRunCalculator`, and only\r\npreviews an unsaved schedule (anchored on this date, or now when it has none).",
+            "description": "The earliest date on which this contract is eligible to bill. Set by the user\r\nwhen creating the contract (defaults to the creation date) and may be set to a\r\nfuture date to delay first billing. The recurrence engine anchors expansion to\r\nthis date and the daily billing job will not fire a contract whose\r\n`StartDate` is in the future.\r\n            \r\nNull on contracts created before this field existed. When it is null, the server\r\nanchors the schedule on the contract's creation time, or on the current time when\r\nthat is also absent; callers that compute a schedule themselves should apply the\r\nsame fallback.",
             "format": "date-time",
             "nullable": true
           }
@@ -140953,7 +140953,7 @@
           "Kiosk"
         ],
         "type": "string",
-        "description": "A payment channel a merchant operates, used to justify a general-program convenience fee\r\n(epic #3157, channel-model story #3207). The card brands permit a convenience fee\r\nonly when it is charged on a genuine <em>alternative</em> channel and a distinct\r\n<em>standard</em> channel also exists for the cardholder: the fee is for the channel, not\r\nfor the card type.",
+        "description": "A payment channel a merchant operates, used to justify a general-program convenience fee.\r\nThe card brands permit a convenience fee only when it is charged on a genuine\r\n<em>alternative</em> channel and a distinct <em>standard</em> channel also exists for the\r\ncardholder. The fee is for the channel, not for the card type.",
         "x-enumDescriptions": [
           "Face-to-face, cardholder physically present. A standard channel; never an alternative.",
           "Mail order (the cardholder mails payment). A standard channel; never an alternative.",
@@ -141336,7 +141336,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Input DTO for triggering a new billing run.\r\nValidation lives in `CreateBillingRunInputValidator`; the\r\n`StringLengthAttribute` stays solely for OpenAPI schema metadata\r\n(CLAUDE.md \"FluentValidation is the single validation source\")."
+        "description": "Request body for starting a new billing run."
       },
       "CreateCampaignDto": {
         "required": [
@@ -142752,7 +142752,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Provider-agnostic input for \"create a wallet payment session\". Apple Pay needs\r\nthis (the JS client calls `onvalidatemerchant` → our backend POSTs to\r\nApple's `startSession`). Wallets that don't issue server-side sessions\r\n(Google Pay) won't implement\r\n`IWalletPaymentSessionProvider`\r\nand the orchestrator returns \"operation not supported by this provider\".\r\n            \r\n\n\r\nThe caller (HPP browser) supplies only the merchant being checked out on plus\r\nthe chosen provider type. Server-side resolution determines which persisted\r\n`WalletProviderRegistration` row applies, using the merchant's own\r\n`DigitalWallets[]` bindings: the Level / Platform-vs-Merchant\r\ndistinction is an internal data-modeling concept and never crosses the wire.\r\n"
+        "description": "Provider-agnostic input for \"create a wallet payment session\". Apple Pay needs\r\nthis: when Apple Pay JS raises `onvalidatemerchant`, the gateway requests a\r\nmerchant session from Apple. A wallet that does not issue server-side sessions\r\n(Google Pay) returns \"operation not supported by this provider\".\r\n            \r\n\n\r\nThe caller supplies only the merchant being checked out on plus the chosen\r\nprovider type. The server determines which wallet provider registration applies\r\nfrom the wallets bound to that merchant.\r\n"
       },
       "CreditNoteCreateDto": {
         "required": [
@@ -142965,7 +142965,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Input DTO for a credit note line item.\r\nValidation is handled by `CreditNoteLineItemInputDtoValidator`."
+        "description": "Input DTO for a credit note line item."
       },
       "CreditNoteStatus": {
         "enum": [
@@ -143979,7 +143979,7 @@
           },
           "publicReference": {
             "type": "string",
-            "description": "The externally-emitted, chargeable `PublicReference` of the backing `PaymentToken`\r\n(the opaque `pt_`-prefixed handle) captured when this stored method was minted. Persisted\r\nhere so the tokenize-on-payment path can surface it on the transaction response / webhook\r\nwithout re-reading the token, and so a later charge can round-trip the merchant-facing handle.\r\nDistinct from `PaymentTokenId`, which is the internal vault Guid (PAN-correlated,\r\nnever emitted). Nullable for Cosmos backward compatibility: stored methods minted before this\r\nfield predate it and carry `null` until the one-time DbMigrator backfill\r\n(`CustomerStoredPaymentMethodPublicReferenceBackfillSeedContributor`) copies the backing\r\ntoken's handle onto them. The backfill only ever fills a null and never rewrites an assigned\r\nhandle. Non-sensitive (an opaque random handle, not a PAN).",
+            "description": "The externally-emitted, chargeable `PublicReference` of the backing `PaymentToken`\r\n(the opaque `pt_`-prefixed handle) captured when this stored method was minted. Persisted\r\nhere so the tokenize-on-payment path can surface it on the transaction response / webhook\r\nwithout re-reading the token, and so a later charge can round-trip the merchant-facing handle.\r\nDistinct from `PaymentTokenId`, which is the internal vault Guid (PAN-correlated,\r\nnever emitted). May be `null` on a stored method created before this field existed, until\r\na one-time platform backfill copies the backing token's handle onto it; the backfill only ever\r\nfills a null and never rewrites an assigned handle. Non-sensitive (an opaque random handle,\r\nnot a PAN).",
             "nullable": true
           },
           "origin": {
@@ -144455,10 +144455,10 @@
           "Sms"
         ],
         "type": "string",
-        "description": "Identifies the delivery transport for a notification destination.\r\nEach type has a corresponding `INotificationDestinationProcessor` implementation.",
+        "description": "Identifies the delivery transport for a notification destination.",
         "x-enumDescriptions": [
           "HTTP POST to a configured URL with HMAC signature headers.",
-          "Email delivery via the ABP email sender infrastructure.",
+          "Email delivery to the configured recipient addresses.",
           "Amazon Simple Queue Service (SQS) message delivery.",
           "Azure Service Bus Queue message delivery.",
           "In-app notification delivered in-process to connected clients on this instance. Suitable for real-time UI notifications (dropdown, popup, badge).",
@@ -144613,7 +144613,7 @@
           },
           "lastLoginAt": {
             "type": "string",
-            "description": "When the account last signed in, in UTC, or `null` if it never has. Converted to the\r\nviewer's timezone at the Blazor edge; the contract stays UTC in and UTC out.",
+            "description": "When the account last signed in, in UTC, or `null` if it never has. The contract stays\r\nUTC in and UTC out; display surfaces convert it to the viewer's time zone.",
             "format": "date-time",
             "nullable": true
           },
@@ -144790,7 +144790,7 @@
           },
           "expiresAt": {
             "type": "string",
-            "description": "When the invitation stops being redeemable, in UTC. Converted to the viewer's timezone at the\r\nBlazor edge; the contract stays UTC in and UTC out.",
+            "description": "When the invitation stops being redeemable, in UTC. The contract stays UTC in and UTC out;\r\ndisplay surfaces convert it to the viewer's time zone.",
             "format": "date-time",
             "nullable": true
           },
@@ -145119,7 +145119,7 @@
           },
           "allowOverride": {
             "type": "boolean",
-            "description": "Whether this merchant lets a request waive the duplicate check on a per-transaction\r\nbasis. DERIVED, never stored-authoritative: MerchantFlowConfigProvider projects\r\nMerchant.Processing.DuplicateCheck.AllowOverride onto this on every load, so any value\r\npersisted here or typed into a config-matrix editor is overwritten on the next read.\r\nNull fails closed (no override), and is only reachable on a legacy merchant document\r\nwith no Processing.DuplicateCheck. See docs/duplicate-transaction-screening.md.",
+            "description": "Whether this merchant lets a request waive the duplicate check on a per-transaction\r\nbasis. Derived from the merchant's Processing.DuplicateCheck.AllowOverride every time the\r\nconfiguration is read, so a value written here is not kept. Null means no override.",
             "nullable": true,
             "readOnly": true
           }
@@ -145658,7 +145658,7 @@
           "Tenant"
         ],
         "type": "string",
-        "description": "Discriminator values for entities that implement `IPolymorphicScopedEntity`.\r\nThe persisted integer value of an implementing entity's scope-discriminator property\r\n(conventionally named `Scope`) MUST match these values so the global query filter\r\nin `PhoenixDbContextBase` can interpret it.",
+        "description": "The scope a record applies to: a single merchant, a reseller, or the whole tenant. The\r\nserver uses this value to decide which callers can see the record.",
         "x-enumDescriptions": [
           "Row applies to a single merchant. MerchantId must be non-null.",
           "Row applies to a reseller and (by entity-specific semantics) its descendants. ResellerId must be non-null.",
@@ -149011,7 +149011,7 @@
                 "$ref": "#/components/schemas/HppPagePurpose"
               }
             ],
-            "description": "Instance-level page purpose. `null` resolves to\r\n`Payment`. `SaveCard` dedicates the\r\npage to card capture (zero-dollar verification, no charge) and is incompatible with\r\namount-bearing configuration: see `HostedPaymentPageCreateOrUpdateDtoBaseValidator`.\nConditional: Conditional (see validator source).\nConditional: When PagePurpose and HasValue meet conditions.",
+            "description": "Instance-level page purpose. `null` resolves to\r\n`Payment`. `SaveCard` dedicates the\r\npage to card capture (zero-dollar verification, no charge). A card-capture page cannot enable\r\namount-bearing settings such as donation amounts or the tax, shipping and convenience fee\r\nfields; a request that does is rejected with a validation error.\nConditional: Conditional (see validator source).\nConditional: When PagePurpose and HasValue meet conditions.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -149066,7 +149066,7 @@
                 "$ref": "#/components/schemas/HppCaptureMode"
               }
             ],
-            "description": "Capture timing for the chargeable Payment flow: `Sale` (default;\r\n`null` resolves here) authorizes and captures now; `Authorize`\r\nauthorizes now and defers capture. Composes with the save-card option to produce the\r\n\"save card + delayed capture\" combination. `Authorize` is rejected\r\nby `HostedPaymentPageCreateOrUpdateDtoBaseValidator` on the card-capture purposes.\nConditional: When CaptureMode and HasValue meet conditions.\nConditional: When PagePurpose is set.",
+            "description": "Capture timing for the chargeable Payment flow: `Sale` (default;\r\n`null` resolves here) authorizes and captures now; `Authorize`\r\nauthorizes now and defers capture. Composes with the save-card option to produce the\r\n\"save card + delayed capture\" combination. `Authorize` is rejected\r\non the card-capture page purposes (`SaveCard` and\r\n`SaveCardWithInitialCharge`).\nConditional: When CaptureMode and HasValue meet conditions.\nConditional: When PagePurpose is set.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -149898,7 +149898,7 @@
                 "$ref": "#/components/schemas/HppPagePurpose"
               }
             ],
-            "description": "Instance-level page purpose. `null` resolves to\r\n`Payment`. `SaveCard` dedicates the\r\npage to card capture (zero-dollar verification, no charge) and is incompatible with\r\namount-bearing configuration: see `HostedPaymentPageCreateOrUpdateDtoBaseValidator`.\nConditional: Conditional (see validator source).\nConditional: When PagePurpose and HasValue meet conditions.",
+            "description": "Instance-level page purpose. `null` resolves to\r\n`Payment`. `SaveCard` dedicates the\r\npage to card capture (zero-dollar verification, no charge). A card-capture page cannot enable\r\namount-bearing settings such as donation amounts or the tax, shipping and convenience fee\r\nfields; a request that does is rejected with a validation error.\nConditional: Conditional (see validator source).\nConditional: When PagePurpose and HasValue meet conditions.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -149953,7 +149953,7 @@
                 "$ref": "#/components/schemas/HppCaptureMode"
               }
             ],
-            "description": "Capture timing for the chargeable Payment flow: `Sale` (default;\r\n`null` resolves here) authorizes and captures now; `Authorize`\r\nauthorizes now and defers capture. Composes with the save-card option to produce the\r\n\"save card + delayed capture\" combination. `Authorize` is rejected\r\nby `HostedPaymentPageCreateOrUpdateDtoBaseValidator` on the card-capture purposes.\nConditional: When CaptureMode and HasValue meet conditions.\nConditional: When PagePurpose is set.",
+            "description": "Capture timing for the chargeable Payment flow: `Sale` (default;\r\n`null` resolves here) authorizes and captures now; `Authorize`\r\nauthorizes now and defers capture. Composes with the save-card option to produce the\r\n\"save card + delayed capture\" combination. `Authorize` is rejected\r\non the card-capture page purposes (`SaveCard` and\r\n`SaveCardWithInitialCharge`).\nConditional: When CaptureMode and HasValue meet conditions.\nConditional: When PagePurpose is set.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -155138,7 +155138,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Input DTO for creating an invoice product.\r\nValidation is handled by `InvoiceProductCreateOrUpdateDtoBaseValidator`\r\n(base properties) and ABP's server-side validation (create-only properties).",
+        "description": "Input DTO for creating an invoice product.",
         "x-validation-model-rules": [
           {
             "description": "(see validator source)",
@@ -158388,7 +158388,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Operator-visible status of the outstanding send-a-link capture link for a merchant's stored\r\npayment method, returned by `IMerchantBillingPaymentMethodAppService.GetCaptureLinkStatusAsync`\r\n(and echoed by the cancel call). Carries only non-sensitive link metadata: never a token, recipient\r\nPII, or any card/account detail."
+        "description": "Operator-visible status of the outstanding send-a-link capture link for a merchant's stored\r\npayment method. Returned when you read the capture-link status and when you cancel a capture link.\r\nCarries only non-sensitive link metadata: never a token, recipient PII, or any card/account detail."
       },
       "MerchantBillingHistoryItemDto": {
         "type": "object",
@@ -158538,7 +158538,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Whether the reseller-level plumbing required to capture a stored payment method for a merchant is\r\nconfigured, returned by `IMerchantBillingPaymentMethodAppService.GetCaptureReadinessAsync`.\r\nBacks the operator page's pre-flight: the page disables the Card / ACH capture controls (per kind)\r\nand explains the gap on load, rather than letting the operator key an instrument and fail at submit."
+        "description": "Whether the reseller-level plumbing required to capture a stored payment method for a merchant is\r\nconfigured. Returned when you read the capture readiness for a merchant. Use it as a pre-flight\r\ncheck: disable Card or ACH capture (per kind) and explain the gap up front, rather than letting the\r\noperator enter an instrument that the capture request then rejects."
       },
       "MerchantBillingPaymentMethodDto": {
         "type": "object",
@@ -158769,7 +158769,7 @@
             "maxLength": 500,
             "minLength": 0,
             "type": "string",
-            "description": "Blob path to the merchant's logo image. Resolved to an absolute URL via `ICdnUrlResolver` at render time.",
+            "description": "Storage path to the merchant's logo image. The server resolves it to an absolute URL when it\r\nrenders a receipt or other customer-facing content.",
             "nullable": true
           },
           "brandColor": {
@@ -159785,7 +159785,7 @@
           "providerName": {
             "maxLength": 64,
             "type": "string",
-            "description": "Which payment encryption provider this entry binds the merchant to, matching\r\n`ProviderName`. A string rather than an enum so\r\nadding a provider package does not change this assembly, and compared case-insensitively\r\neverywhere. A null or blank provider is treated as no binding at all, so an incompletely boarded\r\nrow cannot silently become a live selection.\nRequired: When IsEnabled is true.",
+            "description": "Which payment encryption provider this entry binds the merchant to, by the provider's registered\r\nname. Compared case-insensitively. A null or blank provider is treated as no binding at all, so an\r\nincompletely boarded row cannot silently become a live selection.\nRequired: When IsEnabled is true.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -159819,7 +159819,7 @@
             "items": {
               "$ref": "#/components/schemas/PaymentEncryptionBindingFieldValue"
             },
-            "description": "The provider-declared configuration values for this merchant, keyed by the setting names the\r\nprovider's contributor declares.\r\n            \r\n\n\r\n<b>Secret values are stored encrypted</b> and are stripped, not decrypted, on every read that\r\nleaves the server. The one path that sees plaintext is\r\n`IMerchantPaymentEncryptionBindingProvider`, which exists to hand credentials to a\r\nprovider.\r\n\r\n            \r\n\n\r\nEmpty for a `Gateway` binding, whose values are\r\nfilled in at read time from the host-scoped provider settings instead. A gateway-sourced row that\r\ncarried values would be a copy of the gateway's credentials living on a merchant document.\nConditional: When FieldValues is set.",
+            "description": "The provider-declared configuration values for this merchant, keyed by the setting names the\r\nprovider declares.\r\n            \r\n\n\r\n<b>Secret values are stored encrypted</b> and are stripped, not decrypted, on every read that\r\nleaves the server. Only the server-side call to the provider ever uses the plaintext.\r\n\r\n            \r\n\n\r\nEmpty for a `Gateway` binding, whose values are\r\nfilled in at read time from the host-scoped provider settings instead. A gateway-sourced row that\r\ncarried values would be a copy of the gateway's credentials living on a merchant document.\nConditional: When FieldValues is set.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -159920,7 +159920,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Per-merchant payment encryption provider binding. Persisted as an element of\r\n`Merchant.PaymentEncryptionBindings`.\r\n            \r\n\n\r\nThe merchant is named explicitly rather than resolved from a scoped setting, for the reason the tax\r\nbindings record: a scoped setting read resolves the merchant through the ambient operating context,\r\nwhich is null on an Azure Functions host and on any path with no signed-in operator. Decryption runs\r\non exactly that host, so a scoped selection would silently fall through to the gateway-wide value on\r\nthe one path that matters.\r\n\r\n            \r\n\n\r\nCollection membership decides whether the merchant is boarded with that provider at all, and\r\n`IsEnabled` decides whether it is currently switched on: the same two-level shape the tax\r\nand 3-D Secure bindings use, so a merchant can be un-switched without losing its keys.\r\n\r\n            \r\n\n\r\n<b>Adding fields here:</b> this type is persisted inside Cosmos `Merchant` documents, so every\r\nvalue-type member is nullable. A non-nullable value type added later reads back as its CLR default on\r\nevery document written before it existed, which is indistinguishable from a merchant that chose that\r\nvalue.\r\n"
+        "description": "Per-merchant payment encryption provider binding. Persisted as an element of\r\n`Merchant.PaymentEncryptionBindings`.\r\n            \r\n\n\r\nThe binding belongs to the merchant, so every decryption for that merchant uses it, including\r\ndecryptions that run in the background with no signed-in operator.\r\n\r\n            \r\n\n\r\nCollection membership decides whether the merchant is boarded with that provider at all, and\r\n`IsEnabled` decides whether it is currently switched on: the same two-level shape the tax\r\nand 3-D Secure bindings use, so a merchant can be switched off without losing its keys.\r\n"
       },
       "MerchantProcessorCapabilitiesDto": {
         "type": "object",
@@ -160145,7 +160145,7 @@
         "properties": {
           "code": {
             "type": "string",
-            "description": "Stable machine-readable identifier of the rule that produced the warning. For card-\r\nverification surface warnings this is the property name on\r\n`Phoenix.SharedModels.Merchant.CardVerificationSettings` (e.g. `\"AvNoMatchIntl\"`).",
+            "description": "Stable machine-readable identifier of the rule that produced the warning. For card-\r\nverification surface warnings this is the property name on `CardVerificationSettings`\r\n(e.g. `\"AvNoMatchIntl\"`).",
             "nullable": true
           },
           "propertyName": {
@@ -160267,7 +160267,7 @@
           "providerName": {
             "maxLength": 64,
             "type": "string",
-            "description": "Which shipping provider this entry binds the merchant to, matching\r\n`ProviderName`. A string rather than an enum so adding a\r\nprovider package does not change this assembly, and compared case-insensitively everywhere. A null or\r\nblank provider is treated as no binding at all, so an incompletely boarded row cannot silently become\r\na live selection.\nRequired: When IsEnabled is true.",
+            "description": "Which shipping provider this entry binds the merchant to, by the provider's registered name. Compared\r\ncase-insensitively. A null or blank provider is treated as no binding at all, so an incompletely\r\nboarded row cannot silently become a live selection.\nRequired: When IsEnabled is true.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -160301,7 +160301,7 @@
             "items": {
               "$ref": "#/components/schemas/ShippingBindingFieldValue"
             },
-            "description": "The provider-declared configuration values for this merchant, keyed by the setting names the provider's\r\ncontributor declares. For a provider whose gateway credentials are host-scoped settings, the keys are\r\nthose same setting names, so one name identifies a credential whoever holds it.\r\n            \r\n\n\r\n<b>Secret values are stored encrypted</b> and are stripped, not decrypted, on every read that leaves the\r\nserver: the admin UI and the API both see null and re-send a secret only when the operator changes it.\r\nThe one path that sees plaintext is `IMerchantShippingBindingProvider`, which exists to hand\r\ncredentials to a provider.\r\n\r\n            \r\n\n\r\nEmpty for a `Gateway` binding, whose values are filled in at read\r\ntime from the host-scoped provider settings instead. A gateway-sourced row that carried values would be\r\na copy of the gateway's token living on a merchant document.\nConditional: When FieldValues is set.",
+            "description": "The provider-declared configuration values for this merchant, keyed by the setting names the provider\r\ndeclares. For a provider whose gateway credentials are platform-wide settings, the keys are those same\r\nsetting names, so one name identifies a credential whoever holds it.\r\n            \r\n\n\r\n<b>Secret values are stored encrypted</b> and are stripped, not decrypted, on every read that leaves the\r\nserver: the admin UI and the API both see null and re-send a secret only when the operator changes it.\r\nOnly the server-side call to the provider ever uses the plaintext.\r\n\r\n            \r\n\n\r\nEmpty for a `Gateway` binding, whose values are filled in at read\r\ntime from the host-scoped provider settings instead. A gateway-sourced row that carried values would be\r\na copy of the gateway's token living on a merchant document.\nConditional: When FieldValues is set.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -160318,7 +160318,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Per-merchant shipping rate provider binding. Persisted as an element of `Merchant.ShippingBindings`,\r\nand the successor to the host-scoped provider-name setting the service first shipped with.\r\n            \r\n\n\r\nA setting read resolves the merchant through the ambient operating context, which is null on an Azure\r\nFunctions host and on the anonymous hosted payment page, so the same quote would have answered differently\r\ndepending on who asked. A binding is a row on the merchant's own document, read by merchant id, so a quote\r\non a background path reaches the same answer as one computed while an operator watches.\r\n\r\n            \r\n\n\r\nCollection membership decides whether the merchant is boarded with that provider at all, and\r\n`IsEnabled` decides whether it is currently switched on: the same two-level shape the tax,\r\n3-D Secure and wallet bindings use, so a merchant can be un-switched without losing credentials.\r\n\r\n            \r\n\n\r\n<b>Adding fields here:</b> this type is persisted inside Cosmos `Merchant` documents, so every\r\nvalue-type member is nullable. A non-nullable value type added later reads back as its CLR default on every\r\ndocument written before it existed, which is indistinguishable from a merchant that chose that value.\r\n\r\n            \r\n\n\r\nImplements the provider binding kit's `IProviderBinding`, so the shared secret\r\ncipher and field-value redaction in `WinkPG.ProviderBinding` handle every member. A new family on the\r\nkit needs no family enumeration: `CredentialSource` is declared directly as the kit's\r\n`ProviderCredentialSource`, which is what the document and the published schema carry.\r\n"
+        "description": "Per-merchant shipping rate provider binding. Persisted as an element of `Merchant.ShippingBindings`.\r\n            \r\n\n\r\nThe binding belongs to the merchant, so a shipping quote reaches the same answer wherever it is computed:\r\non the hosted payment page, in a background job, or while an operator watches.\r\n\r\n            \r\n\n\r\nCollection membership decides whether the merchant is boarded with that provider at all, and\r\n`IsEnabled` decides whether it is currently switched on: the same two-level shape the tax,\r\n3-D Secure and wallet bindings use, so a merchant can be switched off without losing credentials.\r\n"
       },
       "MerchantTaxBinding": {
         "type": "object",
@@ -160326,7 +160326,7 @@
           "providerName": {
             "maxLength": 64,
             "type": "string",
-            "description": "Which tax provider this entry binds the merchant to, matching\r\n`ProviderName`. A string rather than an enum so adding a\r\nprovider package does not change this assembly, and compared case-insensitively everywhere.\r\nA null or blank provider is treated as no binding at all, so an incompletely boarded row\r\ncannot silently become a live selection.\nRequired: When IsEnabled is true.",
+            "description": "Which tax provider this entry binds the merchant to, by the provider's registered name.\r\nCompared case-insensitively. A null or blank provider is treated as no binding at all, so an\r\nincompletely boarded row cannot silently become a live selection.\nRequired: When IsEnabled is true.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -160360,7 +160360,7 @@
             "items": {
               "$ref": "#/components/schemas/TaxBindingFieldValue"
             },
-            "description": "The provider-declared configuration values for this merchant, keyed by the setting names the\r\nprovider's contributor declares.\r\n            \r\n\n\r\n<b>Secret values are stored encrypted</b> and are stripped, not decrypted, on every read that\r\nleaves the server: the admin UI and the API both see null and re-send a secret only when the\r\noperator changes it. The one path that sees plaintext is\r\n`IMerchantTaxBindingProvider`, which exists to hand credentials to a provider.\r\n\r\n            \r\n\n\r\nEmpty for a `Gateway` binding, whose values are filled in at\r\nread time from the host-scoped provider settings instead. A gateway-sourced row that carried\r\nvalues would be a copy of the gateway's key living on a merchant document.\nConditional: When FieldValues is set.",
+            "description": "The provider-declared configuration values for this merchant, keyed by the setting names the\r\nprovider declares.\r\n            \r\n\n\r\n<b>Secret values are stored encrypted</b> and are stripped, not decrypted, on every read that\r\nleaves the server: the admin UI and the API both see null and re-send a secret only when the\r\noperator changes it. Only the server-side call to the provider ever uses the plaintext.\r\n\r\n            \r\n\n\r\nEmpty for a `Gateway` binding, whose values are filled in at\r\nread time from the host-scoped provider settings instead. A gateway-sourced row that carried\r\nvalues would be a copy of the gateway's key living on a merchant document.\nConditional: When FieldValues is set.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -160383,7 +160383,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Per-merchant tax provider binding. Persisted as an element of `Merchant.TaxBindings`, and the\r\nsuccessor to the `TaxCalculation.ProviderName` setting the service first shipped with.\r\n            \r\n\n\r\nThe setting shape it replaces resolved a merchant through the ambient operating context, which is\r\nnull on an Azure Functions host and on any path with no signed-in operator, so a merchant's\r\nselection silently fell through to the gateway-wide value. Tax liability is a property of the\r\nselling merchant, and a payment that computes tax on a background path has to reach the same\r\nanswer as one computed while an operator watches, so the merchant has to be named explicitly.\r\n\r\n            \r\n\n\r\nCollection membership decides whether the merchant is boarded with that provider at all, and\r\n`IsEnabled` decides whether it is currently switched on: the same two-level shape the\r\n3-D Secure and wallet bindings use, so a merchant can be un-switched without losing credentials.\r\n\r\n            \r\n\n\r\n<b>Adding fields here:</b> this type is persisted inside Cosmos `Merchant` documents, so\r\nevery value-type member is nullable. A non-nullable value type added later reads back as its CLR\r\ndefault on every document written before it existed, which is indistinguishable from a merchant\r\nthat chose that value.\r\n\r\n            \r\n\n\r\nImplements the provider binding kit's `IProviderBinding`, so the shared secret\r\ncipher and field-value redaction in `WinkPG.ProviderBinding` handle the members every family has,\r\nand this type keeps only what is the tax family's own (`DefaultCountryCode`). The persisted\r\nand published shape is unchanged by that: the interface adds no public property, and the credential\r\nsource stays `TaxCredentialSource` on the document and on the wire.\r\n"
+        "description": "Per-merchant tax provider binding. Persisted as an element of `Merchant.TaxBindings`.\r\n            \r\n\n\r\nTax liability is a property of the selling merchant, so the binding belongs to the merchant: a\r\npayment that computes tax in a background job reaches the same answer as one computed while an\r\noperator watches.\r\n\r\n            \r\n\n\r\nCollection membership decides whether the merchant is boarded with that provider at all, and\r\n`IsEnabled` decides whether it is currently switched on: the same two-level shape the\r\n3-D Secure and wallet bindings use, so a merchant can be switched off without losing credentials.\r\n"
       },
       "MerchantThreeDSBinding": {
         "type": "object",
@@ -160432,7 +160432,7 @@
           "jwtSecret": {
             "maxLength": 512,
             "type": "string",
-            "description": "The shared secret the request JWT is signed with. Successor to `3DSPaaySecret`, which\r\nthe TSYS profile stores and renders in cleartext.\r\n            \r\n\n\r\n<b>Stored encrypted.</b> The value persisted in the Cosmos document is ciphertext produced by\r\nthe merchants module's binding cipher. It is stripped, not decrypted, on every read that\r\nleaves the server: the admin UI and the API both see null here and re-send the secret only\r\nwhen the operator changes it. The one path that sees plaintext is\r\n`IMerchantThreeDSBindingProvider`, which exists to hand it to the provider.\r\n\r\n            \r\n\n\r\nNever log this, never put it on a `ThreeDSProviderError`, never attach\r\nit to an exception, and never emit it in an event or a webhook payload.\r\n",
+            "description": "The shared secret the request JWT is signed with. Successor to `3DSPaaySecret`, which\r\nthe TSYS profile stores and renders in cleartext.\r\n            \r\n\n\r\n<b>Stored encrypted.</b> It is stripped, not decrypted, on every read that leaves the server:\r\nthe admin UI and the API both see null here and re-send the secret only when the operator\r\nchanges it. Only the server-side call to the provider ever uses the plaintext.\r\n",
             "nullable": true
           },
           "jwtSecretConfigured": {
@@ -161949,7 +161949,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Structured field bundle for the OfflineAdjustment operation. Each property is optional;\r\nonly the populated fields are emitted into the adjustment-request XML and propagated\r\nonto the corresponding transaction-document patches.\r\n            \r\n\"Offline\" denotes that the adjustment is applied to the transaction's settlement record\r\nwithout contacting the processor network. Eligible fields are limited to those the\r\nlegacy `TipAdjustment.vb` path collected from `htData` (TIPAMT / TAXAMT /\r\nLEVEL3AMT / PONUM / STREET / ZIP): adjusting any other field requires re-authorization\r\nat the rails (incremental authorization stage, separate ticket).\r\n            \r\nIndustry eligibility for the tip-bearing path (TIPAMT) is enforced inside\r\n`WinkPG.TransactionManager.ProcessorCommon.TipAdjustmentProcessor` today; lifting\r\nthe rule to a stage-level precondition is a deferred follow-up and is not duplicated\r\non this DTO."
+        "description": "Structured field bundle for the OfflineAdjustment operation. Each property is optional;\r\nonly the populated fields are applied to the transaction's settlement record and to the\r\ntransaction.\r\n            \r\n\"Offline\" means the adjustment is applied to the transaction's settlement record without\r\ncontacting the card network. Eligible fields are the tip, tax amount, Level 3 amount,\r\npurchase order number, street and ZIP code; changing any other field requires a new\r\nauthorization. A tip adjustment is accepted only when the merchant's industry permits tips."
       },
       "OpenBatchTotalsDto": {
         "type": "object",
@@ -164721,7 +164721,7 @@
           },
           "deniedCodeDescription": {
             "type": "string",
-            "description": "The logical key emitted by `CardVerificationFilter` identifying which\r\nrule fired (e.g. `\"AVNoMatch\"`, `\"CVNoMatch\"`, `\"AVZipOnly\"`).\r\nThis is a stable, grep-friendly machine identifier: NOT a user-facing\r\nsentence. The merchant detail page renders this value verbatim alongside\r\nthe human-readable rule label. If a future iteration wants prose\r\ndescription text, add a separate property rather than overloading this\r\nfield. Safe to display to merchants: does not reveal the cardholder's\r\nactual input.",
+            "description": "The logical key identifying which card verification rule fired (e.g.\r\n`\"AVNoMatch\"`, `\"CVNoMatch\"`, `\"AVZipOnly\"`). This is a stable\r\nmachine identifier, not a user-facing sentence. The merchant detail page renders\r\nthis value verbatim alongside the human-readable rule label. Safe to display to\r\nmerchants: it does not reveal the cardholder's actual input.",
             "nullable": true
           },
           "ruleSource": {
@@ -167230,7 +167230,7 @@
           "Platform-wide limit shared across all tenants and merchants.",
           "Per-tenant limit. Keyed by the tenant identifier.",
           "Per-merchant limit. Keyed by the merchant identifier.",
-          "Per-entity limit (for example a specific hosted payment page instance). Keyed by the entity identifier supplied by an IRateLimitEntityConfigProvider.",
+          "Per-entity limit (for example a specific hosted payment page instance). Keyed by the identifier of that entity.",
           "Per-endpoint limit. Keyed by the matched EndpointPattern rather than the raw request path, so a pattern containing a wildcard produces one bounded counter key instead of one key per distinct URL.",
           "Per-API-key limit. Keyed by the API key identifier (never the key secret).",
           "Per-IP-address limit. Keyed by the resolved client IP address."
@@ -167398,7 +167398,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Input for `ISmsConsentAppService.RecordConsentAsync`: writes an express-consent or opt-out\r\ntransition with its proof-of-consent evidence."
+        "description": "Records an SMS express-consent or opt-out transition with its proof-of-consent evidence."
       },
       "RecurringBillingRunDetailDto": {
         "type": "object",
@@ -167429,7 +167429,7 @@
           },
           "instanceId": {
             "type": "string",
-            "description": "The Durable Functions orchestration instance ID.",
+            "description": "Identifier of the background job that processed this run.",
             "nullable": true
           },
           "errorMessage": {
@@ -167580,7 +167580,7 @@
           },
           "planPriceEffectiveFrom": {
             "type": "string",
-            "description": "When that revision started applying, in UTC. Carried as an instant rather than a formatted\r\nlabel so the Blazor edge converts it to the viewer's timezone like every other stored moment.\r\nNull under the same conditions as `PlanPriceTotalAmount`.",
+            "description": "When that revision started applying, in UTC. Null under the same conditions as\r\n`PlanPriceTotalAmount`.",
             "format": "date-time",
             "nullable": true
           }
@@ -170330,7 +170330,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Summary record for a single archived SBOM build. A build corresponds\r\nto one CI pipeline run that produced CycloneDX documents for every\r\ndeployable (Blazor host, Functions, DbMigrator, etc.)."
+        "description": "Summary record for a single archived SBOM build. A build corresponds\r\nto one CI pipeline run that produced CycloneDX documents for each\r\ndeployable component (for example the web application or a background worker)."
       },
       "SbomComponentDto": {
         "type": "object",
@@ -170357,7 +170357,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "One CycloneDX document within an SBOM build (e.g. the Blazor host or the Functions worker)."
+        "description": "One CycloneDX document within an SBOM build, covering one deployable component (for example\r\nthe web application or a background worker)."
       },
       "SbomManifestDto": {
         "type": "object",
@@ -170902,7 +170902,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Input for the full invoice send workflow: issue (if draft), generate PDF, create pay link, send notification.\r\nValidation is handled by `SendInvoiceInputValidator`."
+        "description": "Input for the full invoice send workflow: issue (if draft), generate PDF, create pay link, send notification."
       },
       "SendMerchantBillingCaptureLinkInput": {
         "required": [
@@ -170948,7 +170948,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Server-emitted confirmation returned by\r\n`IMerchantBillingPaymentMethodAppService.SendCaptureLinkAsync` after a capture link is sent.\r\nCarries only non-sensitive confirmation data the operator UI shows on success: where the link\r\nwent and when it expires."
+        "description": "Confirmation returned after a capture link for a merchant's stored payment method is sent.\r\nCarries only non-sensitive confirmation data: where the link went and when it expires."
       },
       "SendPasswordResetCodeDto": {
         "required": [
@@ -172313,7 +172313,7 @@
           },
           "isUnlimited": {
             "type": "boolean",
-            "description": "True when the effective entitlement has no enforceable upper bound. The UI\r\nshould render \"Unlimited\" instead of `IncludedQuantity` and hide\r\nprogress meters. Set by the server when `HardLimitEnabled == false` or\r\nwhen `IncludedQuantity == long.MaxValue` (the platform-default sentinel\r\nfrom `PlatformDefaultEntitlementsSeedContributor`)."
+            "description": "True when the effective entitlement has no enforceable upper bound. The UI\r\nshould render \"Unlimited\" instead of `IncludedQuantity` and hide\r\nprogress meters. Set by the server when `HardLimitEnabled == false` or\r\nwhen `IncludedQuantity == long.MaxValue` (the platform-default sentinel)."
           },
           "hardLimitEnabled": {
             "type": "boolean",
@@ -173421,7 +173421,7 @@
           "Disabled"
         ],
         "type": "string",
-        "description": "Lifecycle status of a merchant's surcharge configuration. Persisted on the aggregate (not merely\r\ncomputed) so the waiting-period sweep can query `Status == WaitingPeriod` in Cosmos.\r\nTransitions are owned by `SurchargeConfigurationManager`.",
+        "description": "Lifecycle status of a merchant's surcharge configuration.",
         "x-enumDescriptions": [
           "No surcharging has been set up for the merchant.",
           "Configuration exists but the required card-brand notice has not been filed.",
@@ -173537,7 +173537,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "One state's row in the effective state-policy view: the platform's seeded rule, the merchant's own\r\noverride, and the outcome of merging the two. Read-only projection built by\r\n`ISurchargeConfigurationAppService.GetEffectiveStatePoliciesAsync`; nothing here is persisted,\r\nand the merchant half is edited through `SurchargeStatePolicyDto`."
+        "description": "One state's row in the effective state-policy view: the platform's seeded rule, the merchant's own\r\noverride, and the outcome of merging the two. Returned when you read a merchant's effective\r\nsurcharge state policies. Read-only: nothing here is stored, and the merchant half is edited\r\nthrough `SurchargeStatePolicyDto`."
       },
       "SurchargeNetworkPolicyDto": {
         "required": [
@@ -173668,7 +173668,7 @@
           "binPrefix": {
             "pattern": "^[0-9]{6,8}$",
             "type": "string",
-            "description": "The card BIN prefix: 6 to 8 digits only. A full PAN (or any value longer than 8 digits) is\r\nrejected at validation. Used to resolve the card brand, funding source, and issuer country.\r\nEnforced by `SurchargeQuoteRequestDtoValidator` (FluentValidation is the single\r\nvalidation source; the OpenAPI required/pattern facets are emitted from those rules).",
+            "description": "The card BIN prefix: 6 to 8 digits only. A full PAN (or any value longer than 8 digits) is\r\nrejected at validation. Used to resolve the card brand, funding source, and issuer country.",
             "nullable": true
           },
           "amount": {
@@ -173705,7 +173705,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Request for the authenticated, merchant-scoped surcharge-eligibility quote endpoint\r\n(`ISurchargeQuoteAppService`). A direct API integrator supplies a BIN prefix (never a\r\nfull PAN), the transaction amount, the cardholder state, and the presentment channel; the platform\r\nruns the eligibility pipeline (#1584 / #1585) and returns a `SurchargeQuoteResultDto`."
+        "description": "Request for the authenticated, merchant-scoped surcharge-eligibility quote endpoint. A direct API\r\nintegrator supplies a BIN prefix (never a full PAN), the transaction amount, the cardholder state,\r\nand the presentment channel; the platform evaluates surcharge eligibility and returns a\r\n`SurchargeQuoteResultDto`."
       },
       "SurchargeQuoteResultDto": {
         "type": "object",
@@ -173752,7 +173752,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "The projected result of a surcharge-eligibility quote (`ISurchargeQuoteAppService`): a\r\nPCI-safe projection of the pipeline's `SurchargeEligibilityResult` carrying the\r\neligibility verdict, the resolved rate and computed amount, the total including the surcharge, the\r\nineligibility reason code when not eligible, and the disclosure copy the integrator renders verbatim\r\n(the merchant's own wording when they have configured any, otherwise the platform default)."
+        "description": "The result of a surcharge-eligibility quote. A PCI-safe response carrying the eligibility verdict,\r\nthe resolved rate and computed amount, the total including the surcharge, the ineligibility reason\r\ncode when not eligible, and the disclosure copy the integrator renders verbatim (the merchant's own\r\nwording when they have configured any, otherwise the platform default)."
       },
       "SurchargeResult": {
         "type": "object",
@@ -173874,7 +173874,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "The persisted surcharge evaluation decision on a transaction document. Mirrors the shape of\r\n`PhoeniXGate.Transactions.Routing.RoutingResult`: a structured owned entity (rather than a\r\nserialized JSON string snapshot) so the transaction detail surface can bind to it directly."
+        "description": "The surcharge decision recorded on a transaction: whether a surcharge was applied, the reason\r\nwhen it was not, the amounts and rates used, and the outcome of each evaluation stage."
       },
       "SurchargeStageOutcome": {
         "type": "object",
@@ -174965,7 +174965,7 @@
           },
           "skipOrderDataDefaults": {
             "type": "boolean",
-            "description": "When true, the server-side `OrderDataDefaultsEnrichmentContributor` skips\r\napplying the merchant's configured Level 2/3 defaults. Set by the Virtual Terminal\r\nwhen the operator chose \"Enter Manually\" in the BIN-driven prompt. API submissions\r\nusually leave this null.",
+            "description": "When true, the server does not apply the merchant's configured Level 2/3 defaults to\r\nthe transaction. Set by the Virtual Terminal when the operator chose \"Enter Manually\"\r\nin the BIN-driven prompt. API submissions usually leave this null.",
             "nullable": true
           },
           "captureType": {
@@ -175158,7 +175158,7 @@
           },
           "saveCardRequested": {
             "type": "boolean",
-            "description": "Operator (VT) or cardholder (HPP) opt-in to save the card for future merchant-initiated\r\nuse. Flows from the UI into the create request; the server-side\r\n`CardTokenizationFinalizeContributor` reads this flag at the Finalize stage to\r\ndecide whether to mint a stored payment method against the customer document.\r\nAuth-time-only: the AutoMapper Update map and the recurring-billing map both ignore\r\nit so it cannot be set on subsequent operations.",
+            "description": "Operator (VT) or cardholder (HPP) opt-in to save the card for future merchant-initiated\r\nuse. Honored only from the Virtual Terminal and the Hosted Payment Page, which capture the\r\nrequired cardholder consent; a transaction create API request that sets it to true is\r\nrejected with a validation error. Auth-time-only: it cannot be set on updates or on\r\nsubsequent operations.",
             "nullable": true
           },
           "isAccountVerification": {
@@ -175213,7 +175213,7 @@
           },
           "achWebAuthorizationConsumerIp": {
             "type": "string",
-            "description": "Consumer IP recorded at ACH WEB authorization time (required NACHA evidence). On the anonymous\r\nHPP create path the server derives this from the request context for direct API callers and\r\ndoes not trust a client-supplied value except the coordinator-captured IP the Blazor surfaces\r\npass server-side. Auth-time-only. `null` for non-ACH tenders.",
+            "description": "Consumer IP recorded at ACH WEB authorization time (required NACHA evidence). On the anonymous\r\nHosted Payment Page create path the server derives this from the incoming request and ignores\r\na caller-supplied value. Auth-time-only. `null` for non-ACH tenders.",
             "nullable": true
           },
           "achWebAuthorizationAt": {
@@ -175381,7 +175381,7 @@
         "description": "The subsystem that produced a `TransactionDecisionNote`. Seeded with\r\n`ConvenienceFee`; designed to grow (Surcharge, Tax, Avs, Cvv, Fraud, Tip, …) as\r\nother subsystems start recording decision explanations, with no new transaction fields.",
         "x-enumDescriptions": [
           "The convenience-fee evaluator (first consumer).",
-          "The surcharge eligibility pipeline. Records why a surcharge was not applied to a transaction on an enabled merchant (e.g. debit/prepaid card, restricted state, unsupported network), so the veto reason is queryable/displayable rather than buried in the /SurchargeResult snapshot (single-fee / debit-rejection story #3212). The Code is a SurchargeIneligibilityReason value name.",
+          "The surcharge eligibility pipeline. Records why a surcharge was not applied to a transaction on an enabled merchant (e.g. debit/prepaid card, restricted state, unsupported network), so the veto reason is queryable/displayable rather than buried in the /SurchargeResult snapshot. The Code is a SurchargeIneligibilityReason value name.",
           "The manual fraud-review hold. Records that a transaction was parked for human disposition and how that hold ended, so the timeline explains a gap between screening and authorization rather than leaving an operator to infer it from /FraudReviewData. The Code is one of ReviewHeld, ReviewApproved, ReviewDeclined, or ReviewExpired."
         ]
       },
@@ -175724,7 +175724,7 @@
                 "$ref": "#/components/schemas/RoutingResult"
               }
             ],
-            "description": "The persisted routing decision produced by the processor-routing pipeline: the selected\r\nprocessor + profile, the ordered contributor audit trail, and every evaluated candidate with\r\nits score and eliminated flag. Server-owned (mapped entity -> DTO by convention; never accepted\r\non a create/update). Back-office only: it is stripped for public API-key callers (see\r\n`TransactionCrudAppService`) and denylisted from outbound webhook payloads, since contributor\r\nnames and scoring internals are operational detail. `null` for legacy rows and\r\nflows that never route."
+            "description": "The recorded processor routing decision: the selected processor and profile, the ordered\r\naudit trail, and every evaluated candidate with its score and eliminated flag. Server-owned;\r\nnever accepted on a create or update. Back-office only: always null in responses to API-key\r\ncallers, and never included in outbound webhook payloads. `null` for\r\ntransactions that were not routed."
           },
           "loopbackSimulation": {
             "allOf": [
@@ -175930,7 +175930,7 @@
           },
           "tokenizedPaymentMethodId": {
             "type": "string",
-            "description": "The `CustomerStoredPaymentMethod.Id` minted by the TM Functions\r\n`CardTokenizationFinalizeContributor` at Finalize stage when a CIT was approved\r\nwith `SaveCardRequested` = `true`. VT and HPP post-CIT\r\nconsent-capture flows read this to land a `StoredCredentialConsent` against the\r\nreal payment-method id. `null` on transactions that did not request\r\nsave-card, were declined, or where tokenization failed.",
+            "description": "The id of the customer's stored payment method created when a customer-initiated\r\ntransaction was approved with `SaveCardRequested` = `true`.\r\n`null` on transactions that did not request save-card, were declined, or\r\nwhere saving the card failed.",
             "format": "uuid",
             "nullable": true
           },
@@ -176600,7 +176600,7 @@
           },
           "processorTokenId": {
             "type": "string",
-            "description": "Reusable processor token captured from the processor at authorization time\r\n(TSYS wire path first). Populated only on a successful tokenizing auth: an auth the\r\ngateway gated on (SaveCardRequested AND the routed processor advertises tokenization AND\r\nthe merchant preference), otherwise `null`.\r\n\n\r\nPCI: this identifier is PAN-correlating. It is encrypted at rest (EF Core\r\n`HasEncrypted` on `ResponseData.ProcessorTokenId`, applied by the authorization\r\ncontributor before the raw `/ResponseData` patch reaches Cosmos), is stripped from\r\nthe merchant-facing `TransactionDto` mapping, and is denylisted from outbound webhook\r\nprojection. Never log its value, and never place it in exceptions, events, or API error\r\nbodies.\r\n",
+            "description": "Reusable processor token captured from the processor at authorization time\r\n(TSYS wire path first). Populated only on a successful tokenizing auth: an auth the\r\ngateway gated on (SaveCardRequested AND the routed processor advertises tokenization AND\r\nthe merchant preference), otherwise `null`.\r\n\n\r\nThis identifier is PAN-correlating. It is encrypted at rest, is never returned on the\r\nmerchant-facing transaction, and is never included in an outbound webhook.\r\n",
             "nullable": true
           },
           "processorTokenStatus": {
@@ -176665,7 +176665,7 @@
           },
           "settlementDataJson": {
             "type": "string",
-            "description": "Settlement aggregate data as JSON string (converted from processor XML).\r\nThis contains the data needed to settle the transaction with the processor.\r\nEncrypted at rest via EF Core value converter: the `EncryptedPropertyAttribute`\r\nenables the base repository to detect that this entity requires an encryption scope.",
+            "description": "Settlement aggregate data as a JSON string (converted from processor XML).\r\nThis contains the data needed to settle the transaction with the processor.\r\nEncrypted at rest.",
             "nullable": true
           },
           "settlementStatus": {
@@ -176707,7 +176707,7 @@
           },
           "closedSettlementBatchId": {
             "type": "string",
-            "description": "Identifier of the closed `SettlementBatch` (its aggregate-root `Id`) that settled this\r\ntransaction, stamped by `SettlementManager.CommitSettlementAsync` at batch close. This is a\r\nscalar, index-friendly link from a transaction to its closed batch: it lets the Transaction Explorer\r\nscope to a batch with a single equality predicate (`SettleData.ClosedSettlementBatchId == batchId`)\r\ninstead of expanding the batch's `Items` list into an `Id == a OR Id == b OR …` tree.\r\n\n\r\nDistinct from the other batch identifiers on this type: `BatchId` / `GatewayBatchId`\r\nare the open batch at authorization time, and `ProcessorBatchId` is the processor's batch\r\nreference; none of them equals `SettlementBatch.Id`.\r\n\r\nNullable because existing documents predate this property, and a transaction is only stamped once its\r\nbatch closes. Transactions in batches closed before this field existed have no value and are scoped via\r\nthe legacy `Items` fallback instead.",
+            "description": "Identifier of the closed settlement batch that settled this transaction, set when the batch\r\ncloses. `null` until then, and on transactions settled in batches that closed before this\r\nfield was recorded.\r\n\n\r\nDistinct from the other batch identifiers on this type: `BatchId` / `GatewayBatchId`\r\nare the open batch at authorization time, and `ProcessorBatchId` is the processor's batch\r\nreference; none of them equals the settlement batch's id.\r\n",
             "format": "uuid",
             "nullable": true
           },
@@ -176799,7 +176799,7 @@
           },
           "usedManualStoredPaymentMethodAdd": {
             "type": "boolean",
-            "description": "Indicates the transaction is the internal account verification run when a payment method\r\nis manually added as a stored payment method from the Customers back office. Set to\r\n`true` only by the server-trusted manual-add verification seam\r\n(`IInternalTransactionEntryService.CreateManualStoredAchVerificationAsync`), never\r\nfrom client input.\r\n\n\r\nLoad-bearing for the ACH manual-add flow: the Transaction Manager routing\r\nstrategy diverts an ACH account-verification carrying this marker (with\r\n`VirtualTerminal`) to the internal ACH verification\r\ncontributor, the same way `UsedHppSession` gates the HPP save-only ACH flow.\r\nIt is the manual-admin analogue of the HPP-session marker: a second origin signal so the\r\ndivert is not reachable from a bare `Source == VirtualTerminal` value alone.\r\n\r\n\n\r\nGenuinely server-stamped (stronger than `UsedHppSession`, which stays\r\ndefence-in-depth): `TransactionCrudAppService.CreateInternalAsync` scrubs any\r\nclient-supplied value to `null` on every create path and re-stamps `true` only\r\nfor the trusted manual-add seam, so a forged value on the public create path never reaches\r\nthe routing divert. Mirrors the server-only-marker treatment of `HppSessionId`\r\nand `InvoiceId`.\r\n",
+            "description": "Indicates the transaction is the internal account verification run when a payment method\r\nis manually added as a stored payment method from the Customers back office.\r\n\n\r\nSet by the server only. Any value a client supplies on a create request is discarded,\r\nso this field is read-only for API callers.\r\n",
             "nullable": true
           },
           "hppSessionId": {
@@ -176849,7 +176849,7 @@
                 "$ref": "#/components/schemas/ClientDeviceSnapshot"
               }
             ],
-            "description": "Browser context of the client that submitted the transaction: the user agent and the\r\naccept-language header, as observed at create time.\r\n\n\r\nServer-stamped from the request on every surface the platform hosts (hosted payment page,\r\nvirtual terminal), and accepted from the request body on the API, where the caller is the\r\nonly party that has seen the shopper's browser. Preserved rather than overwritten when a\r\ncaller supplies it, exactly like `ClientIpAddress`.\r\n\r\n\n\r\nNull for system-initiated transactions (recurring billing, offline batch), for every\r\ntransaction created before this field existed, and for any caller that sends neither\r\nheader. Absent rather than empty: no `= new()`, because an owned reference seeded\r\nwith an initializer throws on every legacy document that does not carry the key (see\r\n`services/CLAUDE.md`, owned-reference hard rule).\nConditional: When ClientDevice is set.",
+            "description": "Browser context of the client that submitted the transaction: the user agent and the\r\naccept-language header, as observed at create time.\r\n\n\r\nServer-stamped from the request on every surface the platform hosts (hosted payment page,\r\nvirtual terminal), and accepted from the request body on the API, where the caller is the\r\nonly party that has seen the shopper's browser. Preserved rather than overwritten when a\r\ncaller supplies it, exactly like `ClientIpAddress`.\r\n\r\n\n\r\nNull for system-initiated transactions (recurring billing, offline batch), for every\r\ntransaction created before this field existed, and for any caller that sends neither\r\nheader. Absent rather than empty when there is nothing to record.\nConditional: When ClientDevice is set.",
             "x-validation-rules": [
               {
                 "conditionallyRequired": false,
@@ -176867,7 +176867,7 @@
           },
           "createdByUserId": {
             "type": "string",
-            "description": "The ABP user ID of the user who created the transaction.\r\nNull for anonymous or system-initiated transactions.",
+            "description": "The user ID of the user who created the transaction.\r\nNull for anonymous or system-initiated transactions.",
             "format": "uuid",
             "nullable": true
           },
@@ -177173,7 +177173,7 @@
         "properties": {
           "instanceId": {
             "type": "string",
-            "description": "The Durable Functions orchestration instance ID.",
+            "description": "Identifier of the background job running the recurring billing.",
             "nullable": true
           },
           "correlationId": {
@@ -179429,7 +179429,7 @@
           },
           "govEducationAttestedBy": {
             "type": "string",
-            "description": "User who last set `GovEducationAttested`. Recorded for audit. Server-owned:\r\nstamped by `MerchantCrudAppService` from the authenticated caller, so a value sent by a\r\nclient is discarded (`readOnly` on the published schema).",
+            "description": "User who last set `GovEducationAttested`. Recorded for audit. Server-owned:\r\nthe server stamps it from the authenticated caller, so a value sent by a client is discarded\r\n(`readOnly` on the published schema).",
             "nullable": true,
             "readOnly": true
           },
@@ -179447,7 +179447,7 @@
           },
           "visaServiceFeeRegisteredOn": {
             "type": "string",
-            "description": "The date the acquirer registered this merchant for the Visa Service Fee program, as supplied by\r\nthe operator. Required once `VisaServiceFeeRegistered` is set (enforced by\r\n`ConvenienceFeeSaveGate`).\r\n\nThis is a <b>calendar date, not an instant</b>: it is the acquirer's registration date, so\r\nit must never be timezone-converted for display. The audit timestamp for when the flag itself\r\nwas recorded is `VisaServiceFeeRegistrationRecordedOn`, which is a UTC instant.",
+            "description": "The date the acquirer registered this merchant for the Visa Service Fee program, as supplied by\r\nthe operator. Required once `VisaServiceFeeRegistered` is set; a merchant save\r\nwithout it is rejected.\r\n\nThis is a <b>calendar date, not an instant</b>: it is the acquirer's registration date, so\r\nit must never be timezone-converted for display. The audit timestamp for when the flag itself\r\nwas recorded is `VisaServiceFeeRegistrationRecordedOn`, which is a UTC instant.",
             "format": "date-time",
             "nullable": true
           },
@@ -179525,7 +179525,7 @@
           },
           "alternativeChannelAttestedBy": {
             "type": "string",
-            "description": "User who last set `AlternativeChannelAttested`. Recorded for audit. Server-owned\r\non the same terms as `GovEducationAttestedBy`: stamped by\r\n`MerchantCrudAppService` from the authenticated caller, so a value sent by a client is\r\ndiscarded (`readOnly` on the published schema).",
+            "description": "User who last set `AlternativeChannelAttested`. Recorded for audit. Server-owned\r\non the same terms as `GovEducationAttestedBy`: the server stamps it from the\r\nauthenticated caller, so a value sent by a client is discarded (`readOnly` on the\r\npublished schema).",
             "nullable": true,
             "readOnly": true
           },
@@ -179543,7 +179543,7 @@
           },
           "offlineChannelExceptionGrantedBy": {
             "type": "string",
-            "description": "User who granted `OfflineChannelExceptionGranted`. Server-owned: stamped by\r\n`MerchantCrudAppService` from the authenticated caller and restored from the persisted\r\nmerchant on any save that does not change the grant, so a client cannot author it.",
+            "description": "User who granted `OfflineChannelExceptionGranted`. Server-owned: the server stamps\r\nit from the authenticated caller and keeps the stored value on any save that does not change\r\nthe grant, so a client cannot author it.",
             "nullable": true,
             "readOnly": true
           },
@@ -179556,7 +179556,7 @@
           },
           "offlineChannelExceptionReason": {
             "type": "string",
-            "description": "The operator's statement of the unobserved channel, for example \"Merchant accepts cheques by\r\npost; verified with the reseller on the onboarding call\". Required (non-blank) whenever the\r\ngrant is set, enforced by `ConvenienceFeeSaveGate`. This is the compliance record\r\nof <em>why</em> the platform proxies were waived, so it is deliberately free text rather than\r\na picklist.",
+            "description": "The operator's statement of the unobserved channel, for example \"Merchant accepts cheques by\r\npost; verified with the reseller on the onboarding call\". Required (non-blank) whenever the\r\ngrant is set; a merchant save without it is rejected. This is the compliance record of\r\n<em>why</em> the platform proxies were waived, so it is deliberately free text rather than a\r\npicklist.",
             "nullable": true
           },
           "customName": {
@@ -180216,15 +180216,15 @@
           },
           "supportsMerchantManagement": {
             "type": "boolean",
-            "description": "True when the provider implements\r\n`IWalletMerchantManagementProvider`: i.e., supports server-to-server\r\nmerchant register / get / unregister calls. Apple Pay: true; Google Pay: false."
+            "description": "True when the wallet supports server-to-server merchant management (register,\r\nget and unregister calls). Apple Pay: true; Google Pay: false."
           },
           "supportsPaymentSession": {
             "type": "boolean",
-            "description": "True when the provider implements\r\n`IWalletPaymentSessionProvider`: i.e., requires a server-issued\r\npayment session. Apple Pay: true; Google Pay: false."
+            "description": "True when the wallet requires a server-issued payment session before checkout.\r\nApple Pay: true; Google Pay: false."
           },
           "supportsDomainAssociation": {
             "type": "boolean",
-            "description": "True when the provider implements\r\n`IWalletDomainAssociationProvider`: i.e., expects the merchant domain\r\n(or PSP-hosted domain) to serve a provider-issued verification file at a\r\nwell-known path. Apple Pay: true; Google Pay / Paze: false."
+            "description": "True when the wallet expects the merchant domain (or PSP-hosted domain) to serve\r\na provider-issued verification file at a well-known path. Apple Pay: true;\r\nGoogle Pay / Paze: false."
           }
         },
         "additionalProperties": false,
@@ -180740,7 +180740,7 @@
           "Merchant"
         ],
         "type": "string",
-        "description": "Scope of a `WalletProviderRegistration` aggregate.\r\n<list type=\"bullet\">\r\n  <item>`Platform`: the PSP-level (platform integrator's own)\r\n    wallet merchant, stored with `MerchantId = null`. Used by the\r\n    gateway's own hosted checkout pages (e.g. `checkout.winkpg.com`).\r\n    Multiple platform rows per provider type are allowed, distinguished\r\n    by `ProviderMerchantIdentifier`.</item>\r\n  <item>`Merchant`: a sub-merchant's own wallet binding,\r\n    stored with `MerchantId` set. One row per\r\n    `(MerchantId, ProviderType)`. Used when the merchant wants the\r\n    wallet button on their own domain.</item>\r\n</list>\r\n            \r\n\n\r\nThe wallet provider's wire API call is identical for both levels: Apple\r\nPay's `registerMerchant` doesn't know about \"platform vs merchant\",\r\nit just registers an integrator. The distinction is internal: it picks\r\nwhich Cosmos row carries the registration state. The provider layer\r\n(`ITokenizationProvider`) never sees this enum.\r\n",
+        "description": "Scope of a `WalletProviderRegistration` aggregate.\r\n<list type=\"bullet\">\r\n  <item>`Platform`: the PSP-level (platform integrator's own)\r\n    wallet merchant, stored with `MerchantId = null`. Used by the\r\n    gateway's own hosted checkout pages (e.g. `checkout.winkpg.com`).\r\n    Multiple platform rows per provider type are allowed, distinguished\r\n    by `ProviderMerchantIdentifier`.</item>\r\n  <item>`Merchant`: a sub-merchant's own wallet binding,\r\n    stored with `MerchantId` set. One row per\r\n    `(MerchantId, ProviderType)`. Used when the merchant wants the\r\n    wallet button on their own domain.</item>\r\n</list>\r\n            \r\n\n\r\nThe call to the wallet provider is identical for both levels: Apple Pay's\r\n`registerMerchant` does not distinguish platform from merchant, it\r\njust registers an integrator. The level only decides which stored record\r\ncarries the registration state.\r\n",
         "x-enumDescriptions": [
           "PSP / Platform Integrator-level row (MerchantId = null).",
           "Per-sub-merchant row (MerchantId set)."
@@ -181078,7 +181078,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Self-service description of the webhook payload a subscriber receives for one event type:\r\nthe schema of the rich `data` body plus a realistic, illustrative sample of the full\r\ndelivered envelope. Returned by `INotificationEventTypeAppService.GetPayloadSchemaAsync`\r\nand rendered in the notification event catalog so customers can see the payload shape without\r\nfiring a real event at a test endpoint."
+        "description": "Self-service description of the webhook payload a subscriber receives for one event type:\r\nthe schema of the rich `data` body plus a realistic, illustrative sample of the full\r\ndelivered envelope. Shown in the notification event catalog so you can see the payload shape\r\nwithout firing a real event at a test endpoint."
       },
       "WebhookPayloadSchemaField": {
         "type": "object",
