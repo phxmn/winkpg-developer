@@ -34580,7 +34580,7 @@
           {
             "name": "MerchantId",
             "in": "query",
-            "description": "Optional server-side filter on the owning merchant. When set, only pages whose\r\n`MerchantId` equals this value are returned, and the total count reflects that same\r\nfiltered set. `MerchantId` is the Cosmos partition key for hosted payment pages, so a\r\nmerchant-scoped request is a single-partition query rather than a cross-partition scan. This\r\nnarrows within the caller's existing access scope and never widens it: a merchant the caller\r\ncannot see yields an empty result rather than a leak. `null` leaves the result\r\nunfiltered by merchant. Mirrors `GetHostedPaymentPageContinuationInput.MerchantId` on\r\nthe continuation list path.",
+            "description": "Optional server-side filter on the owning merchant. When set, only pages whose\r\n`MerchantId` equals this value are returned, and the total count reflects that same\r\nfiltered set. A merchant-scoped request is cheaper and faster than an unscoped one. This\r\nnarrows within the caller's existing access scope and never widens it: a merchant the caller\r\ncannot see yields an empty result rather than a leak. `null` leaves the result\r\nunfiltered by merchant. Mirrors `GetHostedPaymentPageContinuationInput.MerchantId` on\r\nthe continuation list path.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -40003,7 +40003,7 @@
           {
             "name": "MaxResultCount",
             "in": "query",
-            "description": "Maximum rows per page. The app service caps this at 100.",
+            "description": "Maximum rows per page, capped at 100.",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -40060,7 +40060,7 @@
           {
             "name": "MerchantId",
             "in": "query",
-            "description": "Caller-requested merchant scope. Honoured only when the caller has the\r\n`InboundMessages.ViewAllMerchants` permission; otherwise the app service substitutes the\r\noperating-context merchant.",
+            "description": "Caller-requested merchant scope. Honoured only when the caller has the\r\n`InboundMessages.ViewAllMerchants` permission; otherwise the caller's own merchant is\r\nused.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -41020,7 +41020,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Retrieves a continuation-token paged, filtered list of invoices.",
-        "description": "The public invoice list surface is continuation-token only (Cosmos charges RU per skipped\r\nrow on a skip/take path). The in-process skip/take `GetListAsync` is implemented\r\nexplicitly below so it satisfies the CRUD contract without being exposed over HTTP.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "Invoices are listed by continuation token only; there is no skip/take list route.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
         "operationId": "invoiceCrudGetContinuationList",
         "parameters": [
           {
@@ -43720,7 +43720,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Reads the invoice's pay-by-link state.",
-        "description": "Returns the absolute hosted-payment-page URL, when it lapses, the QR code URL and the\r\nbacking session id. This is the only endpoint that discloses the URL: it embeds a bearer\r\ncredential, so it is deliberately absent from the invoice read and list payloads. The read\r\nnever creates or rotates a link; re-send the invoice to mint a fresh one.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "Returns the absolute hosted-payment-page URL, when it lapses, the QR code URL and the\r\nbacking session id. This read and the reissue below are the only endpoints that disclose the\r\nURL: it embeds a bearer credential, so it is deliberately absent from the invoice read and\r\nlist payloads. The read never creates or rotates a link; re-send the invoice, or reissue the\r\nlink, to mint a fresh one.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
         "operationId": "invoiceLifecycleGetPaymentLink",
         "parameters": [
           {
@@ -44317,6 +44317,198 @@
         "x-permissions": [
           "Invoicing.Invoices",
           "Invoicing.Invoices.Refund"
+        ],
+        "x-scope": "merchant"
+      }
+    },
+    "/api/invoicing/invoices/{id}/payment-link/reissue": {
+      "post": {
+        "tags": [
+          "Invoicing"
+        ],
+        "summary": "Invoices: Reissues the payment link without emailing the recipient.",
+        "description": "Replaces the invoice's payment link with a fresh one and returns it.\r\nFor an operator who hands the link to the payer themselves after the previous link was\r\nspent, expired or withdrawn. The previous link stops working at once, including for a payer\r\nwho has it open. No email is sent, the status and sent date are unchanged, no status webhook\r\nfires, and the invoice timeline records the reissue. To also tell the recipient, re-send the\r\ninvoice instead. Requires the invoice send permission.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Send`  \n**Scope**: merchant",
+        "operationId": "invoiceLifecycleReissuePaymentLink",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The new link, in the same shape the payment-link read returns.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoicePaymentLinkInfoDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoicePaymentLinkInfoDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoicePaymentLinkInfoDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks the send permission, or no payable link could be established for this\r\ninvoice (`WinkPG.Invoicing:PaymentLinkNotAvailable`: no resolvable hosted page, a\r\nbiller that is not a merchant, nothing payable, or every payment method off), or the host has\r\nno usable public base URL (`WinkPG.Invoicing:PaymentLinkBaseUrlNotConfigured`).",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The invoice does not exist, or is not visible to this caller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`).",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The invoice is not sent, viewed, partially paid or past due\r\n(`Invoicing:Invoice:InvalidStatusTransition`). Nothing was changed."
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "x-permissions": [
+          "Invoicing.Invoices",
+          "Invoicing.Invoices.Send"
         ],
         "x-scope": "merchant"
       }
@@ -47596,7 +47788,7 @@
           "Invoicing"
         ],
         "summary": "Products: Retrieves a skip/take paged list of invoice products. Deprecated.",
-        "description": "Kept serving exactly as before so an integrator paging with `SkipCount` keeps working,\r\nand now applies `Filter` as a case-insensitive name-or-SKU search (it was accepted and\r\nignored before). New callers should use `GET /api/invoicing/products/continuation-list`,\r\nwhich pages with a continuation token: every skipped row on this route costs request units,\r\nso a large catalog pages far more cheaply there. The `Deprecation` and `Link`\r\nresponse headers let client telemetry find callers still on this route.\n\n---\n**Required permissions**: `Invoicing.Products`  \n**Scope**: merchant",
+        "description": "Paging with `SkipCount` is supported, and `Filter` applies as a case-insensitive\r\nname-or-SKU search. New callers should use `GET /api/invoicing/products/continuation-list`,\r\nwhich pages with a continuation token: skip/take paging slows as the offset grows, so a large\r\ncatalog pages far more cheaply there. The `Deprecation` and `Link` response headers\r\nlet client telemetry find callers still on this route.\n\n---\n**Required permissions**: `Invoicing.Products`  \n**Scope**: merchant",
         "operationId": "invoiceProductGetList",
         "parameters": [
           {
@@ -48644,7 +48836,7 @@
           {
             "name": "BillerId",
             "in": "query",
-            "description": "Filter by billing entity. Also the partition key, so a scoped read stays single-partition.",
+            "description": "Filter by billing entity. A biller-scoped request is cheaper and faster than an unscoped one.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -49303,7 +49495,7 @@
           "Invoicing"
         ],
         "summary": "Recurring schedules: Retrieves a filtered list of recurring invoice schedules.",
-        "description": "The paging shape of this endpoint is provisional and is expected to move to continuation\r\ntokens (Cosmos charges request units for every skipped row), so integrators should not rely\r\non the current offset parameters as a stable contract. Filter by biller, status, and creation\r\ntime instead of paging deeply.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`  \n**Scope**: merchant",
+        "description": "The paging shape of this endpoint is provisional and is expected to move to continuation\r\ntokens, so integrators should not rely on the current offset parameters as a stable\r\ncontract. Filter by biller, status, and creation\r\ntime instead of paging deeply.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`  \n**Scope**: merchant",
         "operationId": "recurringInvoiceScheduleGetList",
         "parameters": [
           {
@@ -66514,7 +66706,7 @@
           "Merchants"
         ],
         "summary": "Processor Profile: gets a read-only, non-secret summary of a single processor profile.",
-        "description": "Backs the transaction-detail routing-decision viewer. Unlike the full read above, this never\r\ndecrypts secret field values. Requires the processor-configuration view permission.\r\nExample: `GET /api/merchants/{id}/processor-profiles/{profileId}/summary`.\r\n\n\r\n<b>This action throws where the interface returns null.</b> The app service reports an absent\r\nprofile as `null` so an in-process viewer can render a \"no longer exists\"\r\nstate; over HTTP that would be a 204 with an empty body, which reads as success. The 404 thrown\r\nhere is the published contract for the route and matches the full read above.\r\n\n\n---\n**Required permissions**: `Transactions.ProcessorConfiguration.View`  \n**Scope**: merchant",
+        "description": "Backs the transaction-detail routing-decision viewer. Unlike the full read above, this never\r\ndecrypts secret field values. Requires the processor-configuration view permission.\r\nExample: `GET /api/merchants/{id}/processor-profiles/{profileId}/summary`.\n\n---\n**Required permissions**: `Transactions.ProcessorConfiguration.View`  \n**Scope**: merchant",
         "operationId": "merchantProcessorProfileGetProcessorProfileSummary",
         "parameters": [
           {
@@ -71979,7 +72171,7 @@
           {
             "name": "MaxResultCount",
             "in": "query",
-            "description": "Maximum rows per page. The app service caps this at 100.",
+            "description": "Maximum rows per page, capped at 100.",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -72064,7 +72256,7 @@
           {
             "name": "MessageId",
             "in": "query",
-            "description": "Optional SendGrid message id (cross-partition lookup).",
+            "description": "Optional SendGrid message id.",
             "schema": {
               "type": "string"
             }
@@ -72090,7 +72282,7 @@
           {
             "name": "MerchantId",
             "in": "query",
-            "description": "Caller-requested merchant scope. Honoured only when the caller has the\r\n`EmailLog.ViewAllMerchants` permission; otherwise the app service substitutes\r\nthe operating-context merchant. Reseller-tree filtering (\"see every merchant in my\r\nreseller tree\") is intentionally not supported on this surface yet: the\r\ncross-module merchant lookup it requires is a follow-on capability.",
+            "description": "Caller-requested merchant scope. Honoured only when the caller has the\r\n`EmailLog.ViewAllMerchants` permission; otherwise the caller's own merchant is used.\r\nFiltering by reseller tree (\"see every merchant in my reseller tree\") is not supported.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -72288,7 +72480,7 @@
           {
             "name": "MerchantId",
             "in": "query",
-            "description": "Merchant scope for the check. Honoured only when the caller holds\r\n`SmsConsent.ViewAllMerchants`; otherwise the app service substitutes the operating-context\r\nmerchant.",
+            "description": "Merchant scope for the check. Honoured only when the caller holds\r\n`SmsConsent.ViewAllMerchants`; otherwise the caller's own merchant is used.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -72741,7 +72933,7 @@
           {
             "name": "MerchantId",
             "in": "query",
-            "description": "Caller-requested merchant scope. Honoured only when the caller holds\r\n`SmsConsent.ViewAllMerchants`; otherwise the app service substitutes the operating-context\r\nmerchant.",
+            "description": "Caller-requested merchant scope. Honoured only when the caller holds\r\n`SmsConsent.ViewAllMerchants`; otherwise the caller's own merchant is used.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -73138,7 +73330,7 @@
           {
             "name": "MaxResultCount",
             "in": "query",
-            "description": "Maximum rows per page. The app service caps this at 100.",
+            "description": "Maximum rows per page, capped at 100.",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -73220,7 +73412,7 @@
           {
             "name": "MerchantId",
             "in": "query",
-            "description": "Caller-requested merchant scope. Honoured only when the caller holds\r\n`SmsLog.ViewAllMerchants`; otherwise the app service substitutes the operating-context\r\nmerchant.",
+            "description": "Caller-requested merchant scope. Honoured only when the caller holds\r\n`SmsLog.ViewAllMerchants`; otherwise the caller's own merchant is used.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -87445,7 +87637,7 @@
           {
             "name": "ContinuationToken",
             "in": "query",
-            "description": "Cosmos continuation token for the next page.",
+            "description": "Continuation token for the next page, as returned by the previous page.",
             "schema": {
               "type": "string"
             }
@@ -89199,7 +89391,7 @@
           {
             "name": "ContinuationToken",
             "in": "query",
-            "description": "Cosmos continuation token for the next page.",
+            "description": "Continuation token for the next page, as returned by the previous page.",
             "schema": {
               "type": "string"
             }
@@ -91535,7 +91727,7 @@
           {
             "name": "ContinuationToken",
             "in": "query",
-            "description": "Cosmos continuation token for the next page.",
+            "description": "Continuation token for the next page, as returned by the previous page.",
             "schema": {
               "type": "string"
             }
@@ -91858,7 +92050,7 @@
           {
             "name": "ContinuationToken",
             "in": "query",
-            "description": "Cosmos continuation token for the next page.",
+            "description": "Continuation token for the next page, as returned by the previous page.",
             "schema": {
               "type": "string"
             }
@@ -112569,7 +112761,7 @@
           {
             "name": "MerchantId",
             "in": "query",
-            "description": "Optional server-side filter on the owning merchant. When set, only transactions whose\r\n`MerchantId` equals this value are returned, and `totalCount` reflects that same\r\nfiltered set rather than the whole estate. `MerchantId` is the Cosmos partition key for\r\ntransactions, so a merchant-scoped request is a single-partition query rather than a\r\ncross-partition scan.\r\n\n\r\nThis narrows within the caller's existing access scope and never widens it: a merchant the\r\ncaller cannot see yields an empty page rather than a leak. `null` leaves the result\r\nunfiltered by merchant. Mirrors `GetTransactionContinuationInput.MerchantId` on the\r\ncontinuation list path.\r\n",
+            "description": "Optional server-side filter on the owning merchant. When set, only transactions whose\r\n`MerchantId` equals this value are returned, and `totalCount` reflects that same\r\nfiltered set rather than the whole estate. A merchant-scoped request is cheaper and faster\r\nthan an unscoped one.\r\n\n\r\nThis narrows within the caller's existing access scope and never widens it: a merchant the\r\ncaller cannot see yields an empty page rather than a leak. `null` leaves the result\r\nunfiltered by merchant. Mirrors `GetTransactionContinuationInput.MerchantId` on the\r\ncontinuation list path.\r\n",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -117013,13 +117205,13 @@
           "Transactions"
         ],
         "summary": "Execute a follow-up operation on an existing transaction.",
-        "description": "<b>The token is accepted and not passed on, on purpose.</b> Before the interface existed this\r\naction took no token and the app service therefore ran with `CancellationToken.None`;\r\nforwarding the request-abort token instead would newly let a client disconnect cancel a\r\nmoney-moving operation mid-flight. The operation-idempotency machinery claims a key, dispatches\r\nto the orchestrator, then finalizes or releases, and releasing a claim whose operation was\r\nalready dispatched is a duplicate-charge hazard, so a cancellation landing between the claim\r\nand the dispatch is a new way into exactly the window that contract guards. Honouring the\r\ntoken is a deliberate behaviour change that belongs in its own story with its own analysis of\r\nthat window; this one only makes the endpoint proxy-reachable. Passing\r\n`None` explicitly keeps the pre-change behaviour byte for byte.",
+        "description": "A client disconnect does not cancel an operation once the request has been received.",
         "operationId": "transactionOperationsExecuteOperation",
         "parameters": [
           {
             "name": "merchantId",
             "in": "path",
-            "description": "Partition key of the parent transaction. Required so the parent\r\nlookup is a Cosmos point read instead of a cross-partition query.",
+            "description": "The merchant that owns the parent transaction. Required so the parent transaction is read\r\ndirectly rather than searched for.",
             "required": true,
             "schema": {
               "type": "string",
@@ -117229,7 +117421,7 @@
           "Transactions"
         ],
         "summary": "Legacy single-id route retained for backward compatibility.",
-        "description": "Resolves `MerchantId` via a cross-partition lookup, then forwards to the merchant-scoped path. New callers should target the merchant-scoped route directly. The `Deprecation` response header lets client telemetry pick up traffic on this route during the migration.",
+        "description": "Looks up the transaction's `MerchantId` first, then forwards to the merchant-scoped path. New callers should target the merchant-scoped route directly, which reads the transaction without that lookup. The `Deprecation` response header lets client telemetry pick up traffic on this route during the migration.",
         "operationId": "transactionOperationsExecuteOperationLegacy",
         "parameters": [
           {
@@ -120135,7 +120327,7 @@
           "Usage"
         ],
         "summary": "Get a paged dimensional rollup for a SKU.",
-        "description": "E.g. transactions by Processor or Network. Uses continuation-token paging:\r\nhigh-cardinality dimensions like card BIN or country would otherwise materialize\r\nan unbounded list and spike RU/memory.\n\n---\n**Required permissions**: `Usage.Reports`  \n**Scope**: merchant",
+        "description": "E.g. transactions by Processor or Network. Uses continuation-token paging, because\r\nhigh-cardinality dimensions like card BIN or country can return a very long list.\n\n---\n**Required permissions**: `Usage.Reports`  \n**Scope**: merchant",
         "operationId": "usageReportingGetDimensionalSummary",
         "parameters": [
           {
@@ -132504,7 +132696,7 @@
         "description": "Identifies the accounting system that an accounting sync record targets.",
         "x-enumDescriptions": [
           "No provider. Used for a Skipped record where no provider was involved.",
-          "Synthetic in-process provider that exercises the sync seam without an external API.",
+          "Synthetic test provider that runs a sync without calling an external accounting system.",
           "QuickBooks Online (implementation tracked separately).",
           "Xero (implementation tracked separately)."
         ]
@@ -132908,7 +133100,7 @@
         "description": "Per-processor advertised support for the two adjustment-shaped follow-up operations\r\nagainst an authorized transaction. A processor may legitimately support either, both,\r\nor neither. It is modeled as a [Flags] enum so capability contributors compose cleanly and\r\ncallers can ask \"does this processor support `X`\" with a single `HasFlag`. Values combine: send one or more member names separated by a comma and a space, or the integer sum of their values. Responses carry the names.",
         "x-flags": true,
         "x-enumDescriptions": [
-          "Processor advertises no adjustment support. Both OfflineAdjustment and IncrementalAuthorization requests are rejected at the AppService boundary.",
+          "Processor advertises no adjustment support. Both OfflineAdjustment and IncrementalAuthorization requests are rejected.",
           "Processor accepts TransactionOperationType.OfflineAdjustment: pre-settlement edits to the stored settlement record (tip, tax, level-3, AVS) with no network call. Modeled by OfflineAdjustmentFlowRunner.",
           "Processor accepts TransactionOperationType.IncrementalAuthorization: an online amount-bumping auth on top of the existing approved hold (Visa Estimated/Incremental, MasterCard PreAuth+Final, Discover Incremental). Modeled by IncrementalAuthorizationFlowRunner."
         ]
@@ -136755,32 +136947,32 @@
           },
           "hasEmvData": {
             "type": "boolean",
-            "description": "Indicates whether EMV data was provided in the original request.\r\nThe raw `EmvData` value is not persisted to Cosmos.",
+            "description": "Indicates whether EMV data was provided in the original request.\r\nThe raw `EmvData` value is not stored.",
             "nullable": true
           },
           "hasTrackData": {
             "type": "boolean",
-            "description": "Indicates whether track data was provided in the original request.\r\nThe raw `TrackData` value is not persisted to Cosmos.",
+            "description": "Indicates whether track data was provided in the original request.\r\nThe raw `TrackData` value is not stored.",
             "nullable": true
           },
           "hasEncryptedTrackData": {
             "type": "boolean",
-            "description": "Indicates whether any encrypted track data (track 1, 2, or 3) was provided in the original request.\r\nThe raw encrypted track values are not persisted to Cosmos.",
+            "description": "Indicates whether any encrypted track data (track 1, 2, or 3) was provided in the original request.\r\nThe raw encrypted track values are not stored.",
             "nullable": true
           },
           "hasCvv": {
             "type": "boolean",
-            "description": "Indicates whether a CVV was provided in the original request.\r\nThe raw `Cvv` value is not persisted to Cosmos.",
+            "description": "Indicates whether a CVV was provided in the original request.\r\nThe raw `Cvv` value is not stored.",
             "nullable": true
           },
           "hasPin": {
             "type": "boolean",
-            "description": "Indicates whether a PIN was provided in the original request.\r\nThe raw `Pin` value is not persisted to Cosmos.",
+            "description": "Indicates whether a PIN was provided in the original request.\r\nThe raw `Pin` value is not stored.",
             "nullable": true
           },
           "hasDynamicCardVerificationData": {
             "type": "boolean",
-            "description": "Indicates whether reader-generated dynamic card verification data was provided in the\r\noriginal request. The raw `DynamicCardVerificationData` value is not\r\npersisted to Cosmos.",
+            "description": "Indicates whether reader-generated dynamic card verification data was provided in the\r\noriginal request. The raw `DynamicCardVerificationData` value is not stored.",
             "nullable": true
           },
           "emvAid": {
@@ -136817,7 +137009,7 @@
           },
           "isTokenized": {
             "type": "boolean",
-            "description": "Indicates the credential is a tokenized account number (DPAN / network\r\ntoken) rather than a raw PAN. Nullable for the CDB001 Cosmos baseline:\r\nlegacy documents without the field read as `null` (\"unknown\"),\r\nwhich downstream code treats the same as not-tokenized.",
+            "description": "Indicates the credential is a tokenized account number (DPAN / network\r\ntoken) rather than a raw PAN. `null` means unknown, which is treated the same as not\r\ntokenized.",
             "nullable": true
           },
           "tokenTransactionId": {
@@ -137083,7 +137275,7 @@
         "x-enumDescriptions": [
           "A line item's quantity is null, zero, or negative. Enhanced rates need a positive quantity.",
           "A line item's unit price is null, zero, or negative. Enhanced rates need a positive unit cost.",
-          "A line item's total does not reconcile with quantity, unit price, discount, and line tax within a penny. See LineTotalToleranceAmount.",
+          "A line item's total does not reconcile with quantity, unit price, discount, and line tax within a penny.",
           "A line item's description is null, blank, or all zeros.",
           "A line item's product code is null, blank, or all zeros.",
           "A line item's commodity code is null, blank, or all zeros.",
@@ -137093,10 +137285,10 @@
           "No customer reference of any kind was supplied: purchase order, order number, and invoice number are all blank or placeholder.",
           "Level 3 header data was supplied with no line items, so the row settles on the Level 2 path and cannot reach a Level 3 rate.",
           "The merchant supplied Level 3 data, but the addendum was deliberately withheld because the values that would have gone on the wire were incomplete. The processor sends no fabricated filler in their place, so the row settles at the fallback level for its card brand instead.",
-          "A line item's unit of measure is present but is not a code in the shared UnitOfMeasureCodes catalog: each or units where the programs expect EA. Compared case-insensitively after trimming, so ea is recognized.",
+          "A line item's unit of measure is present but is not a recognized unit-of-measure code: each or units where the programs expect EA. Compared case-insensitively after trimming, so ea is recognized.",
           "A line item's quantity was submitted with a fractional part, and the addendum carries only the whole-number part of it.",
           "A line item's description is the merchant's own name. Acquirer guidance treats a line that names the seller instead of what was sold as a placeholder, the same as a blank.",
-          "A line item's description is a single generic word that says nothing about the item, such as Service, Product, Item or Misc. The list is deliberately short and is on GenericDescriptions.",
+          "A line item's description is a single generic word that says nothing about the item, such as Service, Product, Item or Misc. The list of generic words is deliberately short.",
           "A line item's description or product code is a single character once trimmed. One character cannot describe or identify anything, and acquirer guidance reads it as filler typed to get past a required field.",
           "A pipe character (|) is present in a line item's description, product code, commodity code or unit of measure, or in the purchase order, order number or invoice number. A pipe is a field delimiter in the formats enhanced data is exchanged in, and its presence usually means several values were concatenated into one field."
         ]
@@ -137851,7 +138043,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -137888,7 +138080,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -137925,7 +138117,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -137962,7 +138154,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -137999,7 +138191,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138036,7 +138228,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138073,7 +138265,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138110,7 +138302,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138147,7 +138339,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138184,7 +138376,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138221,7 +138413,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138258,7 +138450,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138295,7 +138487,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138332,7 +138524,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138369,7 +138561,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138406,7 +138598,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138443,7 +138635,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138480,7 +138672,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138517,7 +138709,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138554,7 +138746,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138591,7 +138783,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138628,7 +138820,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138665,7 +138857,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138702,7 +138894,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138739,7 +138931,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138776,7 +138968,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138813,7 +139005,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138850,7 +139042,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138887,7 +139079,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138924,7 +139116,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138961,7 +139153,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -138998,7 +139190,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -139035,7 +139227,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -139072,7 +139264,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -139109,7 +139301,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -139146,7 +139338,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -139183,7 +139375,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -139220,7 +139412,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -139257,7 +139449,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -139294,7 +139486,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -139331,7 +139523,7 @@
           },
           "approxTotalCount": {
             "type": "integer",
-            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated.\r\n\r\n\n\r\nCosmos DB does not provide exact counts efficiently when using continuation tokens,\r\nso this value should be treated as an approximation \r\n",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
             "format": "int64",
             "nullable": true
           },
@@ -139502,7 +139694,7 @@
           },
           "concurrencyStamp": {
             "type": "string",
-            "description": "Optimistic-concurrency stamp for the embedded contract. Contracts live inside\r\nthe Customer aggregate document, so they carry no per-contract Cosmos ETag; this stamp lets\r\nthe Contract API enforce per-contract optimistic concurrency independently of the parent\r\ndocument. Nullable because documents created before this field carry no stamp: a null stamp\r\nmeans \"no concurrency check\" until the contract is next updated, which stamps it going forward.",
+            "description": "Optimistic-concurrency stamp for the contract, checked independently of the customer that\r\nholds it. A null stamp means \"no concurrency check\" until the contract is next updated, which\r\nstamps it going forward.",
             "nullable": true
           }
         },
@@ -140724,7 +140916,7 @@
           },
           "nextScheduledRun": {
             "type": "string",
-            "description": "The next computed billing date. Persisted after each billing run to avoid\r\nre-expanding the full recurrence series every cycle. Enables efficient Cosmos queries\r\n(filter at DB level: `contract.Schedule.NextScheduledRun <= now`).\r\nNull for contracts that have never been scheduled or have ended.",
+            "description": "The next computed billing date, updated after each billing run. Null for contracts that\r\nhave never been scheduled or have ended.",
             "format": "date-time",
             "nullable": true
           },
@@ -142724,7 +142916,7 @@
           },
           "merchantId": {
             "type": "string",
-            "description": "WinkPG internal merchant aggregate id: the merchant the shopper is checking\r\nout on. The server reads this merchant's `DigitalWallets[]` to resolve\r\nwhich `WalletProviderRegistration` row to use; the resolution may land\r\non a platform-level row (merchant inherits) or a merchant-level row\r\n(merchant brought its own integrator), depending entirely on what the\r\nmerchant has bound.",
+            "description": "Identifier of the merchant the shopper is checking out with. The server reads this merchant's `DigitalWallets[]` to resolve\r\nwhich `WalletProviderRegistration` row to use; the resolution may land\r\non a platform-level row (merchant inherits) or a merchant-level row\r\n(merchant brought its own integrator), depending entirely on what the\r\nmerchant has bound.",
             "format": "uuid"
           },
           "validationUrl": {
@@ -143954,7 +144146,7 @@
           },
           "customName": {
             "type": "string",
-            "description": "Optional user-defined name for this stored payment method (e.g., \"Marriott Chase\",\r\n\"Bank of America Checkcard\"). When set, takes priority over the computed display name.\r\nNullable for Cosmos backward compatibility: existing documents won't have this field.",
+            "description": "Optional user-defined name for this stored payment method (e.g., \"Marriott Chase\",\r\n\"Bank of America Checkcard\"). When set, takes priority over the computed display name.",
             "nullable": true
           },
           "initialSchemeTransactionId": {
@@ -144368,7 +144560,7 @@
           "AuthRejection"
         ],
         "type": "string",
-        "description": "Why a notification destination endpoint was durably suppressed. Distinct from the transient,\r\nin-memory `DestinationCircuitBreaker`: a suppression persists to Cosmos and survives an\r\napp restart, mirroring a SendGrid-style suppression list.",
+        "description": "Why a notification destination endpoint was durably suppressed. A suppression is stored, like a\r\nSendGrid-style suppression list, and stays in effect until it expires or is cleared.",
         "x-enumDescriptions": [
           "The endpoint failed the configured number of sustained consecutive delivery attempts.",
           "The endpoint returned a permanent (non-retryable) HTTP client error (a 4xx other than 401 / 403 / 408 / 429), signalling the request is wrong-by-construction (URL gone, payload refused) and will keep failing the same way on retry.",
@@ -144463,7 +144655,7 @@
           "Azure Service Bus Queue message delivery.",
           "In-app notification delivered in-process to connected clients on this instance. Suitable for real-time UI notifications (dropdown, popup, badge).",
           "Slack message delivery via Block Kit-formatted channel messages. Supports per-destination bot tokens for multi-workspace routing.",
-          "SMS text message delivery to a single recipient phone number via the platform SMS sender. Send-time opt-out compliance is enforced at the sender seam, so an opted-out recipient is blocked before the carrier is contacted."
+          "SMS text message delivery to a single recipient phone number via the platform SMS sender. Opt-out compliance is enforced at send time, so an opted-out recipient is blocked before the carrier is contacted."
         ]
       },
       "DestinationTypeMetadataDto": {
@@ -146009,7 +146201,7 @@
           },
           "network": {
             "type": "string",
-            "description": "The card network the notice covers; null for an all-network notice.\nConditional: When Network > 0. Max length: 64.",
+            "description": "The card network the notice covers; null for an all-network notice. When set, it must be one of\r\nthese spellings: Visa; Mastercard, Master Card or MC; Discover; Amex or American Express; JCB;\r\nDiners, Diners Club or Diners Club International; UnionPay, Union Pay, China Union Pay,\r\nChina UnionPay or CUP; Interac. Case and surrounding spaces are ignored, and the name is stored\r\nand returned as sent.\nConditional: When Network > 0. Max length: 64.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -146204,12 +146396,12 @@
             "$ref": "#/components/schemas/DataFilterOperator"
           },
           "value": {
-            "description": "The value the rule compares against, coerced to the target column's type when the predicate is\r\nbuilt. Declared `object?` so one rule shape serves every column type.\r\n\n\r\n`FilterValueJsonConverter` normalizes this to a CLR primitive while reading JSON.\r\nWithout it, System.Text.Json boxes a `JsonElement` here for every HTTP caller, and each\r\nconsumer downstream (the Cosmos expression builder, the Transactions virtual-field rewriters)\r\nsilently dropped the rule.\r\n",
+            "description": "The value the rule compares against, coerced to the target column's type when the predicate is\r\nbuilt. Declared `object?` so one rule shape serves every column type.",
             "nullable": true
           },
           "caseInsensitive": {
             "type": "boolean",
-            "description": "When true, string comparison operators (Equals, StartsWith, Contains, EndsWith)\r\napply `ToLower()` to both property and value before comparing.\r\nCosmos DB string comparisons are case-sensitive by default; this translates\r\nto the `LOWER()` SQL function which is indexable."
+            "description": "When true, string comparison operators (Equals, StartsWith, Contains, EndsWith)\r\ncompare case-insensitively. String comparisons are case-sensitive by default."
           }
         },
         "additionalProperties": false
@@ -146617,7 +146809,7 @@
         "properties": {
           "merchantId": {
             "type": "string",
-            "description": "Scope to a single merchant, which is also the container's partition key.",
+            "description": "Scope to a single merchant. A merchant-scoped request is cheaper and faster than an unscoped one.",
             "format": "uuid",
             "nullable": true
           },
@@ -146695,7 +146887,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Continuation-token paged input for the campaign list. Cosmos list paths page by continuation\r\ntoken rather than skip and take, which charges request units for every skipped row."
+        "description": "Continuation-token paged input for the campaign list. Page forward by passing back the\r\ncontinuation token from the previous page."
       },
       "GetContractContinuationInput": {
         "type": "object",
@@ -146771,7 +146963,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Input parameters for querying contracts using Cosmos DB continuation-token-based pagination.\r\nSupports filtering by customer, creation/modification time ranges, and active/deleted status."
+        "description": "Input parameters for querying contracts using continuation-token-based pagination.\r\nSupports filtering by customer, creation/modification time ranges, and active/deleted status."
       },
       "GetContractPlanContinuationInput": {
         "type": "object",
@@ -146802,7 +146994,7 @@
           },
           "continuationToken": {
             "type": "string",
-            "description": "Cosmos continuation token for the next page.",
+            "description": "Continuation token for the next page, as returned by the previous page.",
             "nullable": true
           },
           "sorting": {
@@ -146852,7 +147044,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Continuation-token paged input for the plan catalog grid. This is the real read path: Cosmos\r\ncharges RU per skipped row, so the grid pages forward through tokens rather than offsets."
+        "description": "Continuation-token paged input for the plan catalog list. Page forward by passing back the\r\ncontinuation token from the previous page."
       },
       "GetCustomerContinuationInput": {
         "type": "object",
@@ -146928,7 +147120,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Input parameters for querying customers using Cosmos DB continuation-token-based pagination.\r\nSupports filtering by merchant, creation/modification time ranges, and active/deleted status."
+        "description": "Input parameters for querying customers using continuation-token-based pagination.\r\nSupports filtering by merchant, creation/modification time ranges, and active/deleted status."
       },
       "GetDeveloperAccountContinuationInput": {
         "type": "object",
@@ -147221,7 +147413,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Input for the plan-side assignments query: the merchants whose\r\n`BillingAssignment.PricePlanId` equals `PricePlanId` within a single\r\nreseller partition. Continuation-token paged (Cosmos). Backs the plan-side Assignments tab."
+        "description": "Input for the plan-side assignments query: the merchants whose\r\n`BillingAssignment.PricePlanId` equals `PricePlanId` within a single\r\nreseller. Continuation-token paged. Backs the plan-side Assignments tab."
       },
       "GetMerchantsContinuationInput": {
         "type": "object",
@@ -147501,7 +147693,7 @@
         "properties": {
           "merchantId": {
             "type": "string",
-            "description": "Scope to a single merchant, which is also the container's partition key.",
+            "description": "Scope to a single merchant. A merchant-scoped request is cheaper and faster than an unscoped one.",
             "format": "uuid",
             "nullable": true
           },
@@ -147584,7 +147776,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Continuation-token paged input for the promotion list. Cosmos list paths page by continuation\r\ntoken rather than skip and take, which charges request units for every skipped row."
+        "description": "Continuation-token paged input for the promotion list. Page forward by passing back the\r\ncontinuation token from the previous page."
       },
       "GetResellerContinuationInput": {
         "type": "object",
@@ -147728,7 +147920,7 @@
         "properties": {
           "merchantId": {
             "type": "string",
-            "description": "Scope to a single WinkPG merchant aggregate id.",
+            "description": "Scope to a single merchant.",
             "format": "uuid",
             "nullable": true
           },
@@ -147808,7 +148000,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Continuation-token paged input for the wallet-provider-registration CRUD list.\r\nMirrors `GetResellerContinuationInput`: implements every continuation\r\ncontract (`IContinuationPagedRequest`,\r\n`IContinuationSortedRequest`,\r\n`IContinuationFilteredRequest`) plus the project's standard\r\ntime-range filter interfaces. The base `WinkPGContinuedListAppServiceBase`\r\nauto-builds an expression from any non-null typed property declared on this\r\nshape (provider type, level, status, etc.) so per-property bridging is not\r\nneeded in the AppService."
+        "description": "Continuation-token paged input for the wallet-provider-registration list. Every non-null\r\ntyped filter (provider type, level, status, and so on) narrows the results."
       },
       "HostedPageCustomText": {
         "type": "object",
@@ -148028,7 +148220,7 @@
           },
           "achWebAuthorizationText": {
             "type": "string",
-            "description": "Optional per-page override for the NACHA WEB single-debit ACH authorization wording shown on\r\nthe ACH consent checkbox. Blank/unset renders the platform default. Supports the\r\n`{MerchantName}` placeholder, substituted with the merchant's display name at render.\r\nWhen set it is captured verbatim (with a content version hash) on each resulting ACH WEB\r\ndebit, so custom language a merchant's bank/ODFI approved becomes the recorded authorization.\r\nThe save-time validator guarantees a configured override never renders blank, so the\r\nsubmit-time fail-closed gate is never reached with a blank override. Nullable (outside the\r\nCosmos CDB001 baseline) so existing documents deserialize unchanged.\nConditional: When AchWebAuthorizationText is not empty. Max length: 2000.",
+            "description": "Optional per-page override for the NACHA WEB single-debit ACH authorization wording shown on\r\nthe ACH consent checkbox. Blank/unset renders the platform default. Supports the\r\n`{MerchantName}` placeholder, substituted with the merchant's display name at render.\r\nWhen set it is captured verbatim (with a content version hash) on each resulting ACH WEB\r\ndebit, so custom language a merchant's bank/ODFI approved becomes the recorded authorization.\r\nThe save-time validator guarantees a configured override never renders blank, so the\r\nsubmit-time fail-closed gate is never reached with a blank override.\nConditional: When AchWebAuthorizationText is not empty. Max length: 2000.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -148053,7 +148245,7 @@
           },
           "achRecurringWebAuthorizationText": {
             "type": "string",
-            "description": "Optional per-page override for the NACHA WEB <b>recurring</b> ACH authorization wording shown on\r\nthe ACH consent checkbox of a Save-Card-with-Initial-Charge page. Blank/unset renders the\r\nplatform default recurring language. Supports the `{MerchantName}` placeholder and the\r\n`{RecurringSchedule}` placeholder (substituted with the plan's schedule summary at render).\r\nUsed only when the ACH debit establishes a recurring arrangement; a one-off ACH debit uses\r\n`AchWebAuthorizationText`. Captured verbatim (with a content version hash) on the\r\nresulting initial ACH WEB debit. Nullable (outside the Cosmos CDB001 baseline) so existing\r\ndocuments deserialize unchanged.\nConditional: When AchRecurringWebAuthorizationText is not empty. Max length: 2000.",
+            "description": "Optional per-page override for the NACHA WEB <b>recurring</b> ACH authorization wording shown on\r\nthe ACH consent checkbox of a Save-Card-with-Initial-Charge page. Blank/unset renders the\r\nplatform default recurring language. Supports the `{MerchantName}` placeholder and the\r\n`{RecurringSchedule}` placeholder (substituted with the plan's schedule summary at render).\r\nUsed only when the ACH debit establishes a recurring arrangement; a one-off ACH debit uses\r\n`AchWebAuthorizationText`. Captured verbatim (with a content version hash) on the\r\nresulting initial ACH WEB debit.\nConditional: When AchRecurringWebAuthorizationText is not empty. Max length: 2000.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -148082,7 +148274,7 @@
           },
           "achSaveOnlyWebAuthorizationText": {
             "type": "string",
-            "description": "Optional per-page override for the NACHA <b>save-only</b> (storage) ACH authorization wording\r\nshown on the ACH consent checkbox of a store-bank-account-no-charge page. Blank/unset renders\r\nthe platform default save-only language. Supports the `{MerchantName}` placeholder,\r\nsubstituted with the merchant's display name at render. Used only when the account is stored\r\nwithout any debit being taken now; a one-off debit uses `AchWebAuthorizationText`\r\nand an initial-charge recurring arrangement uses `AchRecurringWebAuthorizationText`.\r\nCaptured verbatim (with a content version hash) on the resulting save. Nullable (outside the\r\nCosmos CDB001 baseline) so existing documents deserialize unchanged.\nConditional: When AchSaveOnlyWebAuthorizationText is not empty. Max length: 2000.",
+            "description": "Optional per-page override for the NACHA <b>save-only</b> (storage) ACH authorization wording\r\nshown on the ACH consent checkbox of a store-bank-account-no-charge page. Blank/unset renders\r\nthe platform default save-only language. Supports the `{MerchantName}` placeholder,\r\nsubstituted with the merchant's display name at render. Used only when the account is stored\r\nwithout any debit being taken now; a one-off debit uses `AchWebAuthorizationText`\r\nand an initial-charge recurring arrangement uses `AchRecurringWebAuthorizationText`.\r\nCaptured verbatim (with a content version hash) on the resulting save.\nConditional: When AchSaveOnlyWebAuthorizationText is not empty. Max length: 2000.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -148333,7 +148525,7 @@
                 "$ref": "#/components/schemas/HppFieldVisibility"
               }
             ],
-            "description": "Gets or sets the visibility of the tip amount field. Nullable for Cosmos baseline\r\ncompatibility: existing documents written before this property existed deserialize\r\nto `null`, which every consumer treats as `Hidden`.",
+            "description": "Gets or sets the visibility of the tip amount field. `null` is treated as\r\n`Hidden`.",
             "nullable": true
           },
           "shippingAmountMode": {
@@ -148342,7 +148534,7 @@
                 "$ref": "#/components/schemas/HppShippingAmountMode"
               }
             ],
-            "description": "Gets or sets where this page's shipping amount comes from. Nullable for Cosmos baseline\r\ncompatibility: existing documents written before this property existed deserialize to\r\n`null`, which every consumer treats as\r\n`CardholderEntered`.",
+            "description": "Gets or sets where this page's shipping amount comes from. `null` is treated as\r\n`CardholderEntered`.",
             "nullable": true
           },
           "flatShippingAmount": {
@@ -148356,7 +148548,7 @@
             "items": {
               "$ref": "#/components/schemas/HppPanelDefinition"
             },
-            "description": "Optional explicit panel ordering/sizing for the public form. Nullable for Cosmos\r\nbaseline compatibility: existing documents written before this property existed\r\ndeserialize to `null`, in which case the renderer falls back to\r\n`Default` (which reproduces the historical layout).",
+            "description": "Optional explicit panel ordering and sizing for the public form. When `null`, the page\r\nuses the default panel layout.",
             "nullable": true
           }
         },
@@ -149430,7 +149622,7 @@
                 "$ref": "#/components/schemas/HppPagePurpose"
               }
             ],
-            "description": "Instance-level page purpose. `null` resolves to `Payment`\r\nfor Cosmos backward compatibility. `SaveCard` dedicates the page\r\nto capturing and storing the customer's card via a zero-dollar verification (no charge);\r\namount-bearing configuration is hidden in the builder and rejected by the validator, and\r\nsessions created against the page inherit the save-card flow.",
+            "description": "Instance-level page purpose. `null` resolves to `Payment`.\r\n`SaveCard` dedicates the page\r\nto capturing and storing the customer's card via a zero-dollar verification (no charge);\r\namount-bearing configuration is hidden in the builder and rejected by the validator, and\r\nsessions created against the page inherit the save-card flow.",
             "nullable": true
           },
           "recurringPlan": {
@@ -149447,12 +149639,12 @@
                 "$ref": "#/components/schemas/HppCaptureMode"
               }
             ],
-            "description": "Capture timing for the chargeable Payment flow. `null` resolves to\r\n`Sale` for Cosmos backward compatibility.\r\n`Authorize` produces an Authorization with capture deferred.",
+            "description": "Capture timing for the chargeable Payment flow. `null` resolves to\r\n`Sale`.\r\n`Authorize` produces an Authorization with capture deferred.",
             "nullable": true
           },
           "allowTransparentEmbedding": {
             "type": "boolean",
-            "description": "Opt-in to a see-through backdrop when the page is rendered inside a merchant iframe.\r\n`null`/`false` keeps the page opaque (the default, and what legacy Cosmos documents\r\nread as). Honoured only when the request is genuinely framed and\r\n`AllowedEmbeddingDomains` is configured.",
+            "description": "Opt-in to a see-through backdrop when the page is rendered inside a merchant iframe.\r\n`null`/`false` keeps the page opaque (the default). Honoured only when the request is genuinely framed and\r\n`AllowedEmbeddingDomains` is configured.",
             "nullable": true
           },
           "hideTitle": {
@@ -151003,7 +151195,7 @@
           },
           "timeToLive": {
             "type": "integer",
-            "description": "Cosmos document TTL in seconds, or `null` for a permanent link, which carries none.",
+            "description": "The session's lifetime in seconds, as the caller asked for it; it decides when the session\r\nexpires. `null` for a permanent link, which has no lifetime.",
             "format": "int32",
             "nullable": true
           },
@@ -152517,7 +152709,7 @@
           },
           "isEmpty": {
             "type": "boolean",
-            "description": "`true` when the bundle carries no actionable information. An\r\nincremental authorization with a non-positive increment has nothing to ask the\r\nbrand for and is a caller error: the AppService precondition rejects this shape\r\nbefore any orchestration round-trip is dispatched.",
+            "description": "`true` when the bundle carries no actionable information. An\r\nincremental authorization with a non-positive increment has nothing to ask the\r\nbrand for and is a caller error, rejected before anything is sent to the processor.",
             "readOnly": true
           }
         },
@@ -152648,7 +152840,8 @@
           "InstallmentCollected",
           "InstallmentCollectionFailed",
           "PaymentPlanCancelled",
-          "PaymentIndeterminate"
+          "PaymentIndeterminate",
+          "PaymentLinkReissued"
         ],
         "type": "string",
         "description": "Classifies entries in the invoice activity timeline.",
@@ -152674,7 +152867,8 @@
           "An installment was collected (manually recorded or auto-charged).",
           "An automatic installment collection attempt failed (declined).",
           "The payment plan was cancelled before all installments were collected.",
-          "A payment attempt came back with a result the invoice cannot act on (a referral, a pending or submitted authorization, a partial approval, or an unrecognized status). Nothing was credited. Appended last: the numeric value is stored on the activity row and must never be renumbered."
+          "A payment attempt came back with a result the invoice cannot act on (a referral, a pending or submitted authorization, a partial approval, or an unrecognized status). Nothing was credited. Appended last: the numeric value is stored on the activity row and must never be renumbered.",
+          "An operator replaced the payment link with a fresh one without notifying the recipient. The previous link stopped working. Appended last: the numeric value is stored on the activity row and must never be renumbered."
         ]
       },
       "InvoiceAgingBucket": {
@@ -153095,7 +153289,7 @@
           },
           "applyConvenienceFee": {
             "type": "boolean",
-            "description": "Per-invoice override of the merchant's convenience fee on this invoice's payments:\r\n`true` applies it, `false` suppresses it, and `null` (the default, and the\r\nbehaviour of any payload that omits the field) inherits the merchant and feature decision.\r\nAn override can suppress a fee but can never create one: a merchant with no convenience-fee\r\nconfiguration charges nothing regardless, and the platform's compliance rules still govern\r\nwhether the resulting transaction keeps the fee.",
+            "description": "Per-invoice override of the merchant's convenience fee on this invoice's payments:\r\n`true` applies it, `false` suppresses it, and `null` (the default, and the\r\nbehaviour of any payload that omits the field) inherits the merchant and feature decision.\r\nAn override can suppress a fee but can never create one: `true` applies the fee only\r\nwhen invoice convenience fees are enabled for the tenant and the merchant has a\r\nconvenience-fee configuration, and the platform's compliance rules still govern whether the\r\nresulting transaction keeps the fee.",
             "nullable": true
           },
           "hppPageId": {
@@ -153873,7 +154067,7 @@
           },
           "applyConvenienceFee": {
             "type": "boolean",
-            "description": "Per-invoice override of the merchant's convenience fee on this invoice's payments.\r\n`null` inherits the merchant and feature decision.",
+            "description": "Per-invoice override of the merchant's convenience fee on this invoice's payments.\r\n`null` inherits the merchant and feature decision. `true` applies the fee only\r\nwhen invoice convenience fees are enabled for the tenant.",
             "nullable": true
           },
           "depositRequest": {
@@ -154736,10 +154930,48 @@
             "type": "string",
             "description": "ISO 4217 currency code of `AmountDue`.",
             "nullable": true
+          },
+          "linkState": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InvoicePaymentLinkState"
+              }
+            ],
+            "description": "Whether the link still opens the payment page. `Spent`\r\nand `Revoked` come from the payment session behind the\r\nlink; when that session cannot be read, the state falls back to\r\n`Live` or `Expired`\r\nfrom `ExpiresAt` alone. `None` exactly when\r\n`HasPaymentLink` is `false`."
+          },
+          "remainingDeclineRetries": {
+            "type": "integer",
+            "description": "How many more declined payment attempts the link can absorb and still reopen for the payer.\r\nNull when the link does not reopen after a decline, or when the payment session could not be\r\nread.",
+            "format": "int32",
+            "nullable": true
+          },
+          "lastAttemptAt": {
+            "type": "string",
+            "description": "When a payer last attempted a payment on the link: the attempt that spent it, or the most\r\nrecent declined attempt the link reopened after. Null when no attempt is recorded, or when\r\nthe payment session could not be read.",
+            "format": "date-time",
+            "nullable": true
           }
         },
         "additionalProperties": false,
         "description": "The operator-facing view of an invoice's pay-by-link state: the absolute hosted-payment-page\r\nURL a payer can be handed, when it lapses, and the QR code that encodes it."
+      },
+      "InvoicePaymentLinkState": {
+        "enum": [
+          "None",
+          "Live",
+          "Expired",
+          "Spent",
+          "Revoked"
+        ],
+        "type": "string",
+        "description": "Whether an invoice's payment link still opens the payment page, as reported by\r\n`LinkState`.",
+        "x-enumDescriptions": [
+          "The invoice carries no payment link.",
+          "The link opens the payment page and accepts a payment.",
+          "The link's expiry has passed, so it no longer opens the payment page.",
+          "A payer's attempt used the link up. It no longer opens the payment page. A referral, a pending or submitted authorization and a partial approval always spend the link, because money may already have moved; a decline spends it once its retries run out, or at once when the link does not reopen after a decline.",
+          "The link was withdrawn (revoked or cancelled) and no longer opens the payment page."
+        ]
       },
       "InvoicePaymentPlanDto": {
         "type": "object",
@@ -156536,7 +156768,7 @@
           },
           "applyConvenienceFee": {
             "type": "boolean",
-            "description": "Per-invoice override of the merchant's convenience fee on this invoice's payments:\r\n`true` applies it, `false` suppresses it, and `null` (the default, and the\r\nbehaviour of any payload that omits the field) inherits the merchant and feature decision.\r\nAn override can suppress a fee but can never create one: a merchant with no convenience-fee\r\nconfiguration charges nothing regardless, and the platform's compliance rules still govern\r\nwhether the resulting transaction keeps the fee.",
+            "description": "Per-invoice override of the merchant's convenience fee on this invoice's payments:\r\n`true` applies it, `false` suppresses it, and `null` (the default, and the\r\nbehaviour of any payload that omits the field) inherits the merchant and feature decision.\r\nAn override can suppress a fee but can never create one: `true` applies the fee only\r\nwhen invoice convenience fees are enabled for the tenant and the merchant has a\r\nconvenience-fee configuration, and the platform's compliance rules still govern whether the\r\nresulting transaction keeps the fee.",
             "nullable": true
           },
           "hppPageId": {
@@ -158478,7 +158710,7 @@
           },
           "errorMessage": {
             "type": "string",
-            "description": "Redacted failure indicator for failed results (exception type name only: the\r\napp service never persists raw exception messages).",
+            "description": "Redacted failure indicator for failed results: the exception type name only, never the raw\r\nexception message.",
             "nullable": true
           },
           "lineItems": {
@@ -158624,7 +158856,7 @@
           },
           "concurrencyStamp": {
             "type": "string",
-            "description": "Concurrency stamp (Cosmos ETag).",
+            "description": "Concurrency stamp for optimistic concurrency.",
             "nullable": true
           }
         },
@@ -159348,7 +159580,7 @@
                 "$ref": "#/components/schemas/WalletProviderType"
               }
             ],
-            "description": "Which wallet this entry describes (Apple Pay, Google Pay, …). Nullable per\r\nthe project's Cosmos-baseline convention: older Merchant documents predating\r\nthis field deserialise cleanly without throwing.",
+            "description": "Which wallet this entry describes (Apple Pay, Google Pay, …).",
             "nullable": true
           },
           "isEnabled": {
@@ -159364,7 +159596,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Per-merchant digital wallet record (Apple Pay, Google Pay, …). Persisted as an\r\nelement of `Merchant.DigitalWallets`. The aggregate keeps at most one\r\nentry per `WalletProviderType`; collection membership decides whether\r\nthe merchant participates in that wallet at all, and `IsEnabled`\r\ndecides whether the merchant currently has it switched on.\r\n            \r\n\n\r\n`PaymentTokenizationRegistrationId` points at a row in the\r\nPaymentTokenization module's `WalletProviderRegistration` aggregate. It may\r\nreference either a platform-level row (merchant inherits the platform's Apple\r\nMerchant ID + domain set) or a merchant-level row (this merchant brought its own\r\nApple Merchant ID).\r\n\r\n            \r\n\n\r\nAdding new fields here: this type is persisted inside Cosmos `Merchant`\r\ndocuments, so any new field must be nullable (or default to a safe value) so that\r\nexisting documents written before the field existed deserialise cleanly.\r\n"
+        "description": "Per-merchant digital wallet record (Apple Pay, Google Pay, …). Persisted as an\r\nelement of `Merchant.DigitalWallets`. The aggregate keeps at most one\r\nentry per `WalletProviderType`; collection membership decides whether\r\nthe merchant participates in that wallet at all, and `IsEnabled`\r\ndecides whether the merchant currently has it switched on.\r\n            \r\n\n\r\n`PaymentTokenizationRegistrationId` points at a row in the\r\nPaymentTokenization module's `WalletProviderRegistration` aggregate. It may\r\nreference either a platform-level row (merchant inherits the platform's Apple\r\nMerchant ID + domain set) or a merchant-level row (this merchant brought its own\r\nApple Merchant ID).\r\n"
       },
       "MerchantDto": {
         "type": "object",
@@ -160394,12 +160626,12 @@
                 "$ref": "#/components/schemas/ThreeDSProviderType"
               }
             ],
-            "description": "Which 3-D Secure provider this entry binds the merchant to. Nullable per the Cosmos-baseline\r\nconvention; a null provider type is treated as no binding at all rather than as\r\n`Fake`, so an incompletely boarded row cannot silently\r\nbecome a live selection.",
+            "description": "Which 3-D Secure provider this entry binds the merchant to. A null provider type is treated\r\nas no binding at all rather than as `Fake`, so an incompletely\r\nboarded row cannot silently become a live selection.",
             "nullable": true
           },
           "isEnabled": {
             "type": "boolean",
-            "description": "Master enable flag for this provider on this merchant. When `false` or null, the\r\nselector must not return this binding even though the row exists.",
+            "description": "Master enable flag for this provider on this merchant. When `false` or null, the binding\r\nis not used even though the row exists.",
             "nullable": true
           },
           "policyMode": {
@@ -160414,7 +160646,7 @@
           "apiKey": {
             "maxLength": 256,
             "type": "string",
-            "description": "The vendor API key. Successor to `3DSPaayApiKey`. Not a secret in the sense the JWT\r\nsecret is (it is sent as a request header and appears as a JWT audience), so it round-trips\r\non reads; it is still never logged.\nRequired: When IsEnabled is true.",
+            "description": "The vendor API key. Not a secret in the sense the JWT secret is (it is sent as a request\r\nheader and appears as a JWT audience), so it round-trips on reads; it is still never logged.\nRequired: When IsEnabled is true.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -160432,7 +160664,7 @@
           "jwtSecret": {
             "maxLength": 512,
             "type": "string",
-            "description": "The shared secret the request JWT is signed with. Successor to `3DSPaaySecret`, which\r\nthe TSYS profile stores and renders in cleartext.\r\n            \r\n\n\r\n<b>Stored encrypted.</b> It is stripped, not decrypted, on every read that leaves the server:\r\nthe admin UI and the API both see null here and re-send the secret only when the operator\r\nchanges it. Only the server-side call to the provider ever uses the plaintext.\r\n",
+            "description": "The shared secret the request JWT is signed with.\r\n            \r\n\n\r\n<b>Stored encrypted.</b> It is stripped, not decrypted, on every read that leaves the server:\r\nthe admin UI and the API both see null here and re-send the secret only when the operator\r\nchanges it. Only the server-side call to the provider ever uses the plaintext.\r\n",
             "nullable": true
           },
           "jwtSecretConfigured": {
@@ -160446,13 +160678,13 @@
                 "$ref": "#/components/schemas/ThreeDSEndpointEnvironment"
               }
             ],
-            "description": "Which of the vendor's environments this binding points at. Successor to\r\n`3DSPaayEndpoint`, whose dropdown offered exactly Sandbox and Live. Null reads as\r\n`Sandbox`.",
+            "description": "Which of the vendor's environments this binding points at. Null reads as\r\n`Sandbox`.",
             "nullable": true
           },
           "requestorUrl": {
             "maxLength": 512,
             "type": "string",
-            "description": "The merchant-facing origin the vendor validates authentication requests against: the HPP or\r\ncheckout origin the cardholder's browser is on. Successor to\r\n`3DSPaayDomainMatchingURL`. HTTPS-only, enforced by the validator.\nConditional: When RequestorUrl is not empty.\nRequired: When IsEnabled is true.",
+            "description": "The merchant-facing origin the vendor validates authentication requests against: the HPP or\r\ncheckout origin the cardholder's browser is on. HTTPS only.\nConditional: When RequestorUrl is not empty.\nRequired: When IsEnabled is true.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -160479,13 +160711,13 @@
           },
           "challengeEnabled": {
             "type": "boolean",
-            "description": "Whether the merchant permits the vendor to raise an interactive challenge. Successor to\r\n`enable3DSPaayChallengeRequest`. Null reads as not enabled.",
+            "description": "Whether the merchant permits the vendor to raise an interactive challenge. Null reads as not\r\nenabled.",
             "nullable": true
           },
           "protocolVersion": {
             "maxLength": 16,
             "type": "string",
-            "description": "The 3-D Secure protocol version to request, from\r\n`SupportedProtocolVersions`. Successor to\r\n`3DSPaayProtocolVersion`. Null means the provider's own default.\nConditional: When ProtocolVersion is not empty.",
+            "description": "The 3-D Secure protocol version to request, from\r\n`SupportedProtocolVersions`. Null means the provider's own\r\ndefault.\nConditional: When ProtocolVersion is not empty.",
             "nullable": true,
             "x-validation-rules": [
               {
@@ -160508,7 +160740,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Per-merchant 3-D Secure provider binding. Persisted as an element of\r\n`Merchant.ThreeDSBindings`, and the successor to the seven `3DSPaay*` fields the TSYS\r\nprocessor profile carries today.\r\n            \r\n\n\r\nThe binding is deliberately independent of the acquiring processor. The directory server and\r\naccess control server a card authenticates against belong to the card network, not the acquirer,\r\nso a merchant can change processor without changing 3-D Secure vendor and vice versa. Folding\r\nthese fields into `ProcessorProfile` (where the legacy ones live) makes the two impossible\r\nto move apart.\r\n\r\n            \r\n\n\r\nCollection membership decides whether the merchant is boarded with that provider at all, and\r\n`IsEnabled` decides whether it is currently switched on: the same two-level shape\r\n`MerchantDigitalWallet` uses, so a merchant can be un-switched without losing credentials.\r\n\r\n            \r\n\n\r\n<b>Adding fields here:</b> this type is persisted inside Cosmos `Merchant` documents, so\r\nevery value-type member is nullable. A non-nullable value type added later reads back as its\r\nCLR default on every document written before it existed, which is indistinguishable from a\r\nmerchant that chose that value.\r\n"
+        "description": "Per-merchant 3-D Secure provider binding, one element of `Merchant.ThreeDSBindings`.\r\n            \r\n\n\r\nThe binding is independent of the acquiring processor. The directory server and access control\r\nserver a card authenticates against belong to the card network, not the acquirer, so a merchant\r\ncan change processor without changing 3-D Secure vendor and vice versa.\r\n\r\n            \r\n\n\r\nCollection membership decides whether the merchant is boarded with that provider at all, and\r\n`IsEnabled` decides whether it is currently switched on: the same two-level shape\r\n`MerchantDigitalWallet` uses, so a merchant can be switched off without losing credentials.\r\n"
       },
       "MerchantTransactionSummaryDto": {
         "type": "object",
@@ -163454,7 +163686,7 @@
             "items": {
               "$ref": "#/components/schemas/StoredProcessorToken"
             },
-            "description": "Processor-issued reusable tokens (e.g. TSYS `RequestToken`) captured at auth time\r\nand stored alongside the card. Keyed by processor + processor profile; a repeat sale\r\nprefers a matching token at the rail and falls back to the PAN. Non-nullable with an\r\nempty-list default so PaymentToken documents written before this field deserialize to an\r\nempty collection rather than `null` (CDB001 Cosmos baseline).",
+            "description": "Processor-issued reusable tokens (e.g. TSYS `RequestToken`) captured at auth time\r\nand stored alongside the card. Keyed by processor + processor profile; a repeat sale\r\nprefers a matching token at the rail and falls back to the PAN. An empty list when no\r\nprocessor token is held.",
             "nullable": true
           },
           "networkToken": {
@@ -163463,7 +163695,7 @@
                 "$ref": "#/components/schemas/StoredNetworkToken"
               }
             ],
-            "description": "A stored network token (DPAN) for this payment method. Modeled now but inert in v1:\r\nnetwork-token acquisition is a deferred follow-up. Nullable: absent on every document\r\nuntil the acquisition path is built (CDB001 Cosmos baseline)."
+            "description": "A stored network token (DPAN) for this payment method. Not populated: network-token\r\nacquisition is not yet supported, so this is always absent."
           },
           "paymentMethodType": {
             "allOf": [
@@ -165686,7 +165918,7 @@
           },
           "hostReferenceNum": {
             "type": "string",
-            "description": "Gets or sets the host reference number carried on this response detail. This copy is not the\r\none to read: no processor rail populates it, because the shared processor mapping seam leaves\r\nthe whole `ProcessorResponseDetail` object null on every processor response. The object\r\nis built only by the gateway's own non-processor response builders (the loopback card\r\nsimulator, the loopback ACH simulator, the cash tender, and internal ACH account\r\nverification), and of those only the loopback ACH builder puts a value here: the ACH trace\r\nnumber it generated. The other three set the empty string. Read\r\n`responseData.hostReferenceNumber` instead, which is populated on every processor rail\r\nand carries the per-processor definition.",
+            "description": "Gets or sets the host reference number carried on this response detail. This copy is not the\r\none to read: no processor rail populates it, because the whole `ProcessorResponseDetail`\r\nobject is null on every processor response. The object\r\nis built only by the gateway's own non-processor response builders (the loopback card\r\nsimulator, the loopback ACH simulator, the cash tender, and internal ACH account\r\nverification), and of those only the loopback ACH builder puts a value here: the ACH trace\r\nnumber it generated. The other three set the empty string. Read\r\n`responseData.hostReferenceNumber` instead, which is populated on every processor rail\r\nand carries the per-processor definition.",
             "nullable": true
           },
           "hostDate": {
@@ -167392,7 +167624,7 @@
           },
           "merchantId": {
             "type": "string",
-            "description": "Merchant the consent is scoped to. Honoured only when the caller holds\r\n`SmsConsent.ViewAllMerchants`; otherwise the app service substitutes the operating-context\r\nmerchant. Consent never transfers across merchants.",
+            "description": "Merchant the consent is scoped to. Honoured only when the caller holds\r\n`SmsConsent.ViewAllMerchants`; otherwise the caller's own merchant is used. Consent never transfers across merchants.",
             "format": "uuid",
             "nullable": true
           }
@@ -167545,7 +167777,7 @@
           },
           "persistenceFailureReason": {
             "type": "string",
-            "description": "Short label naming the exception type that caused `PersistenceFailed`\r\n(e.g. `\"DbUpdateException\"`). Surfaced in the run detail UI so operators can\r\ndistinguish a transient Cosmos concurrency conflict from a structural shape bug\r\nwithout leaving the page. Null when `PersistenceFailed` is null.",
+            "description": "Short label naming the exception type that caused `PersistenceFailed`\r\n(e.g. `\"DbUpdateException\"`). Surfaced in the run detail UI so operators can\r\ndistinguish a transient concurrency conflict from a structural shape bug without leaving\r\nthe page. Null when `PersistenceFailed` is null.",
             "nullable": true
           },
           "preCreditAmount": {
@@ -167989,7 +168221,7 @@
           },
           "billerId": {
             "type": "string",
-            "description": "The billing entity id (partition key, immutable after creation).",
+            "description": "The billing entity id. Cannot be changed after creation.",
             "format": "uuid"
           },
           "billerType": {
@@ -168778,7 +169010,7 @@
           },
           "captureHppPageId": {
             "type": "string",
-            "description": "HPP page ID used to capture and store a card on file for the recurring-contract billing\r\npath (the operator-driven payment-method capture flow). This must reference a\r\n`SaveCard`-purpose page (zero-dollar verification, no charge) so capture does not\r\nprompt the operator for an amount. Distinct from `HppPageId`, which is the\r\nInvoicing payment-link page (a chargeable `Payment` page). Nullable for Cosmos\r\nbackward compatibility: legacy documents predating this property deserialize to `null`.\nRequired: When DefaultFulfillmentPath is set.",
+            "description": "HPP page ID used to capture and store a card on file for the recurring-contract billing\r\npath (the operator-driven payment-method capture flow). This must reference a\r\n`SaveCard`-purpose page (zero-dollar verification, no charge) so capture does not\r\nprompt the operator for an amount. Distinct from `HppPageId`, which is the\r\nInvoicing payment-link page (a chargeable `Payment` page).\nRequired: When DefaultFulfillmentPath is set.",
             "format": "uuid",
             "nullable": true,
             "x-validation-rules": [
@@ -171415,7 +171647,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A single audit record for an admin-driven manual override of a transaction's\r\n`SettlementStatus`. Records are appended to\r\n`OverrideHistory` by the\r\n`Transaction.OverrideSettlementStatus` domain method and rendered on the\r\ntransaction detail page so subsequent admins can see who changed the settlement\r\nstate, when, why, and from what value.\r\n\n\r\nAll value-type properties are nullable so existing Cosmos documents that gain\r\nan `OverrideHistory` entry from an older code\r\npath (or are deserialised by a future shape-mismatched build) do not fail\r\ndeserialisation. New records are always written with all fields populated; UI\r\nand audit code should treat null fields on a persisted record as a corrupt\r\ndocument and surface accordingly rather than papering over it.\r\n"
+        "description": "A single audit record for an admin-driven manual override of a transaction's\r\n`SettlementStatus`. Records are appended to\r\n`OverrideHistory` by the\r\n`Transaction.OverrideSettlementStatus` domain method and rendered on the\r\ntransaction detail page so subsequent admins can see who changed the settlement\r\nstate, when, why, and from what value."
       },
       "SettlementTriggerType": {
         "enum": [
@@ -173228,7 +173460,7 @@
           },
           "merchantId": {
             "type": "string",
-            "description": "The merchant this configuration belongs to (partition key).",
+            "description": "The merchant this configuration belongs to.",
             "format": "uuid"
           },
           "tenantId": {
@@ -173468,7 +173700,7 @@
           },
           "hasMerchantOverride": {
             "type": "boolean",
-            "description": "Whether the merchant has an entry of their own for this state. Reported separately from\r\n`MerchantRestrictionType` because that property is nullable on the persisted policy\r\ntoo (every value type on a Cosmos document is), so a null restriction cannot distinguish \"no\r\nentry\" from \"an entry that never recorded one\"."
+            "description": "Whether the merchant has an entry of their own for this state. Reported separately from\r\n`MerchantRestrictionType` because a null restriction cannot distinguish \"no\r\nentry\" from \"an entry that never recorded one\"."
           },
           "merchantRestrictionType": {
             "allOf": [
@@ -173549,7 +173781,7 @@
           "network": {
             "maxLength": 64,
             "type": "string",
-            "description": "The card network this policy applies to (e.g. \"Visa\", \"Mastercard\").",
+            "description": "The card network this policy applies to. Required, and it must be one of these spellings: Visa;\r\nMastercard, Master Card or MC; Discover; Amex or American Express; JCB; Diners, Diners Club or\r\nDiners Club International; UnionPay, Union Pay, China Union Pay, China UnionPay or CUP; Interac.\r\nCase and surrounding spaces are ignored, and the name is stored and returned as sent. A\r\nconfiguration names each network once: two spellings of one network (Mastercard and MC) are the\r\nsame network.",
             "nullable": true
           },
           "isAllowed": {
@@ -173662,7 +173894,7 @@
         "properties": {
           "merchantId": {
             "type": "string",
-            "description": "The merchant the quote is for (the surcharge-configuration partition key).",
+            "description": "The merchant the quote is for.",
             "format": "uuid"
           },
           "binPrefix": {
@@ -175669,7 +175901,7 @@
             "items": {
               "type": "string"
             },
-            "description": "List of receipt IDs generated for this transaction. Used for point-read access to receipts.\r\nStored as strings for Cosmos DB compatibility.",
+            "description": "List of receipt IDs generated for this transaction.",
             "nullable": true
           },
           "refundTransactionIds": {
@@ -175677,7 +175909,7 @@
             "items": {
               "type": "string"
             },
-            "description": "IDs of the linked-refund child transactions issued against this transaction (as the parent\r\nsale). Drives the detail-page reverse relationship (\"Refunded by <guid>\" and the\r\nRelated Transactions grid). Empty/null when this transaction has no linked refunds. Stored\r\nas strings for Cosmos DB compatibility (see `Transaction.RefundTransactionIds`).",
+            "description": "IDs of the linked-refund child transactions issued against this transaction (as the parent\r\nsale). Drives the detail-page reverse relationship (\"Refunded by <guid>\" and the\r\nRelated Transactions grid). Empty/null when this transaction has no linked refunds.",
             "nullable": true
           },
           "decisionNotes": {
@@ -175963,7 +176195,7 @@
           },
           "surchargeRate": {
             "type": "number",
-            "description": "The surcharge rate actually applied to this transaction, as a decimal fraction (0.03 = 3%).\r\nIndexed top-level mirror of\r\n`SurchargeResult`.AppliedRate (which is on the Cosmos indexing exclusion list).\r\n`null` when no surcharge was assessed.",
+            "description": "The surcharge rate actually applied to this transaction, as a decimal fraction (0.03 = 3%).\r\nThe same value as `SurchargeResult`.AppliedRate, carried at the top level so it\r\ncan be filtered on. `null` when no surcharge was assessed.",
             "format": "double",
             "nullable": true
           },
@@ -176446,7 +176678,7 @@
           },
           "settlementXmlData": {
             "type": "string",
-            "description": "Carrier for settlement XML from processor responses.\r\nPopulated by `EPSProcess.ProcessData`, then converted to JSON, encrypted,\r\nand written to `SettlementDataJson` by the\r\nauthorization contributor. The contributor replaces the raw XML with a masked\r\nsentinel (`\"****\"`) before the `/ResponseData` patch reaches Cosmos,\r\nso the stored value indicates that settlement data was received and processed\r\nwithout exposing the original content.",
+            "description": "Settlement data received from the processor. The stored value is a masked sentinel\r\n(`\"****\"`) that indicates settlement data was received and processed, without exposing\r\nthe original content.",
             "nullable": true
           },
           "processorResponseCode": {
@@ -176649,7 +176881,7 @@
                 "$ref": "#/components/schemas/SettleFlag"
               }
             ],
-            "description": "Legacy settlement flag. Retained for Cosmos backward compatibility only.\r\nUse `SettlementStatus` for all new code.",
+            "description": "Legacy settlement flag. Use `SettlementStatus` instead.",
             "deprecated": true
           },
           "processorBatchId": {
@@ -176674,7 +176906,7 @@
                 "$ref": "#/components/schemas/SettlementStatus"
               }
             ],
-            "description": "Current settlement status of the transaction for processor settlement tracking.\r\nNullable to handle existing Cosmos documents that predate this property.\r\nTreat null as `WaitingForSettlement`.",
+            "description": "Current settlement status of the transaction for processor settlement tracking.\r\nTreat null as `WaitingForSettlement`.",
             "nullable": true
           },
           "settlementAttemptedAt": {
@@ -176691,7 +176923,7 @@
           },
           "settlementRetryCount": {
             "type": "integer",
-            "description": "Number of settlement retry attempts.\r\nNullable to handle existing Cosmos documents that predate this property.\r\nTreat null as 0.",
+            "description": "Number of settlement retry attempts. Treat null as 0.",
             "format": "int32",
             "nullable": true
           },
@@ -176716,7 +176948,7 @@
             "items": {
               "$ref": "#/components/schemas/SettlementStatusOverrideRecord"
             },
-            "description": "Append-only list of admin-driven manual overrides applied to `SettlementStatus`.\r\nPopulated by the `Transaction.OverrideSettlementStatus` domain method.\r\nNull on transactions that have never had a manual override (the default for the vast\r\nmajority of rows). Omitted from JSON when null so existing Cosmos documents do not\r\ngain an empty array on the next write.",
+            "description": "Append-only list of admin-driven manual overrides applied to `SettlementStatus`.\r\nPopulated by the `Transaction.OverrideSettlementStatus` domain method.\r\nNull, and omitted, on transactions that have never had a manual override (the default for\r\nthe vast majority of rows).",
             "nullable": true
           }
         },
@@ -179442,7 +179674,7 @@
           },
           "visaServiceFeeRegistered": {
             "type": "boolean",
-            "description": "Merchant self-declared record that its account is registered with the acquirer for the Visa\r\nService Fee program. Distinct from `GovEducationAttested`: that attestation is the\r\nmerchant's claim to qualify as a Government or Education entity (and gates percentage mode plus\r\nthe debit/prepaid exemptions), whereas this records the Visa-specific registration the program\r\nrequires on top of qualifying. A Gov/Ed-attested merchant without this registration is\r\n<b>not blocked</b>; the mismatch surfaces as a non-blocking save warning and an inline warning\r\nin the convenience-fee editor, because the registration happens outside the platform and the\r\noperator may be recording it after the fact.\r\n\nAt transaction time this is what lets a percentage fee apply on Visa: the percentage\r\nnetwork guard (`ConvenienceFeeNetworkGuard`) otherwise applies a brand-uniform flat\r\nfallback or suppression whenever the merchant's accepted-brand set includes Visa. That\r\nconsumption is behind the `ConvenienceFee:HonorVisaServiceFeeRegistration` rollout gate, so\r\nsetting this alone does not change what a cardholder is charged until the gate is enabled.",
+            "description": "Merchant self-declared record that its account is registered with the acquirer for the Visa\r\nService Fee program. Distinct from `GovEducationAttested`: that attestation is the\r\nmerchant's claim to qualify as a Government or Education entity (and gates percentage mode plus\r\nthe debit/prepaid exemptions), whereas this records the Visa-specific registration the program\r\nrequires on top of qualifying. A Gov/Ed-attested merchant without this registration is\r\n<b>not blocked</b>; the mismatch surfaces as a non-blocking save warning and an inline warning\r\nin the convenience-fee editor, because the registration happens outside the platform and the\r\noperator may be recording it after the fact.",
             "nullable": true
           },
           "visaServiceFeeRegisteredOn": {
@@ -179487,12 +179719,12 @@
           },
           "exemptDebit": {
             "type": "boolean",
-            "description": "Stored merchant preference to exempt debit-funded transactions from the convenience fee.\r\n\n<b>Configuration only: not enforced at payment time yet.</b> No per-transaction\r\nevaluator consumes this flag today; it is persisted and gated here so the runtime\r\nsuppression can be wired later (the separate convenience-fee evaluator story) with no\r\nschema change. Until that lands, setting this does not change what a cardholder is charged.\r\nWhen the evaluator ships it will suppress the fee on debit-funded transactions per the\r\ncard-brand rules.\r\nPermitted only under the card-brand Government / Higher-Education service-fee program, so it\r\nis gated behind `GovEducationAttested` (enforced by the validator and disabled in\r\nthe editor until the attestation is set). Independent of `ExemptPrepaid` so a\r\nmerchant can exempt debit only, prepaid only, or both. Nullable for Cosmos baseline\r\ncompatibility: documents written before this field deserialize to `null`, which every\r\nconsumer treats as \"not exempt\".",
+            "description": "Stored merchant preference to exempt debit-funded transactions from the convenience fee.\r\n\n<b>Configuration only: not enforced at payment time yet.</b> No per-transaction\r\nevaluator consumes this flag today; it is persisted and gated here so the runtime\r\nsuppression can be wired later (the separate convenience-fee evaluator story) with no\r\nschema change. Until that lands, setting this does not change what a cardholder is charged.\r\nWhen the evaluator ships it will suppress the fee on debit-funded transactions per the\r\ncard-brand rules.\r\nPermitted only under the card-brand Government / Higher-Education service-fee program, so it\r\nis gated behind `GovEducationAttested` (enforced by the validator and disabled in\r\nthe editor until the attestation is set). Independent of `ExemptPrepaid` so a\r\nmerchant can exempt debit only, prepaid only, or both. `null` is treated as \"not exempt\".",
             "nullable": true
           },
           "exemptPrepaid": {
             "type": "boolean",
-            "description": "Stored merchant preference to exempt prepaid-funded transactions from the convenience fee.\r\n<b>Configuration only: not enforced at payment time yet</b>, same status as\r\n`ExemptDebit`: the consuming per-transaction evaluator is not wired yet, so\r\nsetting this does not currently change what is charged. Gated behind\r\n`GovEducationAttested` exactly like `ExemptDebit`, and independent of\r\nit. Nullable for Cosmos baseline compatibility (legacy documents deserialize to `null`,\r\ntreated as \"not exempt\").",
+            "description": "Stored merchant preference to exempt prepaid-funded transactions from the convenience fee.\r\n<b>Configuration only: not enforced at payment time yet</b>, same status as\r\n`ExemptDebit`: the consuming per-transaction evaluator is not wired yet, so\r\nsetting this does not currently change what is charged. Gated behind\r\n`GovEducationAttested` exactly like `ExemptDebit`, and independent of\r\nit. `null` is treated as \"not exempt\".",
             "nullable": true
           },
           "legacyPercentageNeedsReview": {
@@ -179520,7 +179752,7 @@
           },
           "alternativeChannelAttested": {
             "type": "boolean",
-            "description": "Merchant self-declared attestation that a genuine alternative payment channel exists for the\r\ncardholder (the card-brand justification for the fee). Distinct from\r\n`GovEducationAttested`: that attestation gates the debit/prepaid exemptions and the\r\npercentage option; this one gates the channel justification. A merchant may need both. Required\r\n(with a qualifying channel pairing) before the convenience fee can be enabled: enforced by the\r\nsave gate. Nullable for Cosmos baseline compatibility.",
+            "description": "Merchant self-declared attestation that a genuine alternative payment channel exists for the\r\ncardholder (the card-brand justification for the fee). Distinct from\r\n`GovEducationAttested`: that attestation gates the debit/prepaid exemptions and the\r\npercentage option; this one gates the channel justification. A merchant may need both. Required\r\n(with a qualifying channel pairing) before the convenience fee can be enabled: enforced by the\r\nsave gate. `null` means the merchant has not attested.",
             "nullable": true
           },
           "alternativeChannelAttestedBy": {
@@ -180174,7 +180406,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Optional richer onboarding details carried on a create/update DTO for wallet providers\r\nwhose registration shape exceeds Apple's (Paze: structured address, merchant category\r\ncode, self-assigned profile id).\r\n            \r\n\n\r\nThe merchant name is not here: every provider takes it from the shared\r\n`WalletProviderRegistrationCreateOrUpdateDtoBase.MerchantDisplayName`. One name per\r\nregistration is deliberate, so Paze has no separate legal/trade name input.\r\n\r\n            \r\n\n\r\nProvider-neutral by name. Null for Apple Pay (which maps only the flat\r\nidentifier/displayName/url/domains fields), so it is inert for the existing path. The\r\nCRUD app service maps it onto the Domain-layer `WalletMerchantOnboardingDetails`\r\nthreaded to the orchestrator + provider.\r\n"
+        "description": "Optional richer onboarding details carried on a create/update DTO for wallet providers\r\nwhose registration shape exceeds Apple's (Paze: structured address, merchant category\r\ncode, self-assigned profile id).\r\n            \r\n\n\r\nThe merchant name is not here: every provider takes it from the shared\r\n`WalletProviderRegistrationCreateOrUpdateDtoBase.MerchantDisplayName`. One name per\r\nregistration is deliberate, so Paze has no separate legal/trade name input.\r\n\r\n            \r\n\n\r\nProvider-neutral by name. Null for Apple Pay, which uses only the flat identifier, display\r\nname, URL and domain fields.\r\n"
       },
       "WalletPaymentSessionOutput": {
         "type": "object",
@@ -180261,7 +180493,7 @@
           },
           "merchantId": {
             "type": "string",
-            "description": "WinkPG internal merchant aggregate id. Required when\r\n`Level` = `Merchant`;\r\nmust be null when `Level` = `Platform`.\nConditional: When Level matches a specific value.",
+            "description": "Identifier of the merchant this registration belongs to. Required when\r\n`Level` = `Merchant`;\r\nmust be null when `Level` = `Platform`.\nConditional: When Level matches a specific value.",
             "format": "uuid",
             "nullable": true,
             "x-validation-rules": [
@@ -180368,7 +180600,7 @@
                 "$ref": "#/components/schemas/WalletMerchantOnboardingInput"
               }
             ],
-            "description": "Richer onboarding details for providers whose registration contract needs them\r\n(see `WalletProviderRegistrationTraits.RequiresOnboardingDetails`: Paze today).\r\nRequired for those providers (the validator enforces the field-level rules); inert\r\nfor the rest (the CRUD app service ignores the block server-side).\r\n            \r\n\n\r\nDefaulted to a non-null instance (with a non-null `Address`)\r\nso the create form's always-mounted onboarding section can two-way-bind its fields\r\nwithout a null-deref. The section stays in the DOM (toggled via `display:none`)\r\nper the DOM-stability rule, so its bindings evaluate on every create-form render,\r\nincluding the first render, which fires before the page's `PostInitializeAsync`\r\nhook runs. Keeping the graph non-null from construction removes that lifecycle-timing\r\nrace.\nRequired: When ProviderType matches a specific value.",
+            "description": "Richer onboarding details for providers whose registration contract needs them\r\n(see `WalletProviderRegistrationTraits.RequiresOnboardingDetails`: Paze today).\r\nRequired for those providers, and ignored for the rest.\nRequired: When ProviderType matches a specific value.",
             "x-validation-rules": [
               {
                 "conditionallyRequired": true,
@@ -180489,7 +180721,7 @@
                 "$ref": "#/components/schemas/WalletRegistrationLevel"
               }
             ],
-            "description": "Derived scope: `Platform` when\r\n`MerchantId` is null, otherwise\r\n`Merchant`. Populated by the\r\nAppService projection layer; not stored on the aggregate."
+            "description": "Derived scope: `Platform` when\r\n`MerchantId` is null, otherwise\r\n`Merchant`. Computed on every read."
           },
           "domainVerifications": {
             "type": "array",
@@ -180542,7 +180774,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "Read shape for a `WalletProviderRegistration` aggregate. Combines the local\r\nCosmos row with provider-side live-snapshot fields that the AppService populates\r\nafter a successful register / get call."
+        "description": "A wallet-provider registration: the stored registration together with the provider-side\r\nfields returned by the most recent successful register or get call."
       },
       "WalletProviderRegistrationUpdateDto": {
         "required": [
@@ -180575,7 +180807,7 @@
           },
           "merchantId": {
             "type": "string",
-            "description": "WinkPG internal merchant aggregate id. Required when\r\n`Level` = `Merchant`;\r\nmust be null when `Level` = `Platform`.\nConditional: When Level matches a specific value.",
+            "description": "Identifier of the merchant this registration belongs to. Required when\r\n`Level` = `Merchant`;\r\nmust be null when `Level` = `Platform`.\nConditional: When Level matches a specific value.",
             "format": "uuid",
             "nullable": true,
             "x-validation-rules": [
@@ -180682,7 +180914,7 @@
                 "$ref": "#/components/schemas/WalletMerchantOnboardingInput"
               }
             ],
-            "description": "Richer onboarding details for providers whose registration contract needs them\r\n(see `WalletProviderRegistrationTraits.RequiresOnboardingDetails`: Paze today).\r\nRequired for those providers (the validator enforces the field-level rules); inert\r\nfor the rest (the CRUD app service ignores the block server-side).\r\n            \r\n\n\r\nDefaulted to a non-null instance (with a non-null `Address`)\r\nso the create form's always-mounted onboarding section can two-way-bind its fields\r\nwithout a null-deref. The section stays in the DOM (toggled via `display:none`)\r\nper the DOM-stability rule, so its bindings evaluate on every create-form render,\r\nincluding the first render, which fires before the page's `PostInitializeAsync`\r\nhook runs. Keeping the graph non-null from construction removes that lifecycle-timing\r\nrace.\nRequired: When ProviderType matches a specific value.",
+            "description": "Richer onboarding details for providers whose registration contract needs them\r\n(see `WalletProviderRegistrationTraits.RequiresOnboardingDetails`: Paze today).\r\nRequired for those providers, and ignored for the rest.\nRequired: When ProviderType matches a specific value.",
             "x-validation-rules": [
               {
                 "conditionallyRequired": true,
