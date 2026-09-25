@@ -62947,6 +62947,235 @@
         "x-scope": "merchant"
       }
     },
+    "/api/merchants/{id}/trial/extend": {
+      "post": {
+        "tags": [
+          "Merchants"
+        ],
+        "summary": "Extends the specified merchant's trial.",
+        "description": "Moves the trial end, clears the reminder marker so the new window sends its own reminders,\nand returns a merchant the expiration sweep suspended to Sandbox. A merchant in any other\nenvironment keeps it. No API key is changed: the developer's existing keys authenticate again\nas soon as the extension is saved.\n\nThe new end must be later than the current time; an earlier one is refused with\n`400 Merchants:TrialExtensionNotInFuture`. A locked merchant is refused as every other\nwrite to it is.\n\nChanging the environment on the merchant update does not do this. A lapsed trial is refused\nin every environment, so a merchant moved out of Suspended by hand still answers\n`TRIAL_EXPIRED` until its trial is extended.\n\n---\n**Required permissions**: `Merchants.ExtendTrial`  \n**Scope**: merchant",
+        "operationId": "merchantsExtendTrial",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the merchant whose trial to extend.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtendMerchantTrialDto"
+              },
+              "examples": {
+                "Extend a suspended trial": {
+                  "summary": "Extend a suspended trial",
+                  "description": "Moves the trial end to 31 January 2030 (UTC). A merchant the expiration sweep suspended is returned to Sandbox, the reminder marker is cleared so the new window sends its own reminders, and the developer's existing API keys authenticate again immediately.",
+                  "value": {"trialExpiresAt":"2030-01-31T00:00:00Z"}
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtendMerchantTrialDto"
+              },
+              "examples": {
+                "Extend a suspended trial": {
+                  "summary": "Extend a suspended trial",
+                  "description": "Moves the trial end to 31 January 2030 (UTC). A merchant the expiration sweep suspended is returned to Sandbox, the reminder marker is cleared so the new window sends its own reminders, and the developer's existing API keys authenticate again immediately.",
+                  "value": {"trialExpiresAt":"2030-01-31T00:00:00Z"}
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtendMerchantTrialDto"
+              },
+              "examples": {
+                "Extend a suspended trial": {
+                  "summary": "Extend a suspended trial",
+                  "description": "Moves the trial end to 31 January 2030 (UTC). A merchant the expiration sweep suspended is returned to Sandbox, the reminder marker is cleared so the new window sends its own reminders, and the developer's existing API keys authenticate again immediately.",
+                  "value": {"trialExpiresAt":"2030-01-31T00:00:00Z"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MerchantDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MerchantDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MerchantDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "x-permissions": [
+          "Merchants.Merchants.ExtendTrial"
+        ],
+        "x-scope": "merchant"
+      }
+    },
     "/api/merchants/{id}/name": {
       "get": {
         "tags": [
@@ -146562,6 +146791,21 @@
         "additionalProperties": false,
         "description": "Input for executing a follow-up operation on an existing transaction."
       },
+      "ExtendMerchantTrialDto": {
+        "required": [
+          "trialExpiresAt"
+        ],
+        "type": "object",
+        "properties": {
+          "trialExpiresAt": {
+            "type": "string",
+            "description": "The new trial end, UTC. Must be later than the current time: an earlier value is refused\r\nwith `400 Merchants:TrialExtensionNotInFuture` and nothing is changed.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Input for extending a merchant's trial."
+      },
       "ExternalLoginProviderDto": {
         "type": "object",
         "properties": {
@@ -160161,6 +160405,18 @@
           "planCode": {
             "type": "string",
             "description": "Gets or sets the plan this merchant is on, or `null` when it is on none.",
+            "nullable": true
+          },
+          "trialExpiresAt": {
+            "type": "string",
+            "description": "Gets or sets when this merchant's trial ends, UTC, or `null` when it is not on\r\na time-limited plan.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "trialExpiryWarnedThresholdDays": {
+            "type": "integer",
+            "description": "Gets or sets the most recent trial expiry reminder sent in the current trial window, as the\r\nnumber of days before `TrialExpiresAt` it was sent at.",
+            "format": "int32",
             "nullable": true
           },
           "processorMode": {
