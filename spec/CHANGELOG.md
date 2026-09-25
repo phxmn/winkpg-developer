@@ -1,32 +1,20 @@
-## 29.8.0
+## 29.9.0
 
 Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
 ### Additions
 
-- operation GET /api/invoicing/public/invoice/{invoiceId}/pdf
-- parameter GET /api/invoicing/public/invoice/{invoiceId}/pdf path:invoiceId: required type=string format=uuid
-- parameter GET /api/invoicing/public/invoice/{invoiceId}/pdf query:suppressNulls: optional type=boolean
-- parameter GET /api/invoicing/public/invoice/{invoiceId}/pdf query:token: optional type=string
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 200 (application/json): type=string format=binary
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 200 (text/json): type=string format=binary
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 200 (text/plain): type=string format=binary
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 400: no body
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 401 (application/json): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 401 (text/json): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 401 (text/plain): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 403 (application/json): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 403 (text/json): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 403 (text/plain): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 404: no body
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 429: no body
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 500 (application/json): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 500 (text/json): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 500 (text/plain): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 501 (application/json): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 501 (text/json): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf 501 (text/plain): RemoteServiceErrorResponse
-- response GET /api/invoicing/public/invoice/{invoiceId}/pdf default (application/json): RemoteServiceErrorResponse
-- operation id invoicePublicDownloadPdfByViewToken (GET /api/invoicing/public/invoice/{invoiceId}/pdf)
+- error code Invoicing:PaymentPlan:InstallmentNotPending: 409
+- error code Surcharging:ProcessorAccountNotFound: 400
+- field SurchargeCardProcessorCoverageDto.isActive: type=boolean
+- field SurchargeCardProcessorCoverageDto.isCovered: type=boolean
+- field SurchargeCardProcessorCoverageDto.processorId: type=string nullable=true
+- field SurchargeCardProcessorCoverageDto.processorName: type=string nullable=true
+- field SurchargeCardProcessorCoverageDto.processorProfileId: type=string format=uuid
+- field SurchargeConfigurationDto.cardProcessorCoverage: type=array nullable=true items(SurchargeCardProcessorCoverageDto)
+- field SurchargeNoticeRecordDto.coveredProcessorProfileIds: type=array nullable=true items(type=string format=uuid)
+- field SurchargeNoticeRecordDto.coversAllProcessors: type=boolean
+- response POST /api/invoicing/invoices/{id}/payment-plan/pay-installment 409: no body
+- schema SurchargeCardProcessorCoverageDto: type=object additionalProperties=false
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
