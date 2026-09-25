@@ -32287,7 +32287,7 @@
           "DeveloperPortal"
         ],
         "summary": "Lists the users the caller may invite for the acting merchant.",
-        "description": "Every user offered is already an active user of the acting merchant, so the ordinary caller\r\nnever meets the issue path's membership refusal.\n\n---\n**Required permissions**: `DeveloperPortal.Invitations`, `DeveloperPortal.Invitations.Create`  \n**Scope**: merchant",
+        "description": "Every user offered is already an active user of the acting merchant, so the ordinary caller\r\nnever meets the issue path's membership refusal. A user who already holds a developer\r\naccount for the acting merchant is not offered, because an invitation to them is refused.\r\nThe list is empty when every eligible user already has access.\n\n---\n**Required permissions**: `DeveloperPortal.Invitations`, `DeveloperPortal.Invitations.Create`  \n**Scope**: merchant",
         "operationId": "developerPortalGetInvitableUsers",
         "parameters": [
           {
@@ -32493,7 +32493,7 @@
           "DeveloperPortal"
         ],
         "summary": "Lists the users who can be granted portal access for the current merchant.",
-        "description": "Narrow the result with `filter`. Every user returned already meets the\nrules the create call enforces, so a request built from this list is not refused for the\naccount it names. Create still checks those rules, because a caller need not have read this\nlist first.\n\nThe developer-account permissions gate this route, not the user-directory permissions:\ngranting portal access does not entitle a caller to browse the directory.\n\n---\n**Required permissions**: `DeveloperPortal.Accounts`, `DeveloperPortal.Accounts.Create`  \n**Scope**: merchant",
+        "description": "Narrow the result with `filter`. Every user returned already meets the\nrules the create call enforces, so a request built from this list is not refused for the\naccount it names. Create still checks those rules, because a caller need not have read this\nlist first.\n\nA user who already holds a developer account for the current merchant is not returned,\nwhether that account is active or disabled, because create refuses a second one. The list\nis empty when every eligible user already has access. A user whose access was removed is\nreturned, and granting them access again restores it.\n\nThe developer-account permissions gate this route, not the user-directory permissions:\ngranting portal access does not entitle a caller to browse the directory.\n\n---\n**Required permissions**: `DeveloperPortal.Accounts`, `DeveloperPortal.Accounts.Create`  \n**Scope**: merchant",
         "operationId": "developerPortalGetAssignableUsers",
         "parameters": [
           {
