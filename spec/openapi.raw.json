@@ -45,6 +45,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -219,6 +222,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -395,6 +401,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -569,6 +578,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -2450,6 +2462,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -3009,6 +3024,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -3183,6 +3201,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -3359,6 +3380,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -3533,6 +3557,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -3709,6 +3736,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -3883,6 +3913,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -4251,6 +4284,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -4425,6 +4461,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -4609,6 +4648,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -4791,6 +4833,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -5735,6 +5780,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -6621,6 +6669,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -6970,6 +7021,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -7856,6 +7910,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -10069,6 +10126,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -10632,6 +10692,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -12502,6 +12565,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -12674,6 +12740,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -13424,6 +13493,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -13619,6 +13691,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -13791,6 +13866,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -15195,6 +15273,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -17557,6 +17638,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -20345,6 +20429,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -23538,6 +23625,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -26190,6 +26280,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -29114,6 +29207,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -29877,6 +29973,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -31733,6 +31832,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -36545,6 +36647,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -37362,6 +37467,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -38201,6 +38309,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -39142,6 +39253,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -39334,6 +39448,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -42002,6 +42119,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -45784,6 +45904,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -46844,6 +46967,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -48684,6 +48810,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -50571,6 +50700,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -52772,6 +52904,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -53813,6 +53948,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -54550,6 +54688,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -59226,6 +59367,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -59818,6 +59962,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -62656,6 +62803,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -68744,6 +68894,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -69337,6 +69490,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -70343,6 +70499,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -71347,6 +71506,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -74039,6 +74201,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -74676,6 +74841,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -79056,6 +79224,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -79619,6 +79790,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -80184,6 +80358,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -80423,6 +80600,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
             "content": {
@@ -80475,6 +80655,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
             "content": {
@@ -80526,6 +80709,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -80786,6 +80972,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
             "content": {
@@ -80837,6 +81026,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -80890,6 +81082,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
             "content": {
@@ -80940,6 +81135,9 @@
         ],
         "responses": {
           "200": {
+            "description": "Listed for compatibility; a successful call answers 204."
+          },
+          "204": {
             "description": "The session is ended. Ending an already-ended session also succeeds."
           },
           "404": {
@@ -86825,6 +87023,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -88972,6 +89173,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -90920,6 +91124,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -95410,6 +95617,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -98507,6 +98717,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -99071,6 +99284,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -99444,6 +99660,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -99623,6 +99842,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -101397,6 +101619,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -104969,6 +105194,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -107269,6 +107497,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -108751,6 +108982,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -111110,6 +111344,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -122461,6 +122698,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -124055,6 +124295,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -125602,6 +125845,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -127769,6 +128015,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -129560,6 +129809,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -130317,6 +130569,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -130678,6 +130933,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -130850,6 +131108,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -131043,6 +131304,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",
@@ -131568,6 +131832,9 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -131920,6 +132187,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "204": {
+            "description": "No content. The operation succeeded and returns no body."
           },
           "403": {
             "description": "Forbidden",

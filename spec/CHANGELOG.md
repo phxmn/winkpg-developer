@@ -1,9 +1,98 @@
-## 29.10.0
+## 29.11.0
 
 Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
-### Compatible changes
+### Additions
 
-- Widened field UpdateSkuEntitlementDto.resetPeriod: allOf(ResetPeriod) -> nullable=true allOf(ResetPeriod)
+- response DELETE /api/account/sessions/{id} 204: no body
+- response DELETE /api/announcements/templates/{id} 204: no body
+- response DELETE /api/announcements/{id} 204: no body
+- response DELETE /api/api-keys/{id} 204: no body
+- response DELETE /api/campaigns/{id} 204: no body
+- response DELETE /api/contract-plans/{id} 204: no body
+- response DELETE /api/contracts/{id} 204: no body
+- response DELETE /api/customers/{id} 204: no body
+- response DELETE /api/developer-portal/accounts/{id} 204: no body
+- response DELETE /api/favorites/user 204: no body
+- response DELETE /api/hostedpaymentpages/{id} 204: no body
+- response DELETE /api/identity/roles/{id} 204: no body
+- response DELETE /api/identity/roles/{id}/users/{userId} 204: no body
+- response DELETE /api/identity/sessions/{id} 204: no body
+- response DELETE /api/identity/users/{id} 204: no body
+- response DELETE /api/invoicing/credit-notes/{id} 204: no body
+- response DELETE /api/invoicing/custom-field-definitions/{id} 204: no body
+- response DELETE /api/invoicing/invoices/{id} 204: no body
+- response DELETE /api/invoicing/products/{id} 204: no body
+- response DELETE /api/invoicing/recurring-schedules/{id} 204: no body
+- response DELETE /api/invoicing/tax-rates/{id} 204: no body
+- response DELETE /api/invoicing/templates/{id} 204: no body
+- response DELETE /api/merchants/{id} 204: no body
+- response DELETE /api/merchants/{id}/payment-encryption-bindings/{providerName} 204: no body
+- response DELETE /api/merchants/{id}/payment-encryption-bindings/{providerName}/keys/{ksi} 204: no body
+- response DELETE /api/merchants/{id}/screening-provider-profiles/{profileId} 204: no body
+- response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 204: no body
+- response DELETE /api/merchants/{id}/tax-bindings/{providerName} 204: no body
+- response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 204: no body
+- response DELETE /api/notifications/channels/{id} 204: no body
+- response DELETE /api/notifications/destinations/{id} 204: no body
+- response DELETE /api/notifications/subscriptions/{id} 204: no body
+- response DELETE /api/promotions/{id} 204: no body
+- response DELETE /api/rate-limiting/profiles/{id} 204: no body
+- response DELETE /api/rate-limiting/rules/{id} 204: no body
+- response DELETE /api/resellers/{id} 204: no body
+- response DELETE /api/shipping/origins/{id} 204: no body
+- response DELETE /api/shipping/parcel-presets/{id} 204: no body
+- response DELETE /api/tokens/{id} 204: no body
+- response DELETE /api/usage/entitlements/{id} 204: no body
+- response GET /api/account/logout 204: no body
+- response GET /api/account/recaptcha-validate 204: no body
+- response POST /api/account/confirm-email 204: no body
+- response POST /api/account/confirm-phone-number 204: no body
+- response POST /api/account/my-profile/change-password 204: no body
+- response POST /api/account/my-profile/set-two-factor-enabled 204: no body
+- response POST /api/account/profile-picture 204: no body
+- response POST /api/account/reset-password 204: no body
+- response POST /api/account/send-email-confirmation-token 204: no body
+- response POST /api/account/send-password-reset-code 204: no body
+- response POST /api/account/send-phone-number-confirmation-token 204: no body
+- response POST /api/announcements/user/dismiss-all 204: no body
+- response POST /api/announcements/user/mark-many-as-read 204: no body
+- response POST /api/announcements/user/{announcementId}/dismiss 204: no body
+- response POST /api/announcements/user/{announcementId}/mark-as-read 204: no body
+- response POST /api/announcements/user/{announcementId}/record-popup-shown 204: no body
+- response POST /api/app/account/confirm-email 204: no body
+- response POST /api/app/account/confirm-phone-number 204: no body
+- response POST /api/app/account/reset-password 204: no body
+- response POST /api/app/account/send-email-confirmation-token 204: no body
+- response POST /api/app/account/send-password-reset-code 204: no body
+- response POST /api/app/account/send-phone-number-confirmation-token 204: no body
+- response POST /api/app/account/set-profile-picture 204: no body
+- response POST /api/app/audit-log-continuation/{id}/ensure-entity-access 204: no body
+- response POST /api/app/my-security-log/{id}/ensure-entity-access 204: no body
+- response POST /api/app/my-session/{id}/ensure-entity-access 204: no body
+- response POST /api/app/my-session/{id}/revoke 204: no body
+- response POST /api/app/wink-pg-profile/change-password 204: no body
+- response POST /api/app/wink-pg-profile/set-two-factor-enabled 204: no body
+- response POST /api/customers/delete-stored-payment-method-async 204: no body
+- response POST /api/hostedpaymentpages/sessions/{sessionId}/pause 204: no body
+- response POST /api/hostedpaymentpages/sessions/{sessionId}/resume 204: no body
+- response POST /api/hostedpaymentpages/sessions/{sessionId}/revoke 204: no body
+- response POST /api/hostedpaymentpages/sessions/{sessionId}/send-link 204: no body
+- response POST /api/notifications/channels/{id}/disable 204: no body
+- response POST /api/notifications/channels/{id}/enable 204: no body
+- response POST /api/notifications/destinations/{id}/disable 204: no body
+- response POST /api/notifications/destinations/{id}/enable 204: no body
+- response POST /api/notifications/listen-sessions/{id}/end 204: no body
+- response POST /api/notifications/subscriptions/{id}/disable 204: no body
+- response POST /api/notifications/subscriptions/{id}/enable 204: no body
+- response PUT /api/identity/roles/{id}/claims 204: no body
+- response PUT /api/identity/roles/{id}/move-all-users 204: no body
+- response PUT /api/identity/users/{id}/change-password 204: no body
+- response PUT /api/identity/users/{id}/claims 204: no body
+- response PUT /api/identity/users/{id}/lock/{lockoutEnd} 204: no body
+- response PUT /api/identity/users/{id}/roles 204: no body
+- response PUT /api/identity/users/{id}/two-factor/{enabled} 204: no body
+- response PUT /api/identity/users/{id}/unlock 204: no body
+- response PUT /api/surcharging/configurations/{merchantId}/state-policies 204: no body
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
