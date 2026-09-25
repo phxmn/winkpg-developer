@@ -47395,7 +47395,7 @@
           "Invoicing"
         ],
         "summary": "Payment Plan: Returns the invoice's payment plan.",
-        "description": "The body is empty when no plan is set up (an existing invoice with no plan is a valid state, not a missing resource).\n\nA cancelled plan is still returned, with `status` `Cancelled` and its installments\r\n`Cancelled`, until a new plan is set up and replaces it. A completed plan is returned the\r\nsame way. `404` `Invoicing:PaymentPlan:NotFound` comes only from cancel, when no plan\r\nis active.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "The body is empty when no plan is set up (an existing invoice with no plan is a valid state, not a missing resource).\n\nA canceled plan is still returned, with `status` `Cancelled` and its installments\r\n`Cancelled`, until a new plan is set up and replaces it. A completed plan is returned the\r\nsame way. `404` `Invoicing:PaymentPlan:NotFound` comes only from cancel, when no plan\r\nis active.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
         "operationId": "invoicePaymentPlanGet",
         "parameters": [
           {
