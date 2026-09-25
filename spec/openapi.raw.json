@@ -178919,7 +178919,8 @@
                 "$ref": "#/components/schemas/ResetPeriod"
               }
             ],
-            "description": "How often the usage counter resets."
+            "description": "How often the usage counter resets. Omit it, or send null, to keep the entitlement's\r\ncurrent reset period.",
+            "nullable": true
           },
           "concurrencyStamp": {
             "type": "string",
