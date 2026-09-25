@@ -47365,7 +47365,7 @@
             }
           },
           "409": {
-            "description": "The installment exists but is not pending: it is already paid, failed, or cancelled with its plan\r\n(`Invoicing:PaymentPlan:InstallmentNotPending`). `error.data` carries the installment's\r\n`status`, `sequenceNumber` and `installmentId`. Nothing was changed."
+            "description": "The installment exists but is not pending: it is already paid, failed, or canceled with its plan\r\n(`Invoicing:PaymentPlan:InstallmentNotPending`). `error.data` carries the installment's\r\n`status`, `sequenceNumber` and `installmentId`. Nothing was changed."
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
