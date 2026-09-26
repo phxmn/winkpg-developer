@@ -54994,13 +54994,13 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Lists billing runs in the caller's reseller scope.",
-        "description": "Paged with a continuation token.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant",
+        "description": "Paged with a continuation token. A reseller caller may pass `ResellerId` to list the runs\r\nof a reseller beneath their own; each run names the reseller it billed.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant",
         "operationId": "billingRunGetList",
         "parameters": [
           {
             "name": "ResellerId",
             "in": "query",
-            "description": "Optional reseller drill-down. Honored only for admin callers; reseller users are\r\nalways scoped to their own reseller regardless of this value.",
+            "description": "Optional reseller drill-down. An admin may name any reseller (omit it to list across every\r\nreseller). A reseller user may name their own reseller or any live reseller beneath it; any\r\nother value, or none, lists the user's own reseller.",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -55283,7 +55283,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Creates and runs a billing run for the caller's reseller scope.",
-        "description": "A reseller caller (or an admin acting inside a reseller's context) runs that single reseller;\r\nan admin with no reseller context fans out across every reseller with billable merchants. Set\r\n`IsDryRun` on the input for a preview that calculates charges without generating invoices.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Create`  \n**Scope**: merchant",
+        "description": "A reseller caller (or an admin acting inside a reseller's context) runs that single reseller;\r\nan admin with no reseller context fans out across every reseller with billable merchants. Set\r\n`ResellerId` to run one named reseller instead: the caller's own or one beneath it (an\r\nadmin may name any). Set `IsDryRun` on the input for a preview that calculates charges\r\nwithout generating invoices.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Create`  \n**Scope**: merchant",
         "operationId": "billingRunCreateAndRun",
         "parameters": [
           {
@@ -55296,7 +55296,7 @@
           }
         ],
         "requestBody": {
-          "description": "The period key and dry-run flag.",
+          "description": "The period key, dry-run flag, and optional reseller.",
           "content": {
             "application/json": {
               "schema": {
@@ -55397,7 +55397,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "The named reseller does not exist or is outside the caller's reseller scope.",
             "content": {
               "text/plain": {
                 "schema": {
@@ -56881,6 +56881,186 @@
         "x-permissions": [
           "MerchantBilling.BillingRuns",
           "MerchantBilling.Reports"
+        ],
+        "x-scope": "merchant"
+      }
+    },
+    "/api/billing-runs/target-resellers": {
+      "get": {
+        "tags": [
+          "Merchant Billing"
+        ],
+        "summary": "Billing Runs: Lists the resellers the caller can run billing for.",
+        "description": "The caller's own reseller first, then every reseller beneath it, by name. Empty for a caller\r\nwith no reseller context. Any listed id is accepted as `ResellerId` when creating a run\r\nor listing runs.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant",
+        "operationId": "billingRunGetRunTargetResellers",
+        "parameters": [
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The resellers the caller can target.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResultDtoOfBillingRunTargetResellerDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResultDtoOfBillingRunTargetResellerDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResultDtoOfBillingRunTargetResellerDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "x-winkpg-subresource": "Billing Runs",
+        "x-permissions": [
+          "MerchantBilling.BillingRuns"
         ],
         "x-scope": "merchant"
       }
@@ -60938,7 +61118,7 @@
           "Merchants"
         ],
         "summary": "Assigns a merchant to a price plan.",
-        "description": "Only the plan assignment changes; nothing else on the merchant is rewritten. A merchant\nalready on another plan is moved to this one, because a merchant holds one active\nassignment at a time. The request is refused when the merchant is locked, and when the\nassignment would make a reseller's own collection merchant billable to itself.\n\n---\n**Required permissions**: `MerchantBilling.PricePlans.Assign`  \n**Scope**: merchant",
+        "description": "Only the plan assignment changes; nothing else on the merchant is rewritten. A merchant\nalready on another plan is moved to this one, because a merchant holds one active\nassignment at a time. The plan must belong to the merchant's reseller or to a reseller\nabove it. The request is refused when the merchant is locked, and when the assignment\nwould make a reseller's own collection merchant billable to itself.\n\n---\n**Required permissions**: `MerchantBilling.PricePlans.Assign`  \n**Scope**: merchant",
         "operationId": "merchantsAssignPricePlan",
         "parameters": [
           {
@@ -65104,7 +65284,7 @@
           "Merchants"
         ],
         "summary": "Lists the merchants currently assigned to a price plan.",
-        "description": "Scoped to the plan's own reseller and paged with continuation tokens.\n\n---\n**Required permissions**: `Merchants`  \n**Scope**: merchant",
+        "description": "Covers merchants of the plan's own reseller and of every reseller beneath it, at any depth,\nbecause a reseller's plan can bill a sub-reseller's merchant. Each merchant carries its own\nreseller's name. Paged with continuation tokens.\n\n---\n**Required permissions**: `Merchants`  \n**Scope**: merchant",
         "operationId": "merchantsGetMerchantsByPricePlan",
         "parameters": [
           {
@@ -65302,7 +65482,7 @@
           "Merchants"
         ],
         "summary": "Lists the merchants that can be assigned to a price plan.",
-        "description": "Active merchants in the plan's reseller scope, minus those already on the plan, filtered to\nwhat the caller is authorized to see. Continuation-paged. Requires the merchant read\npermission as well as the plan-assign permission.\n\n---\n**Required permissions**: `Merchants`  \n**Scope**: merchant",
+        "description": "Active merchants of the plan's reseller and of every reseller beneath it, minus those already\non the plan, filtered to what the caller is authorized to see. Continuation-paged. Requires the merchant read\npermission as well as the plan-assign permission.\n\n---\n**Required permissions**: `Merchants`  \n**Scope**: merchant",
         "operationId": "merchantsGetAssignableMerchants",
         "parameters": [
           {
@@ -136279,6 +136459,11 @@
             "format": "uuid",
             "nullable": true
           },
+          "resellerName": {
+            "type": "string",
+            "description": "Display name of the reseller the run billed. Populated on list reads, where runs of the\r\ncaller's own reseller and of resellers beneath it can appear; null when it cannot be resolved.",
+            "nullable": true
+          },
           "periodKey": {
             "type": "string",
             "nullable": true
@@ -136661,6 +136846,26 @@
         },
         "additionalProperties": false,
         "description": "Output DTO for a per-merchant billing run result."
+      },
+      "BillingRunTargetResellerDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "The reseller's display name, or null when it has none.",
+            "nullable": true
+          },
+          "isOwnReseller": {
+            "type": "boolean",
+            "description": "True for the caller's own reseller, which a run targets when no reseller is named."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A reseller the caller can run billing for, and view the billing runs of: the caller's own\r\nreseller or a reseller beneath it. `Id` is the reseller id, accepted\r\nas `ResellerId` and `ResellerId`."
       },
       "BillingRunTriggerType": {
         "enum": [
@@ -142190,6 +142395,24 @@
           "isDryRun": {
             "type": "boolean",
             "description": "When true, calculates charges without generating invoices (preview mode)."
+          },
+          "resellerId": {
+            "type": "string",
+            "description": "Optional reseller to run billing for. Omit it to run for the caller's own reseller (or, for an\r\nadmin with no reseller selected, to bill every reseller). When set, the run bills that one\r\nreseller's merchants; a reseller caller may name their own reseller or any reseller beneath it,\r\nand an admin may name any reseller. A reseller outside the caller's scope is reported as not\r\nfound. Not accepted by the all-resellers trigger.\nConditional: When ResellerId and HasValue meet conditions.",
+            "format": "uuid",
+            "nullable": true,
+            "x-validation-rules": [
+              {
+                "conditionallyRequired": false,
+                "condition": "When ResellerId and HasValue meet conditions",
+                "constraints": [
+                  {
+                    "type": "NotEqual",
+                    "conditional": true
+                  }
+                ]
+              }
+            ]
           }
         },
         "additionalProperties": false,
@@ -148071,7 +148294,7 @@
           },
           "resellerId": {
             "type": "string",
-            "description": "The reseller that owns the price plan (and the merchant partition to scan). Resolved\r\nserver-side from the plan on the calling page: never trusted from arbitrary client input\r\nbeyond scoping the partition read.",
+            "description": "The reseller that owns the price plan. Its merchants and those of every reseller beneath it\r\nare scanned. Resolved server-side from the plan on the calling page: never trusted from\r\narbitrary client input beyond scoping the read, which the caller must be authorized for.",
             "format": "uuid"
           },
           "maxResultCount": {
@@ -148088,12 +148311,12 @@
           },
           "searchTerm": {
             "type": "string",
-            "description": "Optional free-text merchant-name filter for the assign-candidate typeahead. Applied\r\nserver-side as an indexable `Name Contains` predicate alongside the reseller-partition\r\nscope; null/blank returns the first page unfiltered. Used by\r\n`GetAssignableMerchantsAsync` only.",
+            "description": "Optional free-text merchant-name filter for the assign-candidate typeahead. Applied\r\nserver-side as an indexable `Name Contains` predicate alongside the reseller-subtree\r\nscope; null/blank returns the first page unfiltered. Used by\r\n`GetAssignableMerchantsAsync` only.",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "Input for the plan-side assignments query: the merchants whose\r\n`BillingAssignment.PricePlanId` equals `PricePlanId` within a single\r\nreseller. Continuation-token paged. Backs the plan-side Assignments tab."
+        "description": "Input for the plan-side assignments query: the merchants whose\r\n`BillingAssignment.PricePlanId` equals `PricePlanId` within the plan's\r\nreseller and every reseller beneath it. Continuation-token paged. Backs the plan-side\r\nAssignments tab."
       },
       "GetMerchantsContinuationInput": {
         "type": "object",
@@ -158615,6 +158838,19 @@
         "x-enumDescriptions": [
           "A separate charge submitted to carry a convenience fee that a card-brand program requires to settle as its own authorization (its own approval code), linked to the primary payment it was assessed against."
         ]
+      },
+      "ListResultDtoOfBillingRunTargetResellerDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BillingRunTargetResellerDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "ListResultDtoOfIdentityRoleDto": {
         "type": "object",
