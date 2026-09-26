@@ -1,42 +1,98 @@
-## 29.13.0
+## 30.0.0
 
-Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
+Major release: this version changes or removes surface that earlier versions published. Read the breaking changes below before upgrading.
 
-### Additions
+### Breaking changes
 
-- field BillingRunDto.resellerName: type=string nullable=true
-- field BillingRunTargetResellerDto.id: type=string format=uuid
-- field BillingRunTargetResellerDto.isOwnReseller: type=boolean
-- field BillingRunTargetResellerDto.name: type=string nullable=true
-- field CreateBillingRunInput.resellerId: type=string format=uuid nullable=true
-- field ListResultDtoOfBillingRunTargetResellerDto.items: type=array nullable=true items(BillingRunTargetResellerDto)
-- operation GET /api/billing-runs/target-resellers
-- parameter GET /api/billing-runs/target-resellers query:suppressNulls: optional type=boolean
-- response GET /api/billing-runs/target-resellers 200 (application/json): ListResultDtoOfBillingRunTargetResellerDto
-- response GET /api/billing-runs/target-resellers 200 (text/json): ListResultDtoOfBillingRunTargetResellerDto
-- response GET /api/billing-runs/target-resellers 200 (text/plain): ListResultDtoOfBillingRunTargetResellerDto
-- response GET /api/billing-runs/target-resellers 400 (application/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 400 (text/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 400 (text/plain): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 401 (application/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 401 (text/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 401 (text/plain): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 403 (application/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 403 (text/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 403 (text/plain): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 404 (application/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 404 (text/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 404 (text/plain): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 429: no body
-- response GET /api/billing-runs/target-resellers 500 (application/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 500 (text/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 500 (text/plain): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 501 (application/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 501 (text/json): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers 501 (text/plain): RemoteServiceErrorResponse
-- response GET /api/billing-runs/target-resellers default (application/json): RemoteServiceErrorResponse
-- schema BillingRunTargetResellerDto: type=object additionalProperties=false
-- schema ListResultDtoOfBillingRunTargetResellerDto: type=object additionalProperties=false
-- operation id billingRunGetRunTargetResellers (GET /api/billing-runs/target-resellers)
+- Removed response DELETE /api/account/sessions/{id} 200: no body
+- Removed response DELETE /api/announcements/templates/{id} 200: no body
+- Removed response DELETE /api/announcements/{id} 200: no body
+- Removed response DELETE /api/api-keys/{id} 200: no body
+- Removed response DELETE /api/campaigns/{id} 200: no body
+- Removed response DELETE /api/contract-plans/{id} 200: no body
+- Removed response DELETE /api/contracts/{id} 200: no body
+- Removed response DELETE /api/customers/{id} 200: no body
+- Removed response DELETE /api/developer-portal/accounts/{id} 200: no body
+- Removed response DELETE /api/favorites/user 200: no body
+- Removed response DELETE /api/hostedpaymentpages/{id} 200: no body
+- Removed response DELETE /api/identity/roles/{id} 200: no body
+- Removed response DELETE /api/identity/roles/{id}/users/{userId} 200: no body
+- Removed response DELETE /api/identity/sessions/{id} 200: no body
+- Removed response DELETE /api/identity/users/{id} 200: no body
+- Removed response DELETE /api/invoicing/credit-notes/{id} 200: no body
+- Removed response DELETE /api/invoicing/custom-field-definitions/{id} 200: no body
+- Removed response DELETE /api/invoicing/invoices/{id} 200: no body
+- Removed response DELETE /api/invoicing/products/{id} 200: no body
+- Removed response DELETE /api/invoicing/recurring-schedules/{id} 200: no body
+- Removed response DELETE /api/invoicing/tax-rates/{id} 200: no body
+- Removed response DELETE /api/invoicing/templates/{id} 200: no body
+- Removed response DELETE /api/merchants/{id} 200: no body
+- Removed response DELETE /api/merchants/{id}/payment-encryption-bindings/{providerName} 200: no body
+- Removed response DELETE /api/merchants/{id}/payment-encryption-bindings/{providerName}/keys/{ksi} 200: no body
+- Removed response DELETE /api/merchants/{id}/screening-provider-profiles/{profileId} 200: no body
+- Removed response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 200: no body
+- Removed response DELETE /api/merchants/{id}/tax-bindings/{providerName} 200: no body
+- Removed response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 200: no body
+- Removed response DELETE /api/notifications/channels/{id} 200: no body
+- Removed response DELETE /api/notifications/destinations/{id} 200: no body
+- Removed response DELETE /api/notifications/subscriptions/{id} 200: no body
+- Removed response DELETE /api/promotions/{id} 200: no body
+- Removed response DELETE /api/rate-limiting/profiles/{id} 200: no body
+- Removed response DELETE /api/rate-limiting/rules/{id} 200: no body
+- Removed response DELETE /api/resellers/{id} 200: no body
+- Removed response DELETE /api/shipping/origins/{id} 200: no body
+- Removed response DELETE /api/shipping/parcel-presets/{id} 200: no body
+- Removed response DELETE /api/tokens/{id} 200: no body
+- Removed response DELETE /api/usage/entitlements/{id} 200: no body
+- Removed response GET /api/account/logout 200: no body
+- Removed response GET /api/account/recaptcha-validate 200: no body
+- Removed response POST /api/account/confirm-email 200: no body
+- Removed response POST /api/account/confirm-phone-number 200: no body
+- Removed response POST /api/account/my-profile/change-password 200: no body
+- Removed response POST /api/account/my-profile/set-two-factor-enabled 200: no body
+- Removed response POST /api/account/profile-picture 200: no body
+- Removed response POST /api/account/reset-password 200: no body
+- Removed response POST /api/account/send-email-confirmation-token 200: no body
+- Removed response POST /api/account/send-password-reset-code 200: no body
+- Removed response POST /api/account/send-phone-number-confirmation-token 200: no body
+- Removed response POST /api/announcements/user/dismiss-all 200: no body
+- Removed response POST /api/announcements/user/mark-many-as-read 200: no body
+- Removed response POST /api/announcements/user/{announcementId}/dismiss 200: no body
+- Removed response POST /api/announcements/user/{announcementId}/mark-as-read 200: no body
+- Removed response POST /api/announcements/user/{announcementId}/record-popup-shown 200: no body
+- Removed response POST /api/app/account/confirm-email 200: no body
+- Removed response POST /api/app/account/confirm-phone-number 200: no body
+- Removed response POST /api/app/account/reset-password 200: no body
+- Removed response POST /api/app/account/send-email-confirmation-token 200: no body
+- Removed response POST /api/app/account/send-password-reset-code 200: no body
+- Removed response POST /api/app/account/send-phone-number-confirmation-token 200: no body
+- Removed response POST /api/app/account/set-profile-picture 200: no body
+- Removed response POST /api/app/audit-log-continuation/{id}/ensure-entity-access 200: no body
+- Removed response POST /api/app/my-security-log/{id}/ensure-entity-access 200: no body
+- Removed response POST /api/app/my-session/{id}/ensure-entity-access 200: no body
+- Removed response POST /api/app/my-session/{id}/revoke 200: no body
+- Removed response POST /api/app/wink-pg-profile/change-password 200: no body
+- Removed response POST /api/app/wink-pg-profile/set-two-factor-enabled 200: no body
+- Removed response POST /api/customers/delete-stored-payment-method-async 200: no body
+- Removed response POST /api/hostedpaymentpages/sessions/{sessionId}/pause 200: no body
+- Removed response POST /api/hostedpaymentpages/sessions/{sessionId}/resume 200: no body
+- Removed response POST /api/hostedpaymentpages/sessions/{sessionId}/revoke 200: no body
+- Removed response POST /api/hostedpaymentpages/sessions/{sessionId}/send-link 200: no body
+- Removed response POST /api/notifications/channels/{id}/disable 200: no body
+- Removed response POST /api/notifications/channels/{id}/enable 200: no body
+- Removed response POST /api/notifications/destinations/{id}/disable 200: no body
+- Removed response POST /api/notifications/destinations/{id}/enable 200: no body
+- Removed response POST /api/notifications/listen-sessions/{id}/end 200: no body
+- Removed response POST /api/notifications/subscriptions/{id}/disable 200: no body
+- Removed response POST /api/notifications/subscriptions/{id}/enable 200: no body
+- Removed response PUT /api/identity/roles/{id}/claims 200: no body
+- Removed response PUT /api/identity/roles/{id}/move-all-users 200: no body
+- Removed response PUT /api/identity/users/{id}/change-password 200: no body
+- Removed response PUT /api/identity/users/{id}/claims 200: no body
+- Removed response PUT /api/identity/users/{id}/lock/{lockoutEnd} 200: no body
+- Removed response PUT /api/identity/users/{id}/roles 200: no body
+- Removed response PUT /api/identity/users/{id}/two-factor/{enabled} 200: no body
+- Removed response PUT /api/identity/users/{id}/unlock 200: no body
+- Removed response PUT /api/surcharging/configurations/{merchantId}/state-policies 200: no body
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.

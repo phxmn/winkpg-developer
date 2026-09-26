@@ -42,9 +42,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -220,9 +217,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -398,9 +392,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -576,9 +567,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -2459,9 +2447,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -3021,9 +3006,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -3199,9 +3181,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -3377,9 +3356,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -3555,9 +3531,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -3733,9 +3706,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -3911,9 +3881,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -4281,9 +4248,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -4459,9 +4423,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -4645,9 +4606,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -4831,9 +4789,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -5777,9 +5732,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -6666,9 +6618,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -7019,9 +6968,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -7908,9 +7854,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -10123,9 +10066,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -10690,9 +10630,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -12562,9 +12499,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -12738,9 +12672,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -13490,9 +13421,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -13688,9 +13616,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -13864,9 +13789,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -15271,9 +15193,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -17636,9 +17555,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -20427,9 +20343,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -23622,9 +23535,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -26278,9 +26188,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -27436,7 +27343,7 @@
                 "Add Card": {
                   "summary": "Add Card",
                   "description": "Adds a credit/debit card to the customer's stored payment methods. Set IsDefault = true to mark this as the customer's default payment method (any prior default is automatically demoted server-side).",
-                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-25T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
+                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-26T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
                 },
                 "Add ACH / eCheck": {
                   "summary": "Add ACH / eCheck",
@@ -27453,7 +27360,7 @@
                 "Add Card": {
                   "summary": "Add Card",
                   "description": "Adds a credit/debit card to the customer's stored payment methods. Set IsDefault = true to mark this as the customer's default payment method (any prior default is automatically demoted server-side).",
-                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-25T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
+                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-26T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
                 },
                 "Add ACH / eCheck": {
                   "summary": "Add ACH / eCheck",
@@ -27470,7 +27377,7 @@
                 "Add Card": {
                   "summary": "Add Card",
                   "description": "Adds a credit/debit card to the customer's stored payment methods. Set IsDefault = true to mark this as the customer's default payment method (any prior default is automatically demoted server-side).",
-                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-25T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
+                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-26T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
                 },
                 "Add ACH / eCheck": {
                   "summary": "Add ACH / eCheck",
@@ -29204,9 +29111,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -29971,9 +29875,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -31830,9 +31731,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -36644,9 +36542,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -37465,9 +37360,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -38307,9 +38199,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -39250,9 +39139,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -39446,9 +39332,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -42117,9 +42000,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -45901,9 +45781,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -46965,9 +46842,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -48808,9 +48682,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -50698,9 +50569,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -52901,9 +52769,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -53945,9 +53810,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -54686,9 +54548,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -59544,9 +59403,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -60140,9 +59996,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -62981,9 +62834,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -69300,9 +69150,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -69897,9 +69744,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -70905,9 +70749,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -71913,9 +71754,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -74607,9 +74445,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -75248,9 +75083,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -79630,9 +79462,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -80197,9 +80026,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -80764,9 +80590,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -81006,9 +80829,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -81061,9 +80881,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -81116,9 +80933,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -81378,9 +81192,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -81433,9 +81244,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -81488,9 +81296,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -81543,9 +81348,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Listed for compatibility; a successful call answers 204."
-          },
           "204": {
             "description": "The session is ended. Ending an already-ended session also succeeds."
           },
@@ -87429,9 +87231,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -89579,9 +89378,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -91531,9 +91327,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -96023,9 +95816,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -99123,9 +98913,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -99690,9 +99477,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -100066,9 +99850,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -100249,9 +100030,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -102026,9 +101804,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -105600,9 +105375,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -107903,9 +107675,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -109389,9 +109158,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -111751,9 +111517,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -123104,9 +122867,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -124701,9 +124461,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -126252,9 +126009,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -128421,9 +128175,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -130215,9 +129966,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -130975,9 +130723,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -131339,9 +131084,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -131515,9 +131257,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -131711,9 +131450,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -132238,9 +131974,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
@@ -132594,9 +132327,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "204": {
             "description": "No content. The operation succeeded and returns no body."
           },
