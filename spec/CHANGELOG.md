@@ -1,98 +1,205 @@
-## 30.0.0
+## 30.1.0
 
-Major release: this version changes or removes surface that earlier versions published. Read the breaking changes below before upgrading.
+Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
-### Breaking changes
+### Additions
 
-- Removed response DELETE /api/account/sessions/{id} 200: no body
-- Removed response DELETE /api/announcements/templates/{id} 200: no body
-- Removed response DELETE /api/announcements/{id} 200: no body
-- Removed response DELETE /api/api-keys/{id} 200: no body
-- Removed response DELETE /api/campaigns/{id} 200: no body
-- Removed response DELETE /api/contract-plans/{id} 200: no body
-- Removed response DELETE /api/contracts/{id} 200: no body
-- Removed response DELETE /api/customers/{id} 200: no body
-- Removed response DELETE /api/developer-portal/accounts/{id} 200: no body
-- Removed response DELETE /api/favorites/user 200: no body
-- Removed response DELETE /api/hostedpaymentpages/{id} 200: no body
-- Removed response DELETE /api/identity/roles/{id} 200: no body
-- Removed response DELETE /api/identity/roles/{id}/users/{userId} 200: no body
-- Removed response DELETE /api/identity/sessions/{id} 200: no body
-- Removed response DELETE /api/identity/users/{id} 200: no body
-- Removed response DELETE /api/invoicing/credit-notes/{id} 200: no body
-- Removed response DELETE /api/invoicing/custom-field-definitions/{id} 200: no body
-- Removed response DELETE /api/invoicing/invoices/{id} 200: no body
-- Removed response DELETE /api/invoicing/products/{id} 200: no body
-- Removed response DELETE /api/invoicing/recurring-schedules/{id} 200: no body
-- Removed response DELETE /api/invoicing/tax-rates/{id} 200: no body
-- Removed response DELETE /api/invoicing/templates/{id} 200: no body
-- Removed response DELETE /api/merchants/{id} 200: no body
-- Removed response DELETE /api/merchants/{id}/payment-encryption-bindings/{providerName} 200: no body
-- Removed response DELETE /api/merchants/{id}/payment-encryption-bindings/{providerName}/keys/{ksi} 200: no body
-- Removed response DELETE /api/merchants/{id}/screening-provider-profiles/{profileId} 200: no body
-- Removed response DELETE /api/merchants/{id}/shipping-bindings/{providerName} 200: no body
-- Removed response DELETE /api/merchants/{id}/tax-bindings/{providerName} 200: no body
-- Removed response DELETE /api/merchants/{id}/three-d-secure-bindings/{providerType} 200: no body
-- Removed response DELETE /api/notifications/channels/{id} 200: no body
-- Removed response DELETE /api/notifications/destinations/{id} 200: no body
-- Removed response DELETE /api/notifications/subscriptions/{id} 200: no body
-- Removed response DELETE /api/promotions/{id} 200: no body
-- Removed response DELETE /api/rate-limiting/profiles/{id} 200: no body
-- Removed response DELETE /api/rate-limiting/rules/{id} 200: no body
-- Removed response DELETE /api/resellers/{id} 200: no body
-- Removed response DELETE /api/shipping/origins/{id} 200: no body
-- Removed response DELETE /api/shipping/parcel-presets/{id} 200: no body
-- Removed response DELETE /api/tokens/{id} 200: no body
-- Removed response DELETE /api/usage/entitlements/{id} 200: no body
-- Removed response GET /api/account/logout 200: no body
-- Removed response GET /api/account/recaptcha-validate 200: no body
-- Removed response POST /api/account/confirm-email 200: no body
-- Removed response POST /api/account/confirm-phone-number 200: no body
-- Removed response POST /api/account/my-profile/change-password 200: no body
-- Removed response POST /api/account/my-profile/set-two-factor-enabled 200: no body
-- Removed response POST /api/account/profile-picture 200: no body
-- Removed response POST /api/account/reset-password 200: no body
-- Removed response POST /api/account/send-email-confirmation-token 200: no body
-- Removed response POST /api/account/send-password-reset-code 200: no body
-- Removed response POST /api/account/send-phone-number-confirmation-token 200: no body
-- Removed response POST /api/announcements/user/dismiss-all 200: no body
-- Removed response POST /api/announcements/user/mark-many-as-read 200: no body
-- Removed response POST /api/announcements/user/{announcementId}/dismiss 200: no body
-- Removed response POST /api/announcements/user/{announcementId}/mark-as-read 200: no body
-- Removed response POST /api/announcements/user/{announcementId}/record-popup-shown 200: no body
-- Removed response POST /api/app/account/confirm-email 200: no body
-- Removed response POST /api/app/account/confirm-phone-number 200: no body
-- Removed response POST /api/app/account/reset-password 200: no body
-- Removed response POST /api/app/account/send-email-confirmation-token 200: no body
-- Removed response POST /api/app/account/send-password-reset-code 200: no body
-- Removed response POST /api/app/account/send-phone-number-confirmation-token 200: no body
-- Removed response POST /api/app/account/set-profile-picture 200: no body
-- Removed response POST /api/app/audit-log-continuation/{id}/ensure-entity-access 200: no body
-- Removed response POST /api/app/my-security-log/{id}/ensure-entity-access 200: no body
-- Removed response POST /api/app/my-session/{id}/ensure-entity-access 200: no body
-- Removed response POST /api/app/my-session/{id}/revoke 200: no body
-- Removed response POST /api/app/wink-pg-profile/change-password 200: no body
-- Removed response POST /api/app/wink-pg-profile/set-two-factor-enabled 200: no body
-- Removed response POST /api/customers/delete-stored-payment-method-async 200: no body
-- Removed response POST /api/hostedpaymentpages/sessions/{sessionId}/pause 200: no body
-- Removed response POST /api/hostedpaymentpages/sessions/{sessionId}/resume 200: no body
-- Removed response POST /api/hostedpaymentpages/sessions/{sessionId}/revoke 200: no body
-- Removed response POST /api/hostedpaymentpages/sessions/{sessionId}/send-link 200: no body
-- Removed response POST /api/notifications/channels/{id}/disable 200: no body
-- Removed response POST /api/notifications/channels/{id}/enable 200: no body
-- Removed response POST /api/notifications/destinations/{id}/disable 200: no body
-- Removed response POST /api/notifications/destinations/{id}/enable 200: no body
-- Removed response POST /api/notifications/listen-sessions/{id}/end 200: no body
-- Removed response POST /api/notifications/subscriptions/{id}/disable 200: no body
-- Removed response POST /api/notifications/subscriptions/{id}/enable 200: no body
-- Removed response PUT /api/identity/roles/{id}/claims 200: no body
-- Removed response PUT /api/identity/roles/{id}/move-all-users 200: no body
-- Removed response PUT /api/identity/users/{id}/change-password 200: no body
-- Removed response PUT /api/identity/users/{id}/claims 200: no body
-- Removed response PUT /api/identity/users/{id}/lock/{lockoutEnd} 200: no body
-- Removed response PUT /api/identity/users/{id}/roles 200: no body
-- Removed response PUT /api/identity/users/{id}/two-factor/{enabled} 200: no body
-- Removed response PUT /api/identity/users/{id}/unlock 200: no body
-- Removed response PUT /api/surcharging/configurations/{merchantId}/state-policies 200: no body
+- error code Reports:ExportFormatNotSupported: 400
+- error code Reports:InvalidFilterValue: 400
+- error code Reports:MerchantFilterNotSupported: 400
+- error code Reports:MerchantNotInScope: 404
+- error code Reports:ReportNotFound: 404
+- error code Reports:RowLimitExceeded: 400
+- error code Reports:UnknownFilter: 400
+- field ListResultDtoOfReportCatalogItemDto.items: type=array nullable=true items(ReportCatalogItemDto)
+- field ListResultDtoOfReportColumnDto.items: type=array nullable=true items(ReportColumnDto)
+- field ListResultDtoOfReportParameterDto.items: type=array nullable=true items(ReportParameterDto)
+- field ReportCatalogItemDto.description: type=string nullable=true
+- field ReportCatalogItemDto.displayName: type=string nullable=true
+- field ReportCatalogItemDto.exportFormats: type=array nullable=true items(ReportFileFormat)
+- field ReportCatalogItemDto.module: type=string nullable=true
+- field ReportCatalogItemDto.reportId: type=string nullable=true
+- field ReportCatalogItemDto.supportsMerchantFilter: type=boolean
+- field ReportColumnDto.aggregates: type=array nullable=true items(ColumnAggregateType)
+- field ReportColumnDto.field: type=string nullable=true
+- field ReportColumnDto.fieldType: allOf(ReportColumnFieldType)
+- field ReportColumnDto.format: type=string nullable=true
+- field ReportColumnDto.isVisible: type=boolean
+- field ReportColumnDto.label: type=string nullable=true
+- field ReportParameterDto.allowMultiple: type=boolean
+- field ReportParameterDto.defaultValue: type=string nullable=true
+- field ReportParameterDto.helpText: type=string nullable=true
+- field ReportParameterDto.isRequired: type=boolean
+- field ReportParameterDto.label: type=string nullable=true
+- field ReportParameterDto.name: type=string nullable=true
+- field ReportParameterDto.options: type=array nullable=true items(ReportParameterOptionDto)
+- field ReportParameterDto.type: type=string nullable=true
+- field ReportParameterOptionDto.display: type=string nullable=true
+- field ReportParameterOptionDto.value: type=string nullable=true
+- field ReportRunRequestDto.endDate: required type=string format=date
+- field ReportRunRequestDto.filters: type=object nullable=true values(nullable=true)
+- field ReportRunRequestDto.merchantId: type=string format=uuid nullable=true
+- field ReportRunRequestDto.startDate: required type=string format=date
+- field ReportRunRequestDto.timeZoneId: type=string nullable=true maxLength=64
+- field ReportRunResultDto.columns: type=array nullable=true items(ReportColumnDto)
+- field ReportRunResultDto.endUtc: type=string format=date-time
+- field ReportRunResultDto.merchantId: type=string format=uuid nullable=true
+- field ReportRunResultDto.reportId: type=string nullable=true
+- field ReportRunResultDto.rowCount: type=integer format=int32
+- field ReportRunResultDto.rows: type=array nullable=true items(type=object)
+- field ReportRunResultDto.startUtc: type=string format=date-time
+- field ReportRunResultDto.timeZoneId: type=string nullable=true
+- operation GET /api/reports
+- operation GET /api/reports/{reportId}/columns
+- operation GET /api/reports/{reportId}/parameters
+- operation POST /api/reports/{reportId}/export
+- operation POST /api/reports/{reportId}/run
+- parameter GET /api/reports query:suppressNulls: optional type=boolean
+- parameter GET /api/reports/{reportId}/columns path:reportId: required type=string
+- parameter GET /api/reports/{reportId}/columns query:suppressNulls: optional type=boolean
+- parameter GET /api/reports/{reportId}/parameters path:reportId: required type=string
+- parameter GET /api/reports/{reportId}/parameters query:suppressNulls: optional type=boolean
+- parameter POST /api/reports/{reportId}/export path:reportId: required type=string
+- parameter POST /api/reports/{reportId}/export query:format: optional ReportFileFormat
+- parameter POST /api/reports/{reportId}/export query:suppressNulls: optional type=boolean
+- parameter POST /api/reports/{reportId}/run path:reportId: required type=string
+- parameter POST /api/reports/{reportId}/run query:suppressNulls: optional type=boolean
+- request body POST /api/reports/{reportId}/export (application/*+json): optional ReportRunRequestDto
+- request body POST /api/reports/{reportId}/export (application/json): optional ReportRunRequestDto
+- request body POST /api/reports/{reportId}/export (text/json): optional ReportRunRequestDto
+- request body POST /api/reports/{reportId}/run (application/*+json): optional ReportRunRequestDto
+- request body POST /api/reports/{reportId}/run (application/json): optional ReportRunRequestDto
+- request body POST /api/reports/{reportId}/run (text/json): optional ReportRunRequestDto
+- response GET /api/reports 200 (application/json): ListResultDtoOfReportCatalogItemDto
+- response GET /api/reports 200 (text/json): ListResultDtoOfReportCatalogItemDto
+- response GET /api/reports 200 (text/plain): ListResultDtoOfReportCatalogItemDto
+- response GET /api/reports 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports 429: no body
+- response GET /api/reports 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports default (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 200 (application/json): ListResultDtoOfReportColumnDto
+- response GET /api/reports/{reportId}/columns 200 (text/json): ListResultDtoOfReportColumnDto
+- response GET /api/reports/{reportId}/columns 200 (text/plain): ListResultDtoOfReportColumnDto
+- response GET /api/reports/{reportId}/columns 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 429: no body
+- response GET /api/reports/{reportId}/columns 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/columns default (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 200 (application/json): ListResultDtoOfReportParameterDto
+- response GET /api/reports/{reportId}/parameters 200 (text/json): ListResultDtoOfReportParameterDto
+- response GET /api/reports/{reportId}/parameters 200 (text/plain): ListResultDtoOfReportParameterDto
+- response GET /api/reports/{reportId}/parameters 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 429: no body
+- response GET /api/reports/{reportId}/parameters 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/reports/{reportId}/parameters default (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 200 (application/vnd.openxmlformats-officedocument.spreadsheetml.sheet): type=string format=binary
+- response POST /api/reports/{reportId}/export 200 (text/csv): type=string format=binary
+- response POST /api/reports/{reportId}/export 400 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 400 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 400 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 401 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 401 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 401 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 403 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 403 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 403 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 404 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 404 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 404 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 429: no body
+- response POST /api/reports/{reportId}/export 500 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 500 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 500 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 501 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 501 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export 501 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/export default (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 200 (application/json): ReportRunResultDto
+- response POST /api/reports/{reportId}/run 200 (text/json): ReportRunResultDto
+- response POST /api/reports/{reportId}/run 200 (text/plain): ReportRunResultDto
+- response POST /api/reports/{reportId}/run 400 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 400 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 400 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 401 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 401 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 401 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 403 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 403 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 403 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 404 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 404 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 404 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 429: no body
+- response POST /api/reports/{reportId}/run 500 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 500 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 500 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 501 (application/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 501 (text/json): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run 501 (text/plain): RemoteServiceErrorResponse
+- response POST /api/reports/{reportId}/run default (application/json): RemoteServiceErrorResponse
+- schema ColumnAggregateType: type=string enum=[Average,Count,Max,Min,Sum]
+- schema ListResultDtoOfReportCatalogItemDto: type=object additionalProperties=false
+- schema ListResultDtoOfReportColumnDto: type=object additionalProperties=false
+- schema ListResultDtoOfReportParameterDto: type=object additionalProperties=false
+- schema ReportCatalogItemDto: type=object additionalProperties=false
+- schema ReportColumnDto: type=object additionalProperties=false
+- schema ReportColumnFieldType: type=string enum=[Boolean,Date,DateTime,Decimal,Guid,Integer,Other,String]
+- schema ReportFileFormat: type=string enum=[Csv,Xlsx]
+- schema ReportParameterDto: type=object additionalProperties=false
+- schema ReportParameterOptionDto: type=object additionalProperties=false
+- schema ReportRunRequestDto: type=object additionalProperties=false
+- schema ReportRunResultDto: type=object additionalProperties=false
+- operation id reportsExport (POST /api/reports/{reportId}/export)
+- operation id reportsGetColumns (GET /api/reports/{reportId}/columns)
+- operation id reportsGetList (GET /api/reports)
+- operation id reportsGetParameters (GET /api/reports/{reportId}/parameters)
+- operation id reportsRun (POST /api/reports/{reportId}/run)
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
