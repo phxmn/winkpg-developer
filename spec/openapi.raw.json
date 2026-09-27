@@ -77052,6 +77052,64 @@
         "x-scope": "merchant"
       }
     },
+    "/api/notifications/inbox/unread-summary": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Counts the caller's unread notifications.",
+        "description": "The response also carries `pollIntervalSeconds`, the interval at which a client showing\r\nthese counts should ask for them again.",
+        "operationId": "notificationsGetInboxUnreadSummary",
+        "parameters": [
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The caller's unread counts.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InboxUnreadSummaryDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InboxUnreadSummaryDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InboxUnreadSummaryDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The caller is not signed in."
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
     "/api/notifications/channels/list/continuation/count": {
       "post": {
         "tags": [
@@ -82397,6 +82455,227 @@
         }
       }
     },
+    "/api/notifications/inbox": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Lists the caller's notifications, newest first.",
+        "description": "Continuation-paged: pass the `nextToken` from one page as `continuationToken` to read\r\nthe next. Narrow by `category` or by `isRead`.",
+        "operationId": "notificationsGetInboxList",
+        "parameters": [
+          {
+            "name": "Category",
+            "in": "query",
+            "description": "Narrows to one catalog category, for example `Transactions`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "IsRead",
+            "in": "query",
+            "description": "Narrows to read (`true`) or unread (`false`) notifications.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "MaxResultCount",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ContinuationToken",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "IncludeDeleted",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "IncludeInactive",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "IncludeApproxTotalCount",
+            "in": "query",
+            "description": "Set to false to skip the approximate total count query and receive a null count; omit the\r\nvalue or set it to true to receive the count.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Sorting.Field",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sorting.Descending",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Filter.Logic",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/FilterLogic"
+            }
+          },
+          {
+            "name": "Filter.Rules",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/FilterRule"
+              }
+            }
+          },
+          {
+            "name": "Filter.Groups",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/FilterGroup"
+              }
+            }
+          },
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One page of the caller's notifications.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContinuationPagedResultDtoOfInAppNotificationItemDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContinuationPagedResultDtoOfInAppNotificationItemDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContinuationPagedResultDtoOfInAppNotificationItemDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The page size, sort field or filter field is not supported."
+          },
+          "401": {
+            "description": "The caller is not signed in."
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/api/notifications/inbox/categories": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Lists the notification categories the inbox can be filtered by.",
+        "operationId": "notificationsGetInboxCategories",
+        "parameters": [
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The category names, in alphabetical order.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The caller is not signed in."
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
     "/api/notifications/events": {
       "get": {
         "tags": [
@@ -82510,6 +82789,118 @@
           "Notifications.Events"
         ],
         "x-scope": "merchant"
+      }
+    },
+    "/api/notifications/inbox/{id}/mark-read": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Marks one of the caller's notifications read.",
+        "description": "Succeeds whether or not the notification was already read, and for an id that is not the\r\ncaller's, so the response never reveals whether another user's notification exists.",
+        "operationId": "notificationsMarkInboxItemRead",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The notification id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The notification is read."
+          },
+          "401": {
+            "description": "The caller is not signed in."
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/api/notifications/inbox/mark-all-read": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Marks the caller's unread notifications read.",
+        "description": "Marks up to 500 notifications per call, oldest first. When the returned count is 500, call\r\nagain to mark the rest.",
+        "operationId": "notificationsMarkAllInboxItemsRead",
+        "parameters": [
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "How many notifications this call marked.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The caller is not signed in."
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
       }
     },
     "/api/notifications/listen-sessions": {
@@ -140248,6 +140639,43 @@
         "additionalProperties": false,
         "description": "Represents a page of results obtained through continuation-token paging.\r\nSupports an approximate total count for display purposes."
       },
+      "ContinuationPagedResultDtoOfInAppNotificationItemDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InAppNotificationItemDto"
+            },
+            "description": "The items returned for this page.",
+            "nullable": true
+          },
+          "nextContinuationToken": {
+            "type": "string",
+            "description": "Continuation token to use when requesting the next page.\r\nNull means no additional pages exist.",
+            "nullable": true
+          },
+          "approxTotalCount": {
+            "type": "integer",
+            "description": "An approximate total count of matching items.\r\nThis value is optional and may be stale or estimated, so treat it as an approximation.",
+            "format": "int64",
+            "nullable": true
+          },
+          "pageItemCount": {
+            "type": "integer",
+            "description": "Convenience property for the number of items in this page.",
+            "format": "int32",
+            "readOnly": true
+          },
+          "retrievedAt": {
+            "type": "string",
+            "description": "When the page was retrieved. Useful for diagnostics and cache behavior.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a page of results obtained through continuation-token paging.\r\nSupports an approximate total count for display purposes."
+      },
       "ContinuationPagedResultDtoOfInboundSmsMessageDto": {
         "type": "object",
         "properties": {
@@ -154250,6 +154678,81 @@
           ""
         ]
       },
+      "InAppNotificationItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The event type that produced the notification, for example `Transaction.Declined`.",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "description": "The event type's catalog category, for example `Transactions`.",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "The notification title.",
+            "nullable": true
+          },
+          "body": {
+            "type": "string",
+            "description": "A short plain-text summary, or `null`.",
+            "nullable": true
+          },
+          "actionUrl": {
+            "type": "string",
+            "description": "A relative in-app path to the record the notification is about, or `null`.",
+            "nullable": true
+          },
+          "priority": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InAppNotificationItemPriority"
+              }
+            ],
+            "description": "How prominently the notification is shown."
+          },
+          "isRead": {
+            "type": "boolean",
+            "description": "Whether the user has read the notification."
+          },
+          "readAt": {
+            "type": "string",
+            "description": "When the user read the notification (UTC), or `null`.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAtUtc": {
+            "type": "string",
+            "description": "When the notification was written (UTC).",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "One notification in the signed-in user's inbox."
+      },
+      "InAppNotificationItemPriority": {
+        "enum": [
+          "Low",
+          "Normal",
+          "High",
+          "Critical"
+        ],
+        "type": "string",
+        "description": "Priority of an inbox item. The member values match `InAppNotificationPriority` on the\r\nrealtime payload, so one event carries the same priority on both paths.",
+        "x-enumDescriptions": [
+          "Informational only.",
+          "A standard notification.",
+          "Needs attention.",
+          "Needs attention now."
+        ]
+      },
       "InboundSmsMessageDto": {
         "type": "object",
         "properties": {
@@ -154306,6 +154809,33 @@
         },
         "additionalProperties": false,
         "description": "An inbound-SMS log row for the operator review surface. The body is already card-number redacted at\r\npersistence time. Phone numbers are shown in full: an operator needs the sender number to honor a\r\nfree-text revocation."
+      },
+      "InboxUnreadSummaryDto": {
+        "type": "object",
+        "properties": {
+          "unreadCount": {
+            "type": "integer",
+            "description": "How many notifications are unread.",
+            "format": "int32"
+          },
+          "highPriorityUnreadCount": {
+            "type": "integer",
+            "description": "How many unread notifications are high priority or above.",
+            "format": "int32"
+          },
+          "criticalUnreadCount": {
+            "type": "integer",
+            "description": "How many unread notifications are critical.",
+            "format": "int32"
+          },
+          "pollIntervalSeconds": {
+            "type": "integer",
+            "description": "How often, in seconds, a client showing these counts should ask for them again.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The signed-in user's unread inbox counts."
       },
       "IncrementalAuthorizationFields": {
         "type": "object",
@@ -165433,7 +165963,7 @@
         "properties": {
           "key": {
             "type": "string",
-            "description": "The provider setting name this value belongs to, matching a\r\n`SettingName` the provider's contributor\r\ndeclares. Compared case-insensitively.",
+            "description": "The provider setting name this value belongs to, matching a\r\n`PaymentEncryptionSettingFieldDefinition.SettingName` the provider's contributor\r\ndeclares. Compared case-insensitively.",
             "nullable": true
           },
           "value": {
@@ -165453,7 +165983,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "One provider-declared configuration value on a `MerchantPaymentEncryptionBinding`, keyed\r\nby the `SettingName` the provider's contributor\r\ndeclared."
+        "description": "One provider-declared configuration value on a `MerchantPaymentEncryptionBinding`, keyed\r\nby the `PaymentEncryptionSettingFieldDefinition.SettingName` the provider's contributor\r\ndeclared."
       },
       "PaymentEncryptionCredentialSource": {
         "enum": [
