@@ -167561,6 +167561,21 @@
               }
             ]
           },
+          "taxShippingAmount": {
+            "type": "boolean",
+            "description": "Whether the auto-calculated tax on the Virtual Terminal and the hosted payment page is computed\r\non the base amount plus the shipping amount. `null` (the default) and\r\n`false` compute it on the base amount alone.",
+            "nullable": true
+          },
+          "surchargeIncludesShipping": {
+            "type": "boolean",
+            "description": "Whether the surcharge percentage applies to the base amount plus the shipping amount.\r\n`null` (the default) and `false` apply it to the base amount\r\nalone.",
+            "nullable": true
+          },
+          "convenienceFeeIncludesShipping": {
+            "type": "boolean",
+            "description": "Whether a percentage convenience fee, and the percentage caps that bound it, apply to the base\r\namount plus the shipping amount. `null` (the default) and `false`\r\napply them to the base amount alone. A flat convenience fee is unaffected.",
+            "nullable": true
+          },
           "processorProfiles": {
             "type": "array",
             "items": {
@@ -176717,6 +176732,11 @@
             "type": "number",
             "description": "The transaction base amount the surcharge rate was applied against, in the transaction currency.",
             "format": "double",
+            "nullable": true
+          },
+          "baseComponents": {
+            "type": "string",
+            "description": "Which amount components formed `BaseAmount`: `Base` (the base amount alone,\r\nthe default) or `Base+Shipping` (the merchant elected a shipping-inclusive surcharge base).\r\n`null` on a decision recorded before the component was captured, which was\r\nalways the base amount alone.",
             "nullable": true
           },
           "surchargeAmount": {
