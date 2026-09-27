@@ -27343,7 +27343,7 @@
                 "Add Card": {
                   "summary": "Add Card",
                   "description": "Adds a credit/debit card to the customer's stored payment methods. Set IsDefault = true to mark this as the customer's default payment method (any prior default is automatically demoted server-side).",
-                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-26T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
+                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-27T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
                 },
                 "Add ACH / eCheck": {
                   "summary": "Add ACH / eCheck",
@@ -27360,7 +27360,7 @@
                 "Add Card": {
                   "summary": "Add Card",
                   "description": "Adds a credit/debit card to the customer's stored payment methods. Set IsDefault = true to mark this as the customer's default payment method (any prior default is automatically demoted server-side).",
-                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-26T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
+                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-27T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
                 },
                 "Add ACH / eCheck": {
                   "summary": "Add ACH / eCheck",
@@ -27377,7 +27377,7 @@
                 "Add Card": {
                   "summary": "Add Card",
                   "description": "Adds a credit/debit card to the customer's stored payment methods. Set IsDefault = true to mark this as the customer's default payment method (any prior default is automatically demoted server-side).",
-                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-26T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
+                  "value": {"paymentMethodType":"Card","cardData":{"cardNumber":"4111111111111111","expirationDate":"2028-09-27T00:00:00Z","cvv":123,"nameOnCard":"Jane Smith","entryMode":"Manual","cvPresence":"None","billingAddress":{"address1":"456 Oak Ave","city":"Reno","state":"NV","zip":"89501","country":"USA"}},"isDefault":true,"customName":"Personal Visa"}
                 },
                 "Add ACH / eCheck": {
                   "summary": "Add ACH / eCheck",
@@ -179670,6 +179670,19 @@
           "forceManualEntryMode": {
             "type": "boolean",
             "description": "Force `EntryMode` to `Manual` for the request even when the captured\r\nentry mode is something else. Replaces the legacy `MANUAL` sentinel and is\r\napplied by `CardPhDataBuilder` before the handler runs."
+          },
+          "forceRetailMotoIndicators": {
+            "type": "boolean",
+            "description": "Send the mail or telephone order authentication indicators on a retail authorization:\r\n`ECI=1`, and the `CardholderAuthMethod` and `CardholderAuthEntity` POS data\r\ncode subfields set to `0` (not authenticated). On an American Express card that carries a\r\ncard verification value, the value is also declared as provided."
+          },
+          "suppressLevel2PurchaseOrderNumber": {
+            "type": "boolean",
+            "description": "Settle a Visa or Mastercard Level 2 record with a blank purchase order number, even when the\r\ntransaction supplies one or the platform would otherwise fall back to its own reference."
+          },
+          "amexLevel2RequesterNameOverride": {
+            "type": "string",
+            "description": "Requester name sent on an American Express Level 2 settlement record in place of the name on\r\nthe card. Applies only when the value is not empty.",
+            "nullable": true
           },
           "$processor": {
             "enum": [
