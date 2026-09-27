@@ -1,88 +1,16 @@
-## 30.5.0
+## 31.0.0
 
-Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
+Major release: this version changes or removes surface that earlier versions published. Read the breaking changes below before upgrading.
+
+### Breaking changes
+
+- Changed field CreateStandaloneTokenRequestDto.paymentDetails: PaymentDetailSnapshot -> allOf(PaymentDetailSnapshot)
+- Changed field PaymentDetailSnapshot.cardData: CardData -> allOf(CardData)
+- Changed field PaymentDetailSnapshot.checkData: CheckData -> allOf(CheckData)
+- Changed field PaymentDetailSnapshot.tokenData: TokenData -> allOf(TokenData)
 
 ### Additions
 
-- field ContinuationPagedResultDtoOfInAppNotificationItemDto.approxTotalCount: type=integer format=int64 nullable=true
-- field ContinuationPagedResultDtoOfInAppNotificationItemDto.items: type=array nullable=true items(InAppNotificationItemDto)
-- field ContinuationPagedResultDtoOfInAppNotificationItemDto.nextContinuationToken: type=string nullable=true
-- field ContinuationPagedResultDtoOfInAppNotificationItemDto.pageItemCount: type=integer format=int32 readOnly=true
-- field ContinuationPagedResultDtoOfInAppNotificationItemDto.retrievedAt: type=string format=date-time
-- field InAppNotificationItemDto.actionUrl: type=string nullable=true
-- field InAppNotificationItemDto.body: type=string nullable=true
-- field InAppNotificationItemDto.category: type=string nullable=true
-- field InAppNotificationItemDto.createdAtUtc: type=string format=date-time
-- field InAppNotificationItemDto.eventType: type=string nullable=true
-- field InAppNotificationItemDto.id: type=string format=uuid
-- field InAppNotificationItemDto.isRead: type=boolean
-- field InAppNotificationItemDto.priority: allOf(InAppNotificationItemPriority)
-- field InAppNotificationItemDto.readAt: type=string format=date-time nullable=true
-- field InAppNotificationItemDto.title: type=string nullable=true
-- field InboxUnreadSummaryDto.criticalUnreadCount: type=integer format=int32
-- field InboxUnreadSummaryDto.highPriorityUnreadCount: type=integer format=int32
-- field InboxUnreadSummaryDto.pollIntervalSeconds: type=integer format=int32
-- field InboxUnreadSummaryDto.unreadCount: type=integer format=int32
-- operation GET /api/notifications/inbox
-- operation GET /api/notifications/inbox/categories
-- operation GET /api/notifications/inbox/unread-summary
-- operation POST /api/notifications/inbox/mark-all-read
-- operation POST /api/notifications/inbox/{id}/mark-read
-- parameter GET /api/notifications/inbox query:Category: optional type=string
-- parameter GET /api/notifications/inbox query:ContinuationToken: optional type=string
-- parameter GET /api/notifications/inbox query:Filter.Groups: optional type=array items(FilterGroup)
-- parameter GET /api/notifications/inbox query:Filter.Logic: optional FilterLogic
-- parameter GET /api/notifications/inbox query:Filter.Rules: optional type=array items(FilterRule)
-- parameter GET /api/notifications/inbox query:IncludeApproxTotalCount: optional type=boolean
-- parameter GET /api/notifications/inbox query:IncludeDeleted: optional type=boolean
-- parameter GET /api/notifications/inbox query:IncludeInactive: optional type=boolean
-- parameter GET /api/notifications/inbox query:IsRead: optional type=boolean
-- parameter GET /api/notifications/inbox query:MaxResultCount: optional type=integer format=int32
-- parameter GET /api/notifications/inbox query:Sorting.Descending: optional type=boolean
-- parameter GET /api/notifications/inbox query:Sorting.Field: optional type=string
-- parameter GET /api/notifications/inbox query:suppressNulls: optional type=boolean
-- parameter GET /api/notifications/inbox/categories query:suppressNulls: optional type=boolean
-- parameter GET /api/notifications/inbox/unread-summary query:suppressNulls: optional type=boolean
-- parameter POST /api/notifications/inbox/mark-all-read query:suppressNulls: optional type=boolean
-- parameter POST /api/notifications/inbox/{id}/mark-read path:id: required type=string format=uuid
-- parameter POST /api/notifications/inbox/{id}/mark-read query:suppressNulls: optional type=boolean
-- response GET /api/notifications/inbox 200 (application/json): ContinuationPagedResultDtoOfInAppNotificationItemDto
-- response GET /api/notifications/inbox 200 (text/json): ContinuationPagedResultDtoOfInAppNotificationItemDto
-- response GET /api/notifications/inbox 200 (text/plain): ContinuationPagedResultDtoOfInAppNotificationItemDto
-- response GET /api/notifications/inbox 400: no body
-- response GET /api/notifications/inbox 401: no body
-- response GET /api/notifications/inbox 429: no body
-- response GET /api/notifications/inbox default (application/json): RemoteServiceErrorResponse
-- response GET /api/notifications/inbox/categories 200 (application/json): type=array items(type=string)
-- response GET /api/notifications/inbox/categories 200 (text/json): type=array items(type=string)
-- response GET /api/notifications/inbox/categories 200 (text/plain): type=array items(type=string)
-- response GET /api/notifications/inbox/categories 401: no body
-- response GET /api/notifications/inbox/categories 429: no body
-- response GET /api/notifications/inbox/categories default (application/json): RemoteServiceErrorResponse
-- response GET /api/notifications/inbox/unread-summary 200 (application/json): InboxUnreadSummaryDto
-- response GET /api/notifications/inbox/unread-summary 200 (text/json): InboxUnreadSummaryDto
-- response GET /api/notifications/inbox/unread-summary 200 (text/plain): InboxUnreadSummaryDto
-- response GET /api/notifications/inbox/unread-summary 401: no body
-- response GET /api/notifications/inbox/unread-summary 429: no body
-- response GET /api/notifications/inbox/unread-summary default (application/json): RemoteServiceErrorResponse
-- response POST /api/notifications/inbox/mark-all-read 200 (application/json): type=integer format=int32
-- response POST /api/notifications/inbox/mark-all-read 200 (text/json): type=integer format=int32
-- response POST /api/notifications/inbox/mark-all-read 200 (text/plain): type=integer format=int32
-- response POST /api/notifications/inbox/mark-all-read 401: no body
-- response POST /api/notifications/inbox/mark-all-read 429: no body
-- response POST /api/notifications/inbox/mark-all-read default (application/json): RemoteServiceErrorResponse
-- response POST /api/notifications/inbox/{id}/mark-read 204: no body
-- response POST /api/notifications/inbox/{id}/mark-read 401: no body
-- response POST /api/notifications/inbox/{id}/mark-read 429: no body
-- response POST /api/notifications/inbox/{id}/mark-read default (application/json): RemoteServiceErrorResponse
-- schema ContinuationPagedResultDtoOfInAppNotificationItemDto: type=object additionalProperties=false
-- schema InAppNotificationItemDto: type=object additionalProperties=false
-- schema InAppNotificationItemPriority: type=string enum=[Critical,High,Low,Normal]
-- schema InboxUnreadSummaryDto: type=object additionalProperties=false
-- operation id notificationsGetInboxCategories (GET /api/notifications/inbox/categories)
-- operation id notificationsGetInboxList (GET /api/notifications/inbox)
-- operation id notificationsGetInboxUnreadSummary (GET /api/notifications/inbox/unread-summary)
-- operation id notificationsMarkAllInboxItemsRead (POST /api/notifications/inbox/mark-all-read)
-- operation id notificationsMarkInboxItemRead (POST /api/notifications/inbox/{id}/mark-read)
+- error code CardData:FullCardNumberNotAllowedOnStoredSnapshot: 400
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
