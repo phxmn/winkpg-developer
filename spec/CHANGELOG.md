@@ -1,11 +1,9 @@
-## 30.2.0
+## 30.3.0
 
 Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
 ### Additions
 
-- field TsysCertificationOverrides.amexLevel2RequesterNameOverride: type=string nullable=true
-- field TsysCertificationOverrides.forceRetailMotoIndicators: type=boolean
-- field TsysCertificationOverrides.suppressLevel2PurchaseOrderNumber: type=boolean
+- field RoutingResult.matchedRuleName: type=string nullable=true
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.

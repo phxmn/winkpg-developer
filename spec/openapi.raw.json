@@ -172260,6 +172260,11 @@
             "description": "Optional routing indicator applied to the transaction.",
             "nullable": true
           },
+          "matchedRuleName": {
+            "type": "string",
+            "description": "The name of the merchant processor routing rule that selected the processor profile, when a\r\nrule did. `null` on every transaction a routing rule did not route.",
+            "nullable": true
+          },
           "auditTrail": {
             "type": "array",
             "items": {
