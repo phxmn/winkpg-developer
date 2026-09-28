@@ -142908,10 +142908,50 @@
             "description": "A proration credit still owed to the customer, to be taken off the next charge, or\r\n`null` (equivalently zero) when none is owed.",
             "format": "double",
             "nullable": true
+          },
+          "lastBillingSkip": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContractBillingSkip"
+              }
+            ],
+            "description": "The most recent billing run that found this contract due and did not charge it, and why, or\r\n`null` when the last run that looked at the contract charged it (or none has\r\nskipped it). Read-only: the billing engine is the only writer.",
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false,
         "description": "Cumulative execution statistics and recent history for a recurring billing contract."
+      },
+      "ContractBillingSkip": {
+        "type": "object",
+        "properties": {
+          "skippedAt": {
+            "type": "string",
+            "description": "When the run decided not to charge the contract, in UTC.",
+            "format": "date-time"
+          },
+          "scheduledRunTime": {
+            "type": "string",
+            "description": "The scheduled charge the run did not make, in UTC.",
+            "format": "date-time"
+          },
+          "category": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurringBillingSkipCategory"
+              }
+            ],
+            "description": "Why the run did not charge the contract."
+          },
+          "reason": {
+            "type": "string",
+            "description": "The billing engine's explanation of the skip, at most `MaxReasonLength`\r\ncharacters. Never carries payment credential data.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The most recent billing run that found this contract due and did not charge it, and why. Set by\r\nthe billing engine only, and cleared by the next run that reaches the processor or is covered by\r\na proration credit."
       },
       "ContractCreateDto": {
         "required": [
@@ -171354,6 +171394,15 @@
             "description": "When that revision started applying, in UTC. Null under the same conditions as\r\n`PlanPriceTotalAmount`.",
             "format": "date-time",
             "nullable": true
+          },
+          "skipCategory": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecurringBillingSkipCategory"
+              }
+            ],
+            "description": "Why the run did not charge this contract, or null when it did or tried to. Set for every\r\nskipped item, and for a failed item whose consent state could not be read. Null on items\r\nrecorded before this field existed.",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -171461,6 +171510,26 @@
         },
         "additionalProperties": false,
         "description": "Summary DTO for a recurring billing run, used in history grid views."
+      },
+      "RecurringBillingSkipCategory": {
+        "enum": [
+          "AlreadyBilled",
+          "MerchantIneligible",
+          "InvalidContract",
+          "PlanUnresolved",
+          "MissingConsent",
+          "ConsentLookupUnavailable"
+        ],
+        "type": "string",
+        "description": "Why a recurring billing run did not charge a contract that was due. Recorded on the run item for\r\nevery skip and on the contract's `LastBillingSkip` for every skip\r\nsomeone can act on.",
+        "x-enumDescriptions": [
+          "The contract already has a successful charge for this scheduled run. Harmless: nothing is owed, and nothing needs attention.",
+          "The merchant that owns the contract is missing, deleted, or inactive.",
+          "The contract's own per-bill amount is zero or less, so there is nothing to charge.",
+          "The contract subscribes to a plan whose price could not be read, so the amount is unknown.",
+          "The stored payment method has no active stored-credential consent that permits a recurring charge.",
+          "The platform could not read the stored payment method's consent state. A platform fault rather than a configuration problem, recorded as a failed run item, and retried on the next run."
+        ]
       },
       "RecurringBillingTriggerType": {
         "enum": [
