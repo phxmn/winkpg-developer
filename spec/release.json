@@ -1,6 +1,6 @@
 {
-  "specCommit": "97e64ebcfa3d1eea2d704d9be212981b8832c014",
+  "specCommit": "9dbaac15d61e7262c0c8283948df802243a91ae6",
   "bump": "minor",
-  "version": "31.8.0",
-  "previousVersion": "31.7.0"
+  "version": "31.9.0",
+  "previousVersion": "31.8.0"
 }

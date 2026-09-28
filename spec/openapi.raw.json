@@ -17533,7 +17533,7 @@
         "tags": [
           "Audit Log"
         ],
-        "description": "**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant\n\n---\n**Requires features**: `AuditLogging.Enable`",
         "operationId": "auditLogContinuationEnsureEntityAccess",
         "parameters": [
           {
@@ -17695,7 +17695,16 @@
         "x-permissions": [
           "AuditLogging.AuditLogs"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "AuditLogging.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/app/audit-log-continuation/continuation-list": {
@@ -17703,7 +17712,7 @@
         "tags": [
           "Audit Log"
         ],
-        "description": "**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant\n\n---\n**Requires features**: `AuditLogging.Enable`",
         "operationId": "auditLogContinuationGetContinuationList",
         "parameters": [
           {
@@ -17950,7 +17959,16 @@
         "x-permissions": [
           "AuditLogging.AuditLogs"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "AuditLogging.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/app/audit-log-continuation/summary-counts": {
@@ -17958,7 +17976,7 @@
         "tags": [
           "Audit Log"
         ],
-        "description": "Each requested count is computed independently and may be served from a short-lived\r\ncache. A count that fails is omitted from the result rather than failing the call, so the\r\nresponse can hold fewer keys than were requested; treat a missing key as unavailable.\n\n---\n**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant",
+        "description": "Each requested count is computed independently and may be served from a short-lived\r\ncache. A count that fails is omitted from the result rather than failing the call, so the\r\nresponse can hold fewer keys than were requested; treat a missing key as unavailable.\n\n---\n**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant\n\n---\n**Requires features**: `AuditLogging.Enable`",
         "operationId": "auditLogContinuationGetSummaryCounts",
         "parameters": [
           {
@@ -18177,7 +18195,16 @@
         "x-permissions": [
           "AuditLogging.AuditLogs"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "AuditLogging.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/app/audit-log-continuation/{id}/try-ensure-entity-access": {
@@ -18185,7 +18212,7 @@
         "tags": [
           "Audit Log"
         ],
-        "description": "**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant\n\n---\n**Requires features**: `AuditLogging.Enable`",
         "operationId": "auditLogContinuationTryEnsureEntityAccess",
         "parameters": [
           {
@@ -18364,7 +18391,16 @@
         "x-permissions": [
           "AuditLogging.AuditLogs"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "AuditLogging.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/app/audit-log-continuation/approximate-total-count": {
@@ -18373,7 +18409,7 @@
           "Audit Log"
         ],
         "summary": "Counts the entities matching `input`.",
-        "description": "Virtual because this is a published route of its own, not only the inner call\r\n`GetContinuationListAsync` makes. A service that has to establish something\r\nper request before its filter can be built, a merchant scope carried on the async flow\r\nbeing the case in hand, has to be able to do that here too; otherwise the count route\r\nalone runs without it and fails or, worse, answers unscoped.\n\n---\n**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant",
+        "description": "Virtual because this is a published route of its own, not only the inner call\r\n`GetContinuationListAsync` makes. A service that has to establish something\r\nper request before its filter can be built, a merchant scope carried on the async flow\r\nbeing the case in hand, has to be able to do that here too; otherwise the count route\r\nalone runs without it and fails or, worse, answers unscoped.\n\n---\n**Required permissions**: `AuditLogging.AuditLogs`  \n**Scope**: merchant\n\n---\n**Requires features**: `AuditLogging.Enable`",
         "operationId": "auditLogContinuationGetApproximateTotalCount",
         "parameters": [
           {
@@ -18623,7 +18659,16 @@
         "x-permissions": [
           "AuditLogging.AuditLogs"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "AuditLogging.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/campaigns/{id}/access": {
@@ -40242,7 +40287,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Appends an internal note to an invoice.",
-        "description": "Internal notes are operator commentary kept alongside the invoice; they are never shown to\r\nthe recipient. Unlike the update endpoint, this one accepts a locked invoice, because a note\r\nis not part of the issued document. The author and timestamp are stamped from the calling\r\nuser, and a `NoteAdded` activity is recorded on the invoice.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Update`  \n**Scope**: merchant",
+        "description": "Internal notes are operator commentary kept alongside the invoice; they are never shown to\r\nthe recipient. Unlike the update endpoint, this one accepts a locked invoice, because a note\r\nis not part of the issued document. The author and timestamp are stamped from the calling\r\nuser, and a `NoteAdded` activity is recorded on the invoice.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Update`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleAddNote",
         "parameters": [
           {
@@ -40444,7 +40489,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Update"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/cancel": {
@@ -40453,7 +40507,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Cancels a draft invoice.",
-        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Cancel`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Cancel`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleCancel",
         "parameters": [
           {
@@ -40633,7 +40687,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Cancel"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/clone": {
@@ -40642,7 +40705,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Clones an existing invoice as a new draft.",
-        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Create`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleClone",
         "parameters": [
           {
@@ -40822,7 +40885,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Create"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/close": {
@@ -40831,7 +40903,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Closes an invoice (write-off).",
-        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Close`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Close`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleClose",
         "parameters": [
           {
@@ -41011,7 +41083,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Close"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices": {
@@ -41020,7 +41101,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Retrieves a continuation-token paged, filtered list of invoices.",
-        "description": "Invoices are listed by continuation token only; there is no skip/take list route.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "Invoices are listed by continuation token only; there is no skip/take list route.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceCrudGetContinuationList",
         "parameters": [
           {
@@ -41380,14 +41461,23 @@
         "x-permissions": [
           "Invoicing.Invoices"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       },
       "post": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Invoices: Creates a new draft invoice.",
-        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Create`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceCrudCreate",
         "parameters": [
           {
@@ -41577,7 +41667,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Create"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}": {
@@ -41586,7 +41685,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Retrieves a single invoice by id.",
-        "description": "**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceCrudGet",
         "parameters": [
           {
@@ -41765,14 +41864,23 @@
         "x-permissions": [
           "Invoicing.Invoices"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       },
       "put": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Invoices: Updates an existing draft invoice by id.",
-        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Update`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Update`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceCrudUpdate",
         "parameters": [
           {
@@ -41971,14 +42079,23 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Update"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       },
       "delete": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Invoices: Deletes a draft invoice by id.",
-        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Delete`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Delete`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceCrudDelete",
         "parameters": [
           {
@@ -42141,7 +42258,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Delete"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/pdf": {
@@ -42150,7 +42276,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Downloads an invoice's PDF document.",
-        "description": "Returns the cached document when one exists for the invoice's current version, otherwise\r\nrenders one and caches it. The response carries the `application/pdf` content type and an\r\nattachment disposition naming the file after the invoice number.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "Returns the cached document when one exists for the invoice's current version, otherwise\r\nrenders one and caches it. The response carries the `application/pdf` content type and an\r\nattachment disposition naming the file after the invoice number.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoicePdfDownload",
         "parameters": [
           {
@@ -42299,7 +42425,16 @@
         "x-permissions": [
           "Invoicing.Invoices"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/exports/invoices/excel": {
@@ -42308,7 +42443,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Exports the filtered invoice list as an Excel workbook.",
-        "description": "Returns a downloadable .xlsx file covering every invoice matching the applied filters (biller,\r\nbiller type, recipient, status, invoice number, currency, issue-date range, due-date range,\r\namount range, and source type), in the requested sort order. Paging members are ignored: an\r\nexport is not a page. A filtered set of more than 10,000 invoices is rejected rather than\r\ntruncated; narrow the filter (for example by date range or status) and retry.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "Returns a downloadable .xlsx file covering every invoice matching the applied filters (biller,\r\nbiller type, recipient, status, invoice number, currency, issue-date range, due-date range,\r\namount range, and source type), in the requested sort order. Paging members are ignored: an\r\nexport is not a page. A filtered set of more than 10,000 invoices is rejected rather than\r\ntruncated; narrow the filter (for example by date range or status) and retry.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceExportExportToExcel",
         "parameters": [
           {
@@ -42638,7 +42773,16 @@
         "x-permissions": [
           "Invoicing.Invoices"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/exports/invoices/csv": {
@@ -42647,7 +42791,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Exports the filtered invoice list as CSV.",
-        "description": "Returns a downloadable UTF-8 .csv file covering every invoice matching the applied filters\r\n(biller, biller type, recipient, status, invoice number, currency, issue-date range, due-date\r\nrange, amount range, and source type), in the requested sort order. Paging members are ignored:\r\nan export is not a page. A filtered set of more than 10,000 invoices is rejected rather than\r\ntruncated; narrow the filter (for example by date range or status) and retry.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "Returns a downloadable UTF-8 .csv file covering every invoice matching the applied filters\r\n(biller, biller type, recipient, status, invoice number, currency, issue-date range, due-date\r\nrange, amount range, and source type), in the requested sort order. Paging members are ignored:\r\nan export is not a page. A filtered set of more than 10,000 invoices is rejected rather than\r\ntruncated; narrow the filter (for example by date range or status) and retry.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceExportExportToCsv",
         "parameters": [
           {
@@ -42977,7 +43121,16 @@
         "x-permissions": [
           "Invoicing.Invoices"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/issue": {
@@ -42986,7 +43139,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Issues a draft invoice (locks it, assigns a number, computes the due date).",
-        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Send`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Send`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleIssue",
         "parameters": [
           {
@@ -43166,7 +43319,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Send"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/tax-rate-lookup": {
@@ -43175,7 +43337,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Looks up a line's sales-tax rate from the merchant biller's tax provider.",
-        "description": "Resolves the origin from the merchant's default shipping origin (falling back to\r\n`billerSnapshot`) and the destination from `recipientSnapshot` (falling back to a\r\ncustomer recipient's address on file), then asks the merchant's bound provider for the\r\ncombined rate. The answer is in percent units (a provider rate of 0.0975 is returned as 9.75),\r\nready to store as the line's `taxRatePercent` alongside `taxRateSource` = Provider\r\nand the returned `providerName`. The line's `taxCode` is never sent to the provider.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "Resolves the origin from the merchant's default shipping origin (falling back to\r\n`billerSnapshot`) and the destination from `recipientSnapshot` (falling back to a\r\ncustomer recipient's address on file), then asks the merchant's bound provider for the\r\ncombined rate. The answer is in percent units (a provider rate of 0.0975 is returned as 9.75),\r\nready to store as the line's `taxRatePercent` alongside `taxRateSource` = Provider\r\nand the returned `providerName`. The line's `taxCode` is never sent to the provider.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceTaxRateLookupLookup",
         "parameters": [
           {
@@ -43334,7 +43496,16 @@
         "x-permissions": [
           "Invoicing.Invoices"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/mark-as-viewed": {
@@ -43343,7 +43514,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Marks an invoice as viewed by the recipient.",
-        "description": "**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleMarkAsViewed",
         "parameters": [
           {
@@ -43522,7 +43693,16 @@
         "x-permissions": [
           "Invoicing.Invoices"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/mark-as-sent": {
@@ -43531,7 +43711,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Marks an issued invoice as sent (status only, no notification).",
-        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Send`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Send`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleMarkAsSent",
         "parameters": [
           {
@@ -43711,7 +43891,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Send"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/payment-link": {
@@ -43720,7 +43909,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Reads the invoice's pay-by-link state.",
-        "description": "Returns the absolute hosted-payment-page URL, when it lapses, the QR code URL and the\r\nbacking session id. This read and the reissue below are the only endpoints that disclose the\r\nURL: it embeds a bearer credential, so it is deliberately absent from the invoice read and\r\nlist payloads. The read never creates or rotates a link; re-send the invoice, or reissue the\r\nlink, to mint a fresh one.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "Returns the absolute hosted-payment-page URL, when it lapses, the QR code URL and the\r\nbacking session id. This read and the reissue below are the only endpoints that disclose the\r\nURL: it embeds a bearer credential, so it is deliberately absent from the invoice read and\r\nlist payloads. The read never creates or rotates a link; re-send the invoice, or reissue the\r\nlink, to mint a fresh one.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleGetPaymentLink",
         "parameters": [
           {
@@ -43899,7 +44088,16 @@
         "x-permissions": [
           "Invoicing.Invoices"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/record-payment": {
@@ -43908,7 +44106,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Records an offline or manual payment against an invoice.",
-        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.RecordPayment`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.RecordPayment`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleRecordPayment",
         "parameters": [
           {
@@ -44107,7 +44305,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.RecordPayment"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/refund": {
@@ -44116,7 +44323,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Refunds the payments collected against an invoice.",
-        "description": "Returns the money to the payer and moves the invoice to Refunded.\r\nGateway payments delegate to the payment platform, which returns the money with whichever\r\noperation the originating transaction's settlement state permits. Manually-recorded payments\r\nare reversed in place and require a reason.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Refund`  \n**Scope**: merchant",
+        "description": "Returns the money to the payer and moves the invoice to Refunded.\r\nGateway payments delegate to the payment platform, which returns the money with whichever\r\noperation the originating transaction's settlement state permits. Manually-recorded payments\r\nare reversed in place and require a reason.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Refund`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleRefund",
         "parameters": [
           {
@@ -44318,7 +44525,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Refund"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/payment-link/reissue": {
@@ -44327,7 +44543,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Reissues the payment link without emailing the recipient.",
-        "description": "Replaces the invoice's payment link with a fresh one and returns it.\r\nFor an operator who hands the link to the payer themselves after the previous link was\r\nspent, expired or withdrawn. The previous link stops working at once, including for a payer\r\nwho has it open. No email is sent, the status and sent date are unchanged, no status webhook\r\nfires, and the invoice timeline records the reissue. To also tell the recipient, re-send the\r\ninvoice instead. Requires the invoice send permission.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Send`  \n**Scope**: merchant",
+        "description": "Replaces the invoice's payment link with a fresh one and returns it.\r\nFor an operator who hands the link to the payer themselves after the previous link was\r\nspent, expired or withdrawn. The previous link stops working at once, including for a payer\r\nwho has it open. No email is sent, the status and sent date are unchanged, no status webhook\r\nfires, and the invoice timeline records the reissue. To also tell the recipient, re-send the\r\ninvoice instead. Requires the invoice send permission.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Send`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleReissuePaymentLink",
         "parameters": [
           {
@@ -44510,7 +44726,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Send"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/pdf/metadata": {
@@ -44519,7 +44744,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Retrieves the metadata of an invoice's PDF document.",
-        "description": "Returns the stored blob name, the suggested download file name, and the document size without\r\ntransferring the document. Rendering and caching happen on the same cache-first terms as the\r\ndownload endpoint.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "Returns the stored blob name, the suggested download file name, and the document size without\r\ntransferring the document. Rendering and caching happen on the same cache-first terms as the\r\ndownload endpoint.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoicePdfGetMetadata",
         "parameters": [
           {
@@ -44665,7 +44890,16 @@
         "x-permissions": [
           "Invoicing.Invoices"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/send": {
@@ -44674,7 +44908,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Runs the full send workflow.",
-        "description": "Issues the invoice if it is still draft, generates the PDF, creates the payment and view\r\ntokens, sends the notification, and marks the invoice as sent. Calling it again on an invoice\r\nthat is Sent, Viewed, PartiallyPaid or PastDue re-sends it: the payment link and view token\r\nare rotated (the links already delivered stop working), a fresh notification is sent, and the\r\nstatus is left unchanged. Any other status is refused with\r\n`Invoicing:Invoice:InvalidStatusTransition` and nothing is changed.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Send`  \n**Scope**: merchant",
+        "description": "Issues the invoice if it is still draft, generates the PDF, creates the payment and view\r\ntokens, sends the notification, and marks the invoice as sent. Calling it again on an invoice\r\nthat is Sent, Viewed, PartiallyPaid or PastDue re-sends it: the payment link and view token\r\nare rotated (the links already delivered stop working), a fresh notification is sent, and the\r\nstatus is left unchanged. Any other status is refused with\r\n`Invoicing:Invoice:InvalidStatusTransition` and nothing is changed.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Send`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleSend",
         "parameters": [
           {
@@ -44873,7 +45107,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.Send"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/credit-notes": {
@@ -44882,7 +45125,7 @@
           "Invoicing"
         ],
         "summary": "Credit Notes: Retrieves a paged list of credit notes.",
-        "description": "**Required permissions**: `Invoicing.CreditNotes`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.CreditNotes`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.CreditNotes`",
         "operationId": "creditNoteGetList",
         "parameters": [
           {
@@ -45158,14 +45401,24 @@
         "x-permissions": [
           "Invoicing.CreditNotes"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.CreditNotes"
+              ]
+            }
+          ]
+        }
       },
       "post": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Credit Notes: Creates a new credit note.",
-        "description": "**Required permissions**: `Invoicing.CreditNotes`, `Invoicing.CreditNotes.Create`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.CreditNotes`, `Invoicing.CreditNotes.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.CreditNotes`",
         "operationId": "creditNoteCreate",
         "parameters": [
           {
@@ -45356,7 +45609,17 @@
           "Invoicing.CreditNotes",
           "Invoicing.CreditNotes.Create"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.CreditNotes"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/credit-notes/{id}": {
@@ -45365,7 +45628,7 @@
           "Invoicing"
         ],
         "summary": "Credit Notes: Retrieves a single credit note by id.",
-        "description": "**Required permissions**: `Invoicing.CreditNotes`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.CreditNotes`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.CreditNotes`",
         "operationId": "creditNoteGet",
         "parameters": [
           {
@@ -45545,14 +45808,24 @@
         "x-permissions": [
           "Invoicing.CreditNotes"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.CreditNotes"
+              ]
+            }
+          ]
+        }
       },
       "put": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Credit Notes: Updates an existing credit note by id.",
-        "description": "**Required permissions**: `Invoicing.CreditNotes`, `Invoicing.CreditNotes.Update`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.CreditNotes`, `Invoicing.CreditNotes.Update`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.CreditNotes`",
         "operationId": "creditNoteUpdate",
         "parameters": [
           {
@@ -45752,14 +46025,24 @@
           "Invoicing.CreditNotes",
           "Invoicing.CreditNotes.Update"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.CreditNotes"
+              ]
+            }
+          ]
+        }
       },
       "delete": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Credit Notes: Deletes a credit note by id.",
-        "description": "**Required permissions**: `Invoicing.CreditNotes`, `Invoicing.CreditNotes.Delete`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.CreditNotes`, `Invoicing.CreditNotes.Delete`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.CreditNotes`",
         "operationId": "creditNoteDelete",
         "parameters": [
           {
@@ -45923,7 +46206,17 @@
           "Invoicing.CreditNotes",
           "Invoicing.CreditNotes.Delete"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.CreditNotes"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/custom-field-definitions": {
@@ -45932,7 +46225,7 @@
           "Invoicing"
         ],
         "summary": "Custom Field Definitions: Retrieves a paged list of invoice custom field definitions.",
-        "description": "**Required permissions**: `Invoicing.CustomFieldDefinitions`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.CustomFieldDefinitions`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.CustomFields`",
         "operationId": "invoiceCustomFieldDefinitionGetList",
         "parameters": [
           {
@@ -46199,14 +46492,24 @@
         "x-permissions": [
           "Invoicing.CustomFieldDefinitions"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.CustomFields"
+              ]
+            }
+          ]
+        }
       },
       "post": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Custom Field Definitions: Creates a new invoice custom field definition.",
-        "description": "A biller holds at most 20 definitions, active and inactive alike. Deactivating a definition\r\ndoes not free a slot; deleting one does. The key is unique per biller, compared\r\ncase-insensitively: `po_number` and `PO_Number` are the same key. Inactive\r\ndefinitions hold their key; a deleted definition's key can be reused. The key cannot be\r\nchanged after creation.\n\n---\n**Required permissions**: `Invoicing.CustomFieldDefinitions`, `Invoicing.CustomFieldDefinitions.Create`  \n**Scope**: merchant",
+        "description": "A biller holds at most 20 definitions, active and inactive alike. Deactivating a definition\r\ndoes not free a slot; deleting one does. The key is unique per biller, compared\r\ncase-insensitively: `po_number` and `PO_Number` are the same key. Inactive\r\ndefinitions hold their key; a deleted definition's key can be reused. The key cannot be\r\nchanged after creation.\n\n---\n**Required permissions**: `Invoicing.CustomFieldDefinitions`, `Invoicing.CustomFieldDefinitions.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.CustomFields`",
         "operationId": "invoiceCustomFieldDefinitionCreate",
         "parameters": [
           {
@@ -46417,7 +46720,17 @@
           "Invoicing.CustomFieldDefinitions",
           "Invoicing.CustomFieldDefinitions.Create"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.CustomFields"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/custom-field-definitions/{id}": {
@@ -46426,7 +46739,7 @@
           "Invoicing"
         ],
         "summary": "Custom Field Definitions: Retrieves a single invoice custom field definition by id.",
-        "description": "**Required permissions**: `Invoicing.CustomFieldDefinitions`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.CustomFieldDefinitions`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.CustomFields`",
         "operationId": "invoiceCustomFieldDefinitionGet",
         "parameters": [
           {
@@ -46606,14 +46919,24 @@
         "x-permissions": [
           "Invoicing.CustomFieldDefinitions"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.CustomFields"
+              ]
+            }
+          ]
+        }
       },
       "put": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Custom Field Definitions: Updates an existing invoice custom field definition by id.",
-        "description": "**Required permissions**: `Invoicing.CustomFieldDefinitions`, `Invoicing.CustomFieldDefinitions.Update`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.CustomFieldDefinitions`, `Invoicing.CustomFieldDefinitions.Update`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.CustomFields`",
         "operationId": "invoiceCustomFieldDefinitionUpdate",
         "parameters": [
           {
@@ -46813,14 +47136,24 @@
           "Invoicing.CustomFieldDefinitions",
           "Invoicing.CustomFieldDefinitions.Update"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.CustomFields"
+              ]
+            }
+          ]
+        }
       },
       "delete": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Custom Field Definitions: Deletes an invoice custom field definition by id.",
-        "description": "**Required permissions**: `Invoicing.CustomFieldDefinitions`, `Invoicing.CustomFieldDefinitions.Delete`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.CustomFieldDefinitions`, `Invoicing.CustomFieldDefinitions.Delete`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.CustomFields`",
         "operationId": "invoiceCustomFieldDefinitionDelete",
         "parameters": [
           {
@@ -46984,7 +47317,17 @@
           "Invoicing.CustomFieldDefinitions",
           "Invoicing.CustomFieldDefinitions.Delete"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.CustomFields"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/payment-plan/cancel": {
@@ -46993,7 +47336,7 @@
           "Invoicing"
         ],
         "summary": "Payment Plan: Cancels the active payment plan.",
-        "description": "The balance is unchanged and remains payable normally.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.PaymentPlan`  \n**Scope**: merchant",
+        "description": "The balance is unchanged and remains payable normally.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.PaymentPlan`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoicePaymentPlanCancel",
         "parameters": [
           {
@@ -47174,7 +47517,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.PaymentPlan"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/payment-plan/pay-installment": {
@@ -47183,7 +47535,7 @@
           "Invoicing"
         ],
         "summary": "Payment Plan: Records a manual payment for one pending installment.",
-        "description": "Applies the installment's amount to the invoice balance and marks it collected, for a\r\npayment taken offline. Returns the updated invoice.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.PaymentPlan`  \n**Scope**: merchant",
+        "description": "Applies the installment's amount to the invoice balance and marks it collected, for a\r\npayment taken offline. Returns the updated invoice.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.PaymentPlan`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoicePaymentPlanPayInstallment",
         "parameters": [
           {
@@ -47386,7 +47738,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.PaymentPlan"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/invoices/{id}/payment-plan": {
@@ -47395,7 +47756,7 @@
           "Invoicing"
         ],
         "summary": "Payment Plan: Returns the invoice's payment plan.",
-        "description": "The body is empty when no plan is set up (an existing invoice with no plan is a valid state, not a missing resource).\n\nA canceled plan is still returned, with `status` `Cancelled` and its installments\r\n`Cancelled`, until a new plan is set up and replaces it. A completed plan is returned the\r\nsame way. `404` `Invoicing:PaymentPlan:NotFound` comes only from cancel, when no plan\r\nis active.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant",
+        "description": "The body is empty when no plan is set up (an existing invoice with no plan is a valid state, not a missing resource).\n\nA canceled plan is still returned, with `status` `Cancelled` and its installments\r\n`Cancelled`, until a new plan is set up and replaces it. A completed plan is returned the\r\nsame way. `404` `Invoicing:PaymentPlan:NotFound` comes only from cancel, when no plan\r\nis active.\n\n---\n**Required permissions**: `Invoicing.Invoices`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoicePaymentPlanGet",
         "parameters": [
           {
@@ -47575,14 +47936,23 @@
         "x-permissions": [
           "Invoicing.Invoices"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       },
       "post": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Payment Plan: Sets up a plan against the outstanding balance.",
-        "description": "Applies to an issued invoice, and returns the updated invoice.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.PaymentPlan`  \n**Scope**: merchant",
+        "description": "Applies to an issued invoice, and returns the updated invoice.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.PaymentPlan`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoicePaymentPlanCreate",
         "parameters": [
           {
@@ -47782,7 +48152,16 @@
           "Invoicing.Invoices",
           "Invoicing.Invoices.PaymentPlan"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/products": {
@@ -47791,7 +48170,7 @@
           "Invoicing"
         ],
         "summary": "Products: Retrieves a skip/take paged list of invoice products. Deprecated.",
-        "description": "Paging with `SkipCount` is supported, and `Filter` applies as a case-insensitive\r\nname-or-SKU search. New callers should use `GET /api/invoicing/products/continuation-list`,\r\nwhich pages with a continuation token: skip/take paging slows as the offset grows, so a large\r\ncatalog pages far more cheaply there. The `Deprecation` and `Link` response headers\r\nlet client telemetry find callers still on this route.\n\n---\n**Required permissions**: `Invoicing.Products`  \n**Scope**: merchant",
+        "description": "Paging with `SkipCount` is supported, and `Filter` applies as a case-insensitive\r\nname-or-SKU search. New callers should use `GET /api/invoicing/products/continuation-list`,\r\nwhich pages with a continuation token: skip/take paging slows as the offset grows, so a large\r\ncatalog pages far more cheaply there. The `Deprecation` and `Link` response headers\r\nlet client telemetry find callers still on this route.\n\n---\n**Required permissions**: `Invoicing.Products`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceProductGetList",
         "parameters": [
           {
@@ -48059,14 +48438,23 @@
         "x-permissions": [
           "Invoicing.Products"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       },
       "post": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Products: Creates a new invoice product.",
-        "description": "A `productCode` another of the biller's products already holds (compared\r\ncase-insensitively) is refused as a validation error on that field, so no two products of one\r\nbiller share a SKU.\n\n---\n**Required permissions**: `Invoicing.Products`, `Invoicing.Products.Create`  \n**Scope**: merchant",
+        "description": "A `productCode` another of the biller's products already holds (compared\r\ncase-insensitively) is refused as a validation error on that field, so no two products of one\r\nbiller share a SKU.\n\n---\n**Required permissions**: `Invoicing.Products`, `Invoicing.Products.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceProductCreate",
         "parameters": [
           {
@@ -48257,7 +48645,16 @@
           "Invoicing.Products",
           "Invoicing.Products.Create"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/products/{id}": {
@@ -48266,7 +48663,7 @@
           "Invoicing"
         ],
         "summary": "Products: Retrieves a single invoice product by id.",
-        "description": "**Required permissions**: `Invoicing.Products`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Products`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceProductGet",
         "parameters": [
           {
@@ -48446,14 +48843,23 @@
         "x-permissions": [
           "Invoicing.Products"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       },
       "put": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Products: Updates an existing invoice product by id.",
-        "description": "Changing `productCode` to one another of the biller's products already holds (compared\r\ncase-insensitively) is refused as a validation error on that field. A product keeping its\r\nown code is never re-checked, so an edit that touches other fields is not refused over it.\n\n---\n**Required permissions**: `Invoicing.Products`, `Invoicing.Products.Update`  \n**Scope**: merchant",
+        "description": "Changing `productCode` to one another of the biller's products already holds (compared\r\ncase-insensitively) is refused as a validation error on that field. A product keeping its\r\nown code is never re-checked, so an edit that touches other fields is not refused over it.\n\n---\n**Required permissions**: `Invoicing.Products`, `Invoicing.Products.Update`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceProductUpdate",
         "parameters": [
           {
@@ -48653,14 +49059,23 @@
           "Invoicing.Products",
           "Invoicing.Products.Update"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       },
       "delete": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Products: Deletes an invoice product by id.",
-        "description": "**Required permissions**: `Invoicing.Products`, `Invoicing.Products.Delete`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Products`, `Invoicing.Products.Delete`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceProductDelete",
         "parameters": [
           {
@@ -48824,7 +49239,16 @@
           "Invoicing.Products",
           "Invoicing.Products.Delete"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/products/continuation-list": {
@@ -48833,7 +49257,7 @@
           "Invoicing"
         ],
         "summary": "Products: Retrieves a continuation-token paged, filtered list of invoice products.",
-        "description": "The paging surface for a large catalog. Page with `ContinuationToken` and read the next\r\ntoken from `NextContinuationToken`; `Search` matches a fragment of the product name\r\nor SKU in any case, and the default order is by name. Published beside the skip/take list\r\nrather than in its place so the published shape of that route is unchanged.\n\n---\n**Required permissions**: `Invoicing.Products`  \n**Scope**: merchant",
+        "description": "The paging surface for a large catalog. Page with `ContinuationToken` and read the next\r\ntoken from `NextContinuationToken`; `Search` matches a fragment of the product name\r\nor SKU in any case, and the default order is by name. Published beside the skip/take list\r\nrather than in its place so the published shape of that route is unchanged.\n\n---\n**Required permissions**: `Invoicing.Products`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceProductGetContinuationList",
         "parameters": [
           {
@@ -49107,7 +49531,16 @@
         "x-permissions": [
           "Invoicing.Products"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/public/invoice/{invoiceId}/pdf": {
@@ -49115,8 +49548,8 @@
         "tags": [
           "Invoicing"
         ],
-        "summary": "Downloads an invoice's PDF document using a view token.",
-        "description": "Authorized by the same view token as the public view, with no sign-in. Returns the cached\r\ndocument for the invoice's current version, rendering one only when none exists. The response\r\ncarries the `application/pdf` content type and an attachment disposition naming the file\r\nafter the invoice number. Downloading does not mark the invoice as viewed.",
+        "summary": "Public: Downloads an invoice's PDF document using a view token.",
+        "description": "Authorized by the same view token as the public view, with no sign-in. Returns the cached\r\ndocument for the invoice's current version, rendering one only when none exists. The response\r\ncarries the `application/pdf` content type and an attachment disposition naming the file\r\nafter the invoice number. Downloading does not mark the invoice as viewed.\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoicePublicDownloadPdfByViewToken",
         "parameters": [
           {
@@ -49270,7 +49703,16 @@
             "$ref": "#/components/responses/TooManyRequests"
           }
         },
-        "x-winkpg-subresource": "Public"
+        "x-winkpg-subresource": "Public",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/public/invoice/{invoiceId}": {
@@ -49278,8 +49720,8 @@
         "tags": [
           "Invoicing"
         ],
-        "summary": "Retrieves an invoice for public viewing using a view token.",
-        "description": "Returns 400 if the token is missing or blank, and 404 if the token is invalid, expired, or the invoice is not found.",
+        "summary": "Public: Retrieves an invoice for public viewing using a view token.",
+        "description": "Returns 400 if the token is missing or blank, and 404 if the token is invalid, expired, or the invoice is not found.\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoicePublicGetByViewToken",
         "parameters": [
           {
@@ -49462,7 +49904,16 @@
             "$ref": "#/components/responses/TooManyRequests"
           }
         },
-        "x-winkpg-subresource": "Public"
+        "x-winkpg-subresource": "Public",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/recurring-schedules/{id}/cancel": {
@@ -49471,7 +49922,7 @@
           "Invoicing"
         ],
         "summary": "Recurring schedules: Cancels a series permanently.",
-        "description": "Generation stops and the series cannot be resumed.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Cancel`  \n**Scope**: merchant",
+        "description": "Generation stops and the series cannot be resumed.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Cancel`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.RecurringInvoices`",
         "operationId": "recurringInvoiceScheduleCancel",
         "parameters": [
           {
@@ -49652,7 +50103,17 @@
           "Invoicing.RecurringSchedules",
           "Invoicing.RecurringSchedules.Cancel"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.RecurringInvoices"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/recurring-schedules": {
@@ -49661,7 +50122,7 @@
           "Invoicing"
         ],
         "summary": "Recurring schedules: Retrieves a filtered list of recurring invoice schedules.",
-        "description": "The paging shape of this endpoint is provisional and is expected to move to continuation\r\ntokens, so integrators should not rely on the current offset parameters as a stable\r\ncontract. Filter by biller, status, and creation\r\ntime instead of paging deeply.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`  \n**Scope**: merchant",
+        "description": "The paging shape of this endpoint is provisional and is expected to move to continuation\r\ntokens, so integrators should not rely on the current offset parameters as a stable\r\ncontract. Filter by biller, status, and creation\r\ntime instead of paging deeply.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.RecurringInvoices`",
         "operationId": "recurringInvoiceScheduleGetList",
         "parameters": [
           {
@@ -49946,14 +50407,24 @@
         "x-permissions": [
           "Invoicing.RecurringSchedules"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.RecurringInvoices"
+              ]
+            }
+          ]
+        }
       },
       "post": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Recurring schedules: Creates a new recurring invoice schedule.",
-        "description": "**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Create`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.RecurringInvoices`",
         "operationId": "recurringInvoiceScheduleCreate",
         "parameters": [
           {
@@ -50144,7 +50615,17 @@
           "Invoicing.RecurringSchedules",
           "Invoicing.RecurringSchedules.Create"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.RecurringInvoices"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/recurring-schedules/{id}": {
@@ -50153,7 +50634,7 @@
           "Invoicing"
         ],
         "summary": "Recurring schedules: Retrieves a single recurring invoice schedule by id.",
-        "description": "**Required permissions**: `Invoicing.RecurringSchedules`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.RecurringSchedules`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.RecurringInvoices`",
         "operationId": "recurringInvoiceScheduleGet",
         "parameters": [
           {
@@ -50333,14 +50814,24 @@
         "x-permissions": [
           "Invoicing.RecurringSchedules"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.RecurringInvoices"
+              ]
+            }
+          ]
+        }
       },
       "put": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Recurring schedules: Updates an existing recurring invoice schedule by id.",
-        "description": "**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Update`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Update`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.RecurringInvoices`",
         "operationId": "recurringInvoiceScheduleUpdate",
         "parameters": [
           {
@@ -50540,14 +51031,24 @@
           "Invoicing.RecurringSchedules",
           "Invoicing.RecurringSchedules.Update"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.RecurringInvoices"
+              ]
+            }
+          ]
+        }
       },
       "delete": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Recurring schedules: Deletes a recurring invoice schedule by id.",
-        "description": "**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Delete`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Delete`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.RecurringInvoices`",
         "operationId": "recurringInvoiceScheduleDelete",
         "parameters": [
           {
@@ -50711,7 +51212,17 @@
           "Invoicing.RecurringSchedules",
           "Invoicing.RecurringSchedules.Delete"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.RecurringInvoices"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/recurring-schedules/{id}/generate-now": {
@@ -50720,7 +51231,7 @@
           "Invoicing"
         ],
         "summary": "Recurring schedules: Generates the currently due invoice immediately.",
-        "description": "A manual trigger, and idempotent: repeating the call for the same due cycle returns the\r\ninvoice that was already generated rather than creating a duplicate, and the result reports\r\nwhether this call was the one that created it.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.GenerateNow`  \n**Scope**: merchant",
+        "description": "A manual trigger, and idempotent: repeating the call for the same due cycle returns the\r\ninvoice that was already generated rather than creating a duplicate, and the result reports\r\nwhether this call was the one that created it.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.GenerateNow`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.RecurringInvoices`",
         "operationId": "recurringInvoiceScheduleGenerateNow",
         "parameters": [
           {
@@ -50901,7 +51412,17 @@
           "Invoicing.RecurringSchedules",
           "Invoicing.RecurringSchedules.GenerateNow"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.RecurringInvoices"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/recurring-schedules/{id}/pause": {
@@ -50910,7 +51431,7 @@
           "Invoicing"
         ],
         "summary": "Recurring schedules: Pauses an active series.",
-        "description": "No further invoices are generated until the series is resumed.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Pause`  \n**Scope**: merchant",
+        "description": "No further invoices are generated until the series is resumed.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Pause`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.RecurringInvoices`",
         "operationId": "recurringInvoiceSchedulePause",
         "parameters": [
           {
@@ -51091,7 +51612,17 @@
           "Invoicing.RecurringSchedules",
           "Invoicing.RecurringSchedules.Pause"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.RecurringInvoices"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/recurring-schedules/{id}/resume": {
@@ -51100,7 +51631,7 @@
           "Invoicing"
         ],
         "summary": "Recurring schedules: Resumes a paused series.",
-        "description": "Recomputes the next run when the previous one has already elapsed.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Resume`  \n**Scope**: merchant",
+        "description": "Recomputes the next run when the previous one has already elapsed.\n\n---\n**Required permissions**: `Invoicing.RecurringSchedules`, `Invoicing.RecurringSchedules.Resume`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.RecurringInvoices`",
         "operationId": "recurringInvoiceScheduleResume",
         "parameters": [
           {
@@ -51281,7 +51812,17 @@
           "Invoicing.RecurringSchedules",
           "Invoicing.RecurringSchedules.Resume"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.RecurringInvoices"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/reports/aging/export/excel": {
@@ -51290,7 +51831,7 @@
           "Invoicing"
         ],
         "summary": "Reports: Exports the accounts-receivable aging report as an Excel workbook.",
-        "description": "Returns a downloadable .xlsx file carrying the aging summary, plus a per-invoice detail sheet\r\nwhen the detail flag is set. Filters, currency handling, and the 50,000-invoice ceiling match\r\nthe report endpoint. Requires the report export permission in addition to the report\r\npermission.\n\n---\n**Required permissions**: `Invoicing.Reports`, `Invoicing.Reports.Export`  \n**Scope**: merchant",
+        "description": "Returns a downloadable .xlsx file carrying the aging summary, plus a per-invoice detail sheet\r\nwhen the detail flag is set. Filters, currency handling, and the 50,000-invoice ceiling match\r\nthe report endpoint. Requires the report export permission in addition to the report\r\npermission.\n\n---\n**Required permissions**: `Invoicing.Reports`, `Invoicing.Reports.Export`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceAgingReportExportToExcel",
         "parameters": [
           {
@@ -51473,7 +52014,16 @@
           "Invoicing.Reports",
           "Invoicing.Reports.Export"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/reports/aging/export/csv": {
@@ -51482,7 +52032,7 @@
           "Invoicing"
         ],
         "summary": "Reports: Exports the accounts-receivable aging report as CSV.",
-        "description": "Returns a downloadable UTF-8 .csv file: the aging summary, or the per-invoice detail rows when\r\nthe detail flag is set. Filters, currency handling, and the 50,000-invoice ceiling match the\r\nreport endpoint. Requires the report export permission in addition to the report permission.\n\n---\n**Required permissions**: `Invoicing.Reports`, `Invoicing.Reports.Export`  \n**Scope**: merchant",
+        "description": "Returns a downloadable UTF-8 .csv file: the aging summary, or the per-invoice detail rows when\r\nthe detail flag is set. Filters, currency handling, and the 50,000-invoice ceiling match the\r\nreport endpoint. Requires the report export permission in addition to the report permission.\n\n---\n**Required permissions**: `Invoicing.Reports`, `Invoicing.Reports.Export`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceAgingReportExportToCsv",
         "parameters": [
           {
@@ -51665,7 +52215,16 @@
           "Invoicing.Reports",
           "Invoicing.Reports.Export"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/reports/aging": {
@@ -51674,7 +52233,7 @@
           "Invoicing"
         ],
         "summary": "Reports: Retrieves the accounts-receivable aging report.",
-        "description": "Buckets each outstanding balance by days past due as of the requested date (current UTC when\r\nomitted), grouped by biller or recipient, with per-currency grand totals. Balances are never\r\nsummed across currencies: a party holding balances in two currencies yields two group rows.\r\nThe report covers at most 50,000 outstanding invoices; a wider receivable set is rejected so a\r\npartial total is never mistaken for a complete one. Narrow by biller, recipient, or currency.\n\n---\n**Required permissions**: `Invoicing.Reports`  \n**Scope**: merchant",
+        "description": "Buckets each outstanding balance by days past due as of the requested date (current UTC when\r\nomitted), grouped by biller or recipient, with per-currency grand totals. Balances are never\r\nsummed across currencies: a party holding balances in two currencies yields two group rows.\r\nThe report covers at most 50,000 outstanding invoices; a wider receivable set is rejected so a\r\npartial total is never mistaken for a complete one. Narrow by biller, recipient, or currency.\n\n---\n**Required permissions**: `Invoicing.Reports`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceAgingReportGet",
         "parameters": [
           {
@@ -51870,7 +52429,16 @@
         "x-permissions": [
           "Invoicing.Reports"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/tax-rates": {
@@ -51879,7 +52447,7 @@
           "Invoicing"
         ],
         "summary": "Tax Rates: Retrieves a paged list of invoice tax rates.",
-        "description": "**Required permissions**: `Invoicing.TaxRates`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.TaxRates`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceTaxRateGetList",
         "parameters": [
           {
@@ -52146,14 +52714,23 @@
         "x-permissions": [
           "Invoicing.TaxRates"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       },
       "post": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Tax Rates: Creates a new invoice tax rate.",
-        "description": "**Required permissions**: `Invoicing.TaxRates`, `Invoicing.TaxRates.Create`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.TaxRates`, `Invoicing.TaxRates.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceTaxRateCreate",
         "parameters": [
           {
@@ -52344,7 +52921,16 @@
           "Invoicing.TaxRates",
           "Invoicing.TaxRates.Create"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/tax-rates/{id}": {
@@ -52353,7 +52939,7 @@
           "Invoicing"
         ],
         "summary": "Tax Rates: Retrieves a single invoice tax rate by id.",
-        "description": "**Required permissions**: `Invoicing.TaxRates`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.TaxRates`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceTaxRateGet",
         "parameters": [
           {
@@ -52533,14 +53119,23 @@
         "x-permissions": [
           "Invoicing.TaxRates"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       },
       "put": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Tax Rates: Updates an existing invoice tax rate by id.",
-        "description": "**Required permissions**: `Invoicing.TaxRates`, `Invoicing.TaxRates.Update`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.TaxRates`, `Invoicing.TaxRates.Update`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceTaxRateUpdate",
         "parameters": [
           {
@@ -52740,14 +53335,23 @@
           "Invoicing.TaxRates",
           "Invoicing.TaxRates.Update"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       },
       "delete": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Tax Rates: Deletes an invoice tax rate by id.",
-        "description": "**Required permissions**: `Invoicing.TaxRates`, `Invoicing.TaxRates.Delete`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.TaxRates`, `Invoicing.TaxRates.Delete`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceTaxRateDelete",
         "parameters": [
           {
@@ -52911,7 +53515,16 @@
           "Invoicing.TaxRates",
           "Invoicing.TaxRates.Delete"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "WinkPG.Invoicing.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/templates": {
@@ -52920,7 +53533,7 @@
           "Invoicing"
         ],
         "summary": "Templates: Retrieves a paged list of invoice templates.",
-        "description": "**Required permissions**: `Invoicing.Templates`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Templates`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.Templates`",
         "operationId": "invoiceTemplateGetList",
         "parameters": [
           {
@@ -53187,14 +53800,24 @@
         "x-permissions": [
           "Invoicing.Templates"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.Templates"
+              ]
+            }
+          ]
+        }
       },
       "post": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Templates: Creates a new invoice template.",
-        "description": "**Required permissions**: `Invoicing.Templates`, `Invoicing.Templates.Create`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Templates`, `Invoicing.Templates.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.Templates`",
         "operationId": "invoiceTemplateCreate",
         "parameters": [
           {
@@ -53385,7 +54008,17 @@
           "Invoicing.Templates",
           "Invoicing.Templates.Create"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.Templates"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/invoicing/templates/{id}": {
@@ -53394,7 +54027,7 @@
           "Invoicing"
         ],
         "summary": "Templates: Retrieves a single invoice template by id.",
-        "description": "**Required permissions**: `Invoicing.Templates`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Templates`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.Templates`",
         "operationId": "invoiceTemplateGet",
         "parameters": [
           {
@@ -53574,14 +54207,24 @@
         "x-permissions": [
           "Invoicing.Templates"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.Templates"
+              ]
+            }
+          ]
+        }
       },
       "put": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Templates: Updates an existing invoice template by id.",
-        "description": "**Required permissions**: `Invoicing.Templates`, `Invoicing.Templates.Update`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Templates`, `Invoicing.Templates.Update`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.Templates`",
         "operationId": "invoiceTemplateUpdate",
         "parameters": [
           {
@@ -53781,14 +54424,24 @@
           "Invoicing.Templates",
           "Invoicing.Templates.Update"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.Templates"
+              ]
+            }
+          ]
+        }
       },
       "delete": {
         "tags": [
           "Invoicing"
         ],
         "summary": "Templates: Deletes an invoice template by id.",
-        "description": "**Required permissions**: `Invoicing.Templates`, `Invoicing.Templates.Delete`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `Invoicing.Templates`, `Invoicing.Templates.Delete`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable` and `WinkPG.Invoicing.Templates`",
         "operationId": "invoiceTemplateDelete",
         "parameters": [
           {
@@ -53952,7 +54605,17 @@
           "Invoicing.Templates",
           "Invoicing.Templates.Delete"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "all-of": [
+                "WinkPG.Invoicing.Enable",
+                "WinkPG.Invoicing.Templates"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/account/checkPassword": {
@@ -54693,7 +55356,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Cancels a pending or running billing run.",
-        "description": "The optional cancellation reason is supplied in the request body (not the query string) so\r\nthe free-text note is not captured by ingress/access logs, proxies, or APM. The body is\r\noptional: an empty body cancels the run with no attributed reason.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Create`  \n**Scope**: merchant",
+        "description": "The optional cancellation reason is supplied in the request body (not the query string) so\r\nthe free-text note is not captured by ingress/access logs, proxies, or APM. The body is\r\noptional: an empty body cancels the run with no attributed reason.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunCancel",
         "parameters": [
           {
@@ -54844,7 +55507,16 @@
           "MerchantBilling.BillingRuns",
           "MerchantBilling.BillingRuns.Create"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs/environment-coverage": {
@@ -54853,7 +55525,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Counts the merchants a run bills that their plan does not price.",
-        "description": "Counts the merchants a run for the reseller and period would bill, and how many of them meter\r\ninto a SKU family their plan has no enabled rate entry for: a Sandbox merchant on a plan with\r\nno sandbox rate entries, or a Production merchant on a plan with no production rate entries.\r\nThose merchants are billed custom items only. Counts only; no merchant or plan is named. The\r\nreseller is the caller's own or one beneath it; any other reseller returns 404.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant",
+        "description": "Counts the merchants a run for the reseller and period would bill, and how many of them meter\r\ninto a SKU family their plan has no enabled rate entry for: a Sandbox merchant on a plan with\r\nno sandbox rate entries, or a Production merchant on a plan with no production rate entries.\r\nThose merchants are billed custom items only. Counts only; no merchant or plan is named. The\r\nreseller is the caller's own or one beneath it; any other reseller returns 404.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunGetEnvironmentCoverage",
         "parameters": [
           {
@@ -55026,7 +55698,16 @@
         "x-permissions": [
           "MerchantBilling.BillingRuns"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs": {
@@ -55035,7 +55716,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Lists billing runs in the caller's reseller scope.",
-        "description": "Paged with a continuation token. A reseller caller may pass `ResellerId` to list the runs\r\nof a reseller beneath their own; each run names the reseller it billed.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant",
+        "description": "Paged with a continuation token. A reseller caller may pass `ResellerId` to list the runs\r\nof a reseller beneath their own; each run names the reseller it billed.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunGetList",
         "parameters": [
           {
@@ -55317,14 +55998,23 @@
         "x-permissions": [
           "MerchantBilling.BillingRuns"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       },
       "post": {
         "tags": [
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Creates and runs a billing run for the caller's reseller scope.",
-        "description": "A reseller caller (or an admin acting inside a reseller's context) runs that single reseller;\r\nan admin with no reseller context fans out across every reseller with billable merchants. Set\r\n`ResellerId` to run one named reseller instead: the caller's own or one beneath it (an\r\nadmin may name any). Set `IsDryRun` on the input for a preview that calculates charges\r\nwithout generating invoices.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Create`  \n**Scope**: merchant",
+        "description": "A reseller caller (or an admin acting inside a reseller's context) runs that single reseller;\r\nan admin with no reseller context fans out across every reseller with billable merchants. Set\r\n`ResellerId` to run one named reseller instead: the caller's own or one beneath it (an\r\nadmin may name any). Set `IsDryRun` on the input for a preview that calculates charges\r\nwithout generating invoices.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunCreateAndRun",
         "parameters": [
           {
@@ -55516,7 +56206,16 @@
           "MerchantBilling.BillingRuns",
           "MerchantBilling.BillingRuns.Create"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs/{id}/export": {
@@ -55525,7 +56224,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Exports a billing run's merchant results and line items as a file.",
-        "description": "Returns a downloadable CSV or Excel file.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant",
+        "description": "Returns a downloadable CSV or Excel file.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunExportBillingRun",
         "parameters": [
           {
@@ -55701,7 +56400,16 @@
         "x-permissions": [
           "MerchantBilling.BillingRuns"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs/price-plan-history/export": {
@@ -55710,7 +56418,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Exports the plan-scoped historic billing report as a file.",
-        "description": "Returns a downloadable CSV or Excel file.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.Reports`  \n**Scope**: merchant",
+        "description": "Returns a downloadable CSV or Excel file.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.Reports`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunExportPricePlanHistory",
         "parameters": [
           {
@@ -55901,7 +56609,16 @@
           "MerchantBilling.BillingRuns",
           "MerchantBilling.Reports"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs/batch/clear": {
@@ -55910,7 +56627,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Force-clears the current all-resellers fan-out batch.",
-        "description": "Drives a stuck or stale batch to the terminal Cleared state and releases the single-in-flight\r\nguard. Restricted to an admin with no reseller context and gated on the dedicated Manage\r\npermission.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Manage`  \n**Scope**: merchant",
+        "description": "Drives a stuck or stale batch to the terminal Cleared state and releases the single-in-flight\r\nguard. Restricted to an admin with no reseller context and gated on the dedicated Manage\r\npermission.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Manage`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunClearActiveBatch",
         "parameters": [
           {
@@ -56085,7 +56802,16 @@
           "MerchantBilling.BillingRuns",
           "MerchantBilling.BillingRuns.Manage"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs/{id}": {
@@ -56094,7 +56820,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Gets a single billing run by its identifier.",
-        "description": "**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunGet",
         "parameters": [
           {
@@ -56258,7 +56984,16 @@
         "x-permissions": [
           "MerchantBilling.BillingRuns"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs/merchant-history": {
@@ -56267,7 +57002,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Gets one merchant's billing history across every run that included it.",
-        "description": "Returns the merchant's per-run results. The reseller scope is resolved server-side from the\r\nmerchant, so reseller users can only query merchants under their own reseller.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant",
+        "description": "Returns the merchant's per-run results. The reseller scope is resolved server-side from the\r\nmerchant, so reseller users can only query merchants under their own reseller.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunGetMerchantHistory",
         "parameters": [
           {
@@ -56551,7 +57286,16 @@
         "x-permissions": [
           "MerchantBilling.BillingRuns"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs/batch": {
@@ -56560,7 +57304,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Gets the active all-resellers batch, or the most recent batch.",
-        "description": "Returns the in-progress batch if one exists, otherwise the most recent batch. Returns 204 No\r\nContent when none has ever run, or for callers that are not an admin with no reseller context.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant",
+        "description": "Returns the in-progress batch if one exists, otherwise the most recent batch. Returns 204 No\r\nContent when none has ever run, or for callers that are not an admin with no reseller context.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunGetActiveOrLatestBatch",
         "parameters": [
           {
@@ -56734,7 +57478,16 @@
         "x-permissions": [
           "MerchantBilling.BillingRuns"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs/price-plan-history": {
@@ -56743,7 +57496,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Gets the plan-scoped historic billing report.",
-        "description": "Returns every billing-run result where a merchant was billed against the given price plan,\r\nacross the requested period range (default trailing 12 months). Row fields are run-time\r\nsnapshots.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.Reports`  \n**Scope**: merchant",
+        "description": "Returns every billing-run result where a merchant was billed against the given price plan,\r\nacross the requested period range (default trailing 12 months). Row fields are run-time\r\nsnapshots.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.Reports`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunGetPricePlanHistory",
         "parameters": [
           {
@@ -56923,7 +57676,16 @@
           "MerchantBilling.BillingRuns",
           "MerchantBilling.Reports"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs/target-resellers": {
@@ -56932,7 +57694,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Lists the resellers the caller can run billing for.",
-        "description": "The caller's own reseller first, then every reseller beneath it, by name. Empty for a caller\r\nwith no reseller context. Any listed id is accepted as `ResellerId` when creating a run\r\nor listing runs.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant",
+        "description": "The caller's own reseller first, then every reseller beneath it, by name. Empty for a caller\r\nwith no reseller context. Any listed id is accepted as `ResellerId` when creating a run\r\nor listing runs.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunGetRunTargetResellers",
         "parameters": [
           {
@@ -57103,7 +57865,16 @@
         "x-permissions": [
           "MerchantBilling.BillingRuns"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs/{id}/results/{resultId}/retry-charge": {
@@ -57112,7 +57883,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Retries a failed recurring charge on a billing run.",
-        "description": "Re-publishes the per-merchant fulfillment request with a fresh correlation id and transitions\r\nthe result back to pending.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Retry`  \n**Scope**: merchant",
+        "description": "Re-publishes the per-merchant fulfillment request with a fresh correlation id and transitions\r\nthe result back to pending.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Retry`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunRetryRecurringCharge",
         "parameters": [
           {
@@ -57253,7 +58024,16 @@
           "MerchantBilling.BillingRuns",
           "MerchantBilling.BillingRuns.Retry"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/billing-runs/trigger-all-resellers": {
@@ -57262,7 +58042,7 @@
           "Merchant Billing"
         ],
         "summary": "Billing Runs: Triggers the admin all-resellers billing fan-out as a background process.",
-        "description": "Returns the batch tracking status immediately. Only an admin with no reseller context may call\r\nthis; a single-in-flight guard rejects a second trigger while one is in progress.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Create`  \n**Scope**: merchant",
+        "description": "Returns the batch tracking status immediately. Only an admin with no reseller context may call\r\nthis; a single-in-flight guard rejects a second trigger while one is in progress.\n\n---\n**Required permissions**: `MerchantBilling.BillingRuns`, `MerchantBilling.BillingRuns.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "billingRunTriggerAllResellers",
         "parameters": [
           {
@@ -57454,7 +58234,16 @@
           "MerchantBilling.BillingRuns",
           "MerchantBilling.BillingRuns.Create"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/{id}/billing/payment-method/capture-link/cancel": {
@@ -57463,7 +58252,7 @@
           "Merchant Billing"
         ],
         "summary": "Payment Methods: Cancels (revokes) the outstanding capture link for the merchant.",
-        "description": "The hosted page can no longer be completed. A no-op (returns the current status) when there is\r\nno pending link to cancel.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant",
+        "description": "The hosted page can no longer be completed. A no-op (returns the current status) when there is\r\nno pending link to cancel.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "merchantBillingPaymentMethodCancelCaptureLink",
         "parameters": [
           {
@@ -57645,7 +58434,16 @@
           "MerchantBilling.PaymentMethods",
           "MerchantBilling.PaymentMethods.Manage"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/{id}/billing/payment-method/capture-link/send": {
@@ -57654,7 +58452,7 @@
           "Merchant Billing"
         ],
         "summary": "Payment Methods: Emails the merchant a capture link.",
-        "description": "Sends a secure link for capturing a payment method for recurring billing.\r\nThe stored method is saved automatically when the merchant completes the hosted page, so no\r\noperator follow-up is required.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant",
+        "description": "Sends a secure link for capturing a payment method for recurring billing.\r\nThe stored method is saved automatically when the merchant completes the hosted page, so no\r\noperator follow-up is required.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "merchantBillingPaymentMethodSendCaptureLink",
         "parameters": [
           {
@@ -57856,7 +58654,16 @@
           "MerchantBilling.PaymentMethods",
           "MerchantBilling.PaymentMethods.Manage"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/{id}/billing/payment-method": {
@@ -57865,7 +58672,7 @@
           "Merchant Billing"
         ],
         "summary": "Payment Methods: Gets the merchant's active stored payment method.",
-        "description": "Answers null when none is configured.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`  \n**Scope**: merchant",
+        "description": "Answers null when none is configured.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "merchantBillingPaymentMethodGetForMerchant",
         "parameters": [
           {
@@ -58046,7 +58853,16 @@
         "x-permissions": [
           "MerchantBilling.PaymentMethods"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/{id}/billing/payment-method/history": {
@@ -58055,7 +58871,7 @@
           "Merchant Billing"
         ],
         "summary": "Payment Methods: Gets the merchant's stored-method history.",
-        "description": "Includes active and soft-deactivated methods, newest first, paged with a continuation token.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`  \n**Scope**: merchant",
+        "description": "Includes active and soft-deactivated methods, newest first, paged with a continuation token.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "merchantBillingPaymentMethodGetHistory",
         "parameters": [
           {
@@ -58325,7 +59141,16 @@
         "x-permissions": [
           "MerchantBilling.PaymentMethods"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/{id}/billing/payment-method/capture-link/status": {
@@ -58334,7 +59159,7 @@
           "Merchant Billing"
         ],
         "summary": "Payment Methods: Gets the status of the outstanding capture link for the merchant.",
-        "description": "Reports sent/pending, completed, expired, cancelled, or none, and carries only non-sensitive\r\nlink metadata.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant",
+        "description": "Reports sent/pending, completed, expired, cancelled, or none, and carries only non-sensitive\r\nlink metadata.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "merchantBillingPaymentMethodGetCaptureLinkStatus",
         "parameters": [
           {
@@ -58516,7 +59341,16 @@
           "MerchantBilling.PaymentMethods",
           "MerchantBilling.PaymentMethods.Manage"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/{id}/billing/payment-method/{paymentMethodId}/activate": {
@@ -58525,7 +59359,7 @@
           "Merchant Billing"
         ],
         "summary": "Payment Methods: Re-activates a stored-but-inactive payment method for the merchant.",
-        "description": "Only one method may be active per merchant, so the currently-active method is soft-deactivated\r\nas part of this call. The chosen method is activated first, so the merchant never passes\r\nthrough a zero-active state.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant",
+        "description": "Only one method may be active per merchant, so the currently-active method is soft-deactivated\r\nas part of this call. The chosen method is activated first, so the merchant never passes\r\nthrough a zero-active state.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "merchantBillingPaymentMethodActivate",
         "parameters": [
           {
@@ -58717,7 +59551,16 @@
           "MerchantBilling.PaymentMethods",
           "MerchantBilling.PaymentMethods.Manage"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/{id}/billing/payment-method/capture-readiness": {
@@ -58726,7 +59569,7 @@
           "Merchant Billing"
         ],
         "summary": "Payment Methods: Reports whether capture is configured.",
-        "description": "Answers whether the reseller-level prerequisites for capturing a stored method are in place:\r\nwhether the reseller has a collection merchant and a card-capture HPP configured and which\r\ninstrument kinds are allowed, plus the parent reseller id. Backs the operator UI's load-time\r\npre-flight; the authoritative checks still run server-side on capture initiation.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant",
+        "description": "Answers whether the reseller-level prerequisites for capturing a stored method are in place:\r\nwhether the reseller has a collection merchant and a card-capture HPP configured and which\r\ninstrument kinds are allowed, plus the parent reseller id. Backs the operator UI's load-time\r\npre-flight; the authoritative checks still run server-side on capture initiation.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "merchantBillingPaymentMethodGetCaptureReadiness",
         "parameters": [
           {
@@ -58908,7 +59751,16 @@
           "MerchantBilling.PaymentMethods",
           "MerchantBilling.PaymentMethods.Manage"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/{id}/billing/payment-method/capture-link/resend": {
@@ -58917,7 +59769,7 @@
           "Merchant Billing"
         ],
         "summary": "Payment Methods: Resends the outstanding capture link for the merchant.",
-        "description": "A still-usable link is re-sent for its existing session; an expired, cancelled, or completed\r\nlink is reissued fresh against the same kind.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant",
+        "description": "A still-usable link is re-sent for its existing session; an expired, cancelled, or completed\r\nlink is reissued fresh against the same kind.\n\n---\n**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "merchantBillingPaymentMethodResendCaptureLink",
         "parameters": [
           {
@@ -59119,7 +59971,16 @@
           "MerchantBilling.PaymentMethods",
           "MerchantBilling.PaymentMethods.Manage"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/{id}/billing/payment-method/deactivate": {
@@ -59128,7 +59989,7 @@
           "Merchant Billing"
         ],
         "summary": "Payment Methods: Soft-deactivates the active stored payment method for the merchant.",
-        "description": "**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant",
+        "description": "**Required permissions**: `MerchantBilling.PaymentMethods`, `MerchantBilling.PaymentMethods.Manage`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "merchantBillingPaymentMethodDeactivate",
         "parameters": [
           {
@@ -59310,7 +60171,16 @@
           "MerchantBilling.PaymentMethods",
           "MerchantBilling.PaymentMethods.Manage"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/{id}/payment-encryption-bindings/{providerName}/keys/{ksi}": {
@@ -61153,7 +62023,7 @@
           "Merchants"
         ],
         "summary": "Assigns a merchant to a price plan.",
-        "description": "Only the plan assignment changes; nothing else on the merchant is rewritten. A merchant\nalready on another plan is moved to this one, because a merchant holds one active\nassignment at a time. The plan must belong to the merchant's reseller or to a reseller\nabove it. The request is refused when the merchant is locked, and when the assignment\nwould make a reseller's own collection merchant billable to itself.\n\n---\n**Required permissions**: `MerchantBilling.PricePlans.Assign`  \n**Scope**: merchant",
+        "description": "Only the plan assignment changes; nothing else on the merchant is rewritten. A merchant\nalready on another plan is moved to this one, because a merchant holds one active\nassignment at a time. The plan must belong to the merchant's reseller or to a reseller\nabove it. The request is refused when the merchant is locked, and when the assignment\nwould make a reseller's own collection merchant billable to itself.\n\n---\n**Required permissions**: `MerchantBilling.PricePlans.Assign`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "merchantsAssignPricePlan",
         "parameters": [
           {
@@ -61343,7 +62213,16 @@
         "x-permissions": [
           "MerchantBilling.PricePlans.Assign"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/{id}/access": {
@@ -61536,7 +62415,7 @@
           "Merchants"
         ],
         "summary": "Clears a merchant's price-plan assignment.",
-        "description": "Billing runs skip the merchant until a plan is assigned again. Only the plan assignment\nchanges, and the request is refused when the merchant is locked.\n\n---\n**Required permissions**: `MerchantBilling.PricePlans.Assign`  \n**Scope**: merchant",
+        "description": "Billing runs skip the merchant until a plan is assigned again. Only the plan assignment\nchanges, and the request is refused when the merchant is locked.\n\n---\n**Required permissions**: `MerchantBilling.PricePlans.Assign`  \n**Scope**: merchant\n\n---\n**Requires features**: `PhoeniXGate.MerchantBilling.Enable`",
         "operationId": "merchantsUnassignPricePlan",
         "parameters": [
           {
@@ -61716,7 +62595,16 @@
         "x-permissions": [
           "MerchantBilling.PricePlans.Assign"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "x-winkpg-features": {
+          "groups": [
+            {
+              "any-of": [
+                "PhoeniXGate.MerchantBilling.Enable"
+              ]
+            }
+          ]
+        }
       }
     },
     "/api/merchants/list/continuation/summary-counts": {
@@ -182697,11 +183585,13 @@
           },
           "hardLimitEnabled": {
             "type": "boolean",
-            "description": "Whether this SKU enforces a hard limit."
+            "description": "Whether this SKU enforces a hard limit. Omit it, or send null, to keep the entitlement's\r\ncurrent setting.",
+            "nullable": true
           },
           "overageAllowed": {
             "type": "boolean",
-            "description": "Whether overage beyond the included quantity is allowed."
+            "description": "Whether overage beyond the included quantity is allowed. Omit it, or send null, to keep\r\nthe entitlement's current setting.",
+            "nullable": true
           },
           "overageLimitQuantity": {
             "type": "integer",
@@ -182723,7 +183613,8 @@
           },
           "enabled": {
             "type": "boolean",
-            "description": "Kill switch: when false, all consumption of this SKU is blocked."
+            "description": "Kill switch: when false, all consumption of this SKU is blocked. Omit it, or send null, to\r\nkeep the entitlement's current setting.",
+            "nullable": true
           },
           "resetPeriod": {
             "allOf": [
@@ -185710,11 +186601,69 @@
     }
   ],
   "x-winkpg-feature-state": {
+    "AuditLogging.Enable": true,
+    "PhoeniXGate.MerchantBilling.Enable": true,
     "Wallets.ApplePay": false,
     "Wallets.GooglePay": false,
     "Wallets.Paze": false,
+    "WinkPG.Invoicing.CreditNotes": true,
+    "WinkPG.Invoicing.CustomFields": true,
+    "WinkPG.Invoicing.Enable": true,
+    "WinkPG.Invoicing.RecurringInvoices": true,
+    "WinkPG.Invoicing.Templates": true,
     "WinkPG.ProcessorRouting.Enable": false,
     "WinkPG.Surcharging.Enable": false
+  },
+  "x-winkpg-feature-catalog": {
+    "AuditLogging.Enable": {
+      "name": "AuditLogging.Enable",
+      "displayName": "Enable audit logging page",
+      "description": "Enable audit logging page in the application.",
+      "defaultValue": "true",
+      "isVisibleToClients": true
+    },
+    "PhoeniXGate.MerchantBilling.Enable": {
+      "name": "PhoeniXGate.MerchantBilling.Enable",
+      "displayName": "Enable Merchant Billing",
+      "description": "Master toggle for the Merchant Billing module. When disabled, the Merchant Billing menu, the billing plan assignment card on the merchant edit page, and every Merchant Billing API endpoint become unavailable.",
+      "defaultValue": "true",
+      "isVisibleToClients": true
+    },
+    "WinkPG.Invoicing.CreditNotes": {
+      "name": "WinkPG.Invoicing.CreditNotes",
+      "displayName": "Credit Notes",
+      "description": "Enables credit note functionality for invoice adjustments.",
+      "defaultValue": "true",
+      "isVisibleToClients": true
+    },
+    "WinkPG.Invoicing.CustomFields": {
+      "name": "WinkPG.Invoicing.CustomFields",
+      "displayName": "Custom Fields",
+      "description": "Enables custom field definitions on invoices.",
+      "defaultValue": "true",
+      "isVisibleToClients": true
+    },
+    "WinkPG.Invoicing.Enable": {
+      "name": "WinkPG.Invoicing.Enable",
+      "displayName": "Enable Invoicing",
+      "description": "Master toggle for the invoicing module. When disabled, all invoicing UI and API access is hidden.",
+      "defaultValue": "true",
+      "isVisibleToClients": true
+    },
+    "WinkPG.Invoicing.RecurringInvoices": {
+      "name": "WinkPG.Invoicing.RecurringInvoices",
+      "displayName": "Recurring Invoices",
+      "description": "Enables recurring invoice schedules that generate invoices automatically on a recurring cadence.",
+      "defaultValue": "true",
+      "isVisibleToClients": true
+    },
+    "WinkPG.Invoicing.Templates": {
+      "name": "WinkPG.Invoicing.Templates",
+      "displayName": "Custom Templates",
+      "description": "Enables custom invoice templates beyond the default template.",
+      "defaultValue": "true",
+      "isVisibleToClients": true
+    }
   },
   "x-error-codes": [
     {
