@@ -149825,6 +149825,11 @@
             "description": "What kind of message the row belongs to, for example `Receipt`, `Invoice` or\r\n`SecurityAlert`. Absent when the message declared no kind, and on rows recorded before\r\nkinds were recorded.",
             "nullable": true
           },
+          "bypassedSuppression": {
+            "type": "boolean",
+            "description": "`true` when the message was sent past the bounce, spam-report and global unsubscribe\r\nsuppression lists, which applies only to account-critical kinds such as `PasswordReset`\r\nand `SecurityAlert`. Present only on the gateway's send row for a message the mail\r\nprovider accepted; absent on every other row, on a failed send, and on rows recorded before\r\nthe bypass existed.",
+            "nullable": true
+          },
           "isSenderDomainAuthenticated": {
             "type": "boolean"
           },
