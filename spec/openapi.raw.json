@@ -8132,7 +8132,8 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/announcements/{id}/access": {
@@ -21165,7 +21166,8 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/campaigns/{id}/restore": {
@@ -33971,7 +33973,8 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/hostedpaymentpages/{id}/access": {
@@ -37601,7 +37604,8 @@
               }
             }
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/hostedpaymentpages/sessions/{sessionId}/reconcile-completions": {
@@ -37835,7 +37839,8 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/hostedpaymentpages/unlock-async": {
@@ -39684,7 +39689,8 @@
         "x-permissions": [
           "HostedPaymentPage.HppSessions"
         ],
-        "x-scope": "merchant"
+        "x-scope": "merchant",
+        "security": [ ]
       }
     },
     "/sdk/core/{version}/{fingerprint}/{file}": {
@@ -39746,7 +39752,8 @@
               }
             }
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/sdk/sample/{product}.zip": {
@@ -39843,7 +39850,8 @@
               }
             }
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/hostedpaymentpages/images/upload": {
@@ -41305,7 +41313,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "A page of invoices, with the token for the next page when there is one.",
             "content": {
               "text/plain": {
                 "schema": {
@@ -41385,7 +41393,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "The caller's biller scope does not cover the requested `BillerId`\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Every biller-filtered invoicing list answers\r\nthis way. Reported as not-found rather than forbidden so the response cannot be used to probe\r\nwhich billers exist.",
             "content": {
               "text/plain": {
                 "schema": {
@@ -49712,7 +49720,8 @@
               ]
             }
           ]
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/invoicing/public/invoice/{invoiceId}": {
@@ -49913,7 +49922,8 @@
               ]
             }
           ]
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/invoicing/recurring-schedules/{id}/cancel": {
@@ -55191,7 +55201,8 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/account/logout": {
@@ -77609,7 +77620,8 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/notifications/deliveries/outcome-summary": {
@@ -83567,7 +83579,8 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        }
+        },
+        "security": [ ]
       },
       "post": {
         "tags": [
@@ -83727,7 +83740,8 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/notifications/inbox": {
@@ -129786,7 +129800,8 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/identity/users/export-as-excel": {
@@ -130154,7 +130169,8 @@
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
-        }
+        },
+        "security": [ ]
       }
     },
     "/api/identity/users/by-email/{email}": {
@@ -136275,7 +136291,8 @@
             }
           }
         },
-        "x-winkpg-subresource": "Apple Pay"
+        "x-winkpg-subresource": "Apple Pay",
+        "security": [ ]
       }
     },
     "/api/payment-tokenization/checkout-snapshot/{providerType}/{merchantId}": {
@@ -136349,7 +136366,8 @@
             "$ref": "#/components/responses/TooManyRequests"
           }
         },
-        "x-winkpg-subresource": "Checkout Snapshot"
+        "x-winkpg-subresource": "Checkout Snapshot",
+        "security": [ ]
       }
     },
     "/.well-known/paze/{environment}/jwks.json": {
@@ -136394,7 +136412,8 @@
             }
           }
         },
-        "x-winkpg-subresource": "Paze"
+        "x-winkpg-subresource": "Paze",
+        "security": [ ]
       }
     }
   },
@@ -141235,6 +141254,31 @@
           "E-commerce: cardholder not present and the transaction was originated through a website, mobile application, or other electronic channel.",
           "Recurring / subscription: cardholder is not contemporaneously present; the merchant is charging a stored credential against a prior cardholder authorization."
         ]
+      },
+      "CashPaymentDetails": {
+        "type": "object",
+        "properties": {
+          "amountTendered": {
+            "type": "number",
+            "description": "The amount of cash the customer physically handed over, in the transaction currency. May\r\nexceed the transaction total when change was returned.",
+            "format": "double",
+            "nullable": true
+          },
+          "changeGiven": {
+            "type": "number",
+            "description": "The amount of change returned to the customer, in the transaction currency.",
+            "format": "double",
+            "nullable": true
+          },
+          "cashReceivedAt": {
+            "type": "string",
+            "description": "When the cash was taken. Send it to record a sale taken earlier, for example one recorded\r\noffline; when omitted, the gateway stamps the time of authorization.",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The facts of a cash sale that no instrument block records: how much cash the customer handed\r\nover, how much change was returned, and when the cash was taken."
       },
       "CedpFindingCode": {
         "enum": [
@@ -179943,6 +179987,14 @@
               }
             ]
           },
+          "cashData": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CashPaymentDetails"
+              }
+            ],
+            "description": "Cash sale details: the cash handed over, the change returned, and when the cash was taken."
+          },
           "tokenData": {
             "allOf": [
               {
@@ -180701,6 +180753,14 @@
           },
           "checkData": {
             "$ref": "#/components/schemas/CheckData"
+          },
+          "cashData": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CashPaymentDetails"
+              }
+            ],
+            "description": "The cash sale details: the cash handed over, the change returned, and when the cash was\r\ntaken. Null when the transaction's request carried none."
           },
           "apmData": {
             "allOf": [
