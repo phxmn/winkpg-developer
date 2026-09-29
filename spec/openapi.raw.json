@@ -15615,7 +15615,26 @@
             }
           },
           {
+            "name": "MaxModificationTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
             "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "schema": {
               "type": "string",
@@ -15625,9 +15644,12 @@
           {
             "name": "MinModifitionTime",
             "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
             "schema": {
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -15912,7 +15934,26 @@
             }
           },
           {
+            "name": "MaxModificationTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
             "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "schema": {
               "type": "string",
@@ -15922,9 +15963,12 @@
           {
             "name": "MinModifitionTime",
             "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
             "schema": {
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -19316,7 +19360,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last-modification time.",
             "schema": {
@@ -19325,12 +19369,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last-modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -25352,7 +25418,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Gets or sets the upper bound for filtering by last modification time.",
             "schema": {
@@ -25361,12 +25427,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Gets or sets the lower bound for filtering by last modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -28224,7 +28312,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Gets or sets the upper bound for filtering by last modification time.",
             "schema": {
@@ -28233,12 +28321,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Gets or sets the lower bound for filtering by last modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -34602,7 +34712,26 @@
             }
           },
           {
+            "name": "MaxModificationTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
             "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "schema": {
               "type": "string",
@@ -34612,9 +34741,12 @@
           {
             "name": "MinModifitionTime",
             "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
             "schema": {
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -63310,6 +63442,11 @@
                   "summary": "Create Sample Merchant",
                   "description": "Creates a sample merchant with a basic configuration",
                   "value": {"name":"Sample Merchant","isActive":true,"mcc":"5411","isTest":true,"contactDetail":{"primaryContactName":"Primary Contact","emailAddress":"sample@winkpg.io","phone":"555-555-5555","companyUrl":"https://www.winkpg.io","addresses":[{"address1":"22601 N. 19th Ave","address2":"Suite 212","city":"Phoenix","state":"AZ","zip":"85027","country":"USA","isMailing":true,"isDefault":true}]},"virtualTerminal":{"cardBinPrompting":{"enableCommercial":true},"allowRepeatSales":true,"allowRefunds":true,"enableEmailReceipts":true,"fields":{"emailAddress":{"validationRegex":null,"placeholder":null}},"allowPartialApprovals":true,"allowSplitTender":true,"splitTenderMaxTenders":2,"partialApprovalAckTimeoutMinutes":15}}
+                },
+                "Create Merchant With Cash Policy": {
+                  "summary": "Create Merchant With Cash Policy",
+                  "description": "Creates a merchant with a cash policy. The merchant stores every value exactly as sent: a cash sale above 1,000.00 is over the maximum, one above 500.00 needs a manager's approval, a cash sale is refunded only to the tender it was paid with, every cash transaction must name its till, cash can be recorded only from the Virtual Terminal, and a refund paid back in cash is capped at 250.00. The policy applies once the merchant has an active cash processor profile. Omit cashPolicy, or send it with no properties, and the merchant stores no policy and reads back null.",
+                  "value": {"name":"Sample Cash Merchant","isActive":true,"mcc":"5411","isTest":true,"contactDetail":{"primaryContactName":"Primary Contact","emailAddress":"sample@winkpg.io","phone":"555-555-5555","companyUrl":"https://www.winkpg.io","addresses":[{"address1":"22601 N. 19th Ave","address2":"Suite 212","city":"Phoenix","state":"AZ","zip":"85027","country":"USA","isMailing":true,"isDefault":true}]},"virtualTerminal":{"cardBinPrompting":{"enableCommercial":true},"allowRepeatSales":true,"allowRefunds":true,"enableEmailReceipts":true,"fields":{"emailAddress":{"validationRegex":null,"placeholder":null}},"allowPartialApprovals":true,"allowSplitTender":true,"splitTenderMaxTenders":2,"partialApprovalAckTimeoutMinutes":15},"processing":{"cashPolicy":{"maxTransactionAmount":1000.00,"managerApprovalThreshold":500.00,"refundPolicy":"OriginalTenderOnly","tillTrackingRequired":true,"allowNonTerminalSources":false,"cashBackRefundMaxAmount":250.00}}}
                 }
               }
             },
@@ -63322,6 +63459,11 @@
                   "summary": "Create Sample Merchant",
                   "description": "Creates a sample merchant with a basic configuration",
                   "value": {"name":"Sample Merchant","isActive":true,"mcc":"5411","isTest":true,"contactDetail":{"primaryContactName":"Primary Contact","emailAddress":"sample@winkpg.io","phone":"555-555-5555","companyUrl":"https://www.winkpg.io","addresses":[{"address1":"22601 N. 19th Ave","address2":"Suite 212","city":"Phoenix","state":"AZ","zip":"85027","country":"USA","isMailing":true,"isDefault":true}]},"virtualTerminal":{"cardBinPrompting":{"enableCommercial":true},"allowRepeatSales":true,"allowRefunds":true,"enableEmailReceipts":true,"fields":{"emailAddress":{"validationRegex":null,"placeholder":null}},"allowPartialApprovals":true,"allowSplitTender":true,"splitTenderMaxTenders":2,"partialApprovalAckTimeoutMinutes":15}}
+                },
+                "Create Merchant With Cash Policy": {
+                  "summary": "Create Merchant With Cash Policy",
+                  "description": "Creates a merchant with a cash policy. The merchant stores every value exactly as sent: a cash sale above 1,000.00 is over the maximum, one above 500.00 needs a manager's approval, a cash sale is refunded only to the tender it was paid with, every cash transaction must name its till, cash can be recorded only from the Virtual Terminal, and a refund paid back in cash is capped at 250.00. The policy applies once the merchant has an active cash processor profile. Omit cashPolicy, or send it with no properties, and the merchant stores no policy and reads back null.",
+                  "value": {"name":"Sample Cash Merchant","isActive":true,"mcc":"5411","isTest":true,"contactDetail":{"primaryContactName":"Primary Contact","emailAddress":"sample@winkpg.io","phone":"555-555-5555","companyUrl":"https://www.winkpg.io","addresses":[{"address1":"22601 N. 19th Ave","address2":"Suite 212","city":"Phoenix","state":"AZ","zip":"85027","country":"USA","isMailing":true,"isDefault":true}]},"virtualTerminal":{"cardBinPrompting":{"enableCommercial":true},"allowRepeatSales":true,"allowRefunds":true,"enableEmailReceipts":true,"fields":{"emailAddress":{"validationRegex":null,"placeholder":null}},"allowPartialApprovals":true,"allowSplitTender":true,"splitTenderMaxTenders":2,"partialApprovalAckTimeoutMinutes":15},"processing":{"cashPolicy":{"maxTransactionAmount":1000.00,"managerApprovalThreshold":500.00,"refundPolicy":"OriginalTenderOnly","tillTrackingRequired":true,"allowNonTerminalSources":false,"cashBackRefundMaxAmount":250.00}}}
                 }
               }
             },
@@ -63334,6 +63476,11 @@
                   "summary": "Create Sample Merchant",
                   "description": "Creates a sample merchant with a basic configuration",
                   "value": {"name":"Sample Merchant","isActive":true,"mcc":"5411","isTest":true,"contactDetail":{"primaryContactName":"Primary Contact","emailAddress":"sample@winkpg.io","phone":"555-555-5555","companyUrl":"https://www.winkpg.io","addresses":[{"address1":"22601 N. 19th Ave","address2":"Suite 212","city":"Phoenix","state":"AZ","zip":"85027","country":"USA","isMailing":true,"isDefault":true}]},"virtualTerminal":{"cardBinPrompting":{"enableCommercial":true},"allowRepeatSales":true,"allowRefunds":true,"enableEmailReceipts":true,"fields":{"emailAddress":{"validationRegex":null,"placeholder":null}},"allowPartialApprovals":true,"allowSplitTender":true,"splitTenderMaxTenders":2,"partialApprovalAckTimeoutMinutes":15}}
+                },
+                "Create Merchant With Cash Policy": {
+                  "summary": "Create Merchant With Cash Policy",
+                  "description": "Creates a merchant with a cash policy. The merchant stores every value exactly as sent: a cash sale above 1,000.00 is over the maximum, one above 500.00 needs a manager's approval, a cash sale is refunded only to the tender it was paid with, every cash transaction must name its till, cash can be recorded only from the Virtual Terminal, and a refund paid back in cash is capped at 250.00. The policy applies once the merchant has an active cash processor profile. Omit cashPolicy, or send it with no properties, and the merchant stores no policy and reads back null.",
+                  "value": {"name":"Sample Cash Merchant","isActive":true,"mcc":"5411","isTest":true,"contactDetail":{"primaryContactName":"Primary Contact","emailAddress":"sample@winkpg.io","phone":"555-555-5555","companyUrl":"https://www.winkpg.io","addresses":[{"address1":"22601 N. 19th Ave","address2":"Suite 212","city":"Phoenix","state":"AZ","zip":"85027","country":"USA","isMailing":true,"isDefault":true}]},"virtualTerminal":{"cardBinPrompting":{"enableCommercial":true},"allowRepeatSales":true,"allowRefunds":true,"enableEmailReceipts":true,"fields":{"emailAddress":{"validationRegex":null,"placeholder":null}},"allowPartialApprovals":true,"allowSplitTender":true,"splitTenderMaxTenders":2,"partialApprovalAckTimeoutMinutes":15},"processing":{"cashPolicy":{"maxTransactionAmount":1000.00,"managerApprovalThreshold":500.00,"refundPolicy":"OriginalTenderOnly","tillTrackingRequired":true,"allowNonTerminalSources":false,"cashBackRefundMaxAmount":250.00}}}
                 }
               }
             }
@@ -88028,7 +88175,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last-modification time.",
             "schema": {
@@ -88037,12 +88184,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last-modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -89930,7 +90099,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last modification time.",
             "schema": {
@@ -89939,12 +90108,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -91684,7 +91875,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last modification time.",
             "schema": {
@@ -91693,12 +91884,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -94020,7 +94233,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last modification time.",
             "schema": {
@@ -94029,12 +94242,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -94343,7 +94578,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last modification time.",
             "schema": {
@@ -94352,12 +94587,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -97537,7 +97794,26 @@
             }
           },
           {
+            "name": "MaxModificationTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
             "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "schema": {
               "type": "string",
@@ -97547,9 +97823,12 @@
           {
             "name": "MinModifitionTime",
             "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
             "schema": {
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -106868,7 +107147,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last-modification time.",
             "schema": {
@@ -106877,12 +107156,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last-modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -107124,7 +107425,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last-modification time.",
             "schema": {
@@ -107133,12 +107434,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last-modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -108652,7 +108975,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last-modification time.",
             "schema": {
@@ -108661,12 +108984,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last-modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -109168,7 +109513,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last-modification time.",
             "schema": {
@@ -109177,12 +109522,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last-modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -109424,7 +109791,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last-modification time.",
             "schema": {
@@ -109433,12 +109800,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last-modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -110952,7 +111341,7 @@
             }
           },
           {
-            "name": "MaxModifitionTime",
+            "name": "MaxModificationTime",
             "in": "query",
             "description": "Upper bound on last-modification time.",
             "schema": {
@@ -110961,12 +111350,34 @@
             }
           },
           {
-            "name": "MinModifitionTime",
+            "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "description": "Lower bound on last-modification time.",
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "MinModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -115954,7 +116365,26 @@
             }
           },
           {
+            "name": "MaxModificationTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
             "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "schema": {
               "type": "string",
@@ -115964,9 +116394,12 @@
           {
             "name": "MinModifitionTime",
             "in": "query",
+            "description": "Deprecated misspelled alias of `minModificationTime`.\n\nDeprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
             "schema": {
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -128414,7 +128847,26 @@
             }
           },
           {
+            "name": "MaxModificationTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
             "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "schema": {
               "type": "string",
@@ -128424,9 +128876,12 @@
           {
             "name": "MinModifitionTime",
             "in": "query",
+            "description": "Deprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
             "schema": {
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -129585,7 +130040,26 @@
             }
           },
           {
+            "name": "MaxModificationTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
             "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "schema": {
               "type": "string",
@@ -129595,9 +130069,12 @@
           {
             "name": "MinModifitionTime",
             "in": "query",
+            "description": "Deprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
             "schema": {
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -129954,7 +130431,26 @@
             }
           },
           {
+            "name": "MaxModificationTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
             "name": "MaxModifitionTime",
+            "in": "query",
+            "description": "Deprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "deprecated": true
+            }
+          },
+          {
+            "name": "MinModificationTime",
             "in": "query",
             "schema": {
               "type": "string",
@@ -129964,9 +130460,12 @@
           {
             "name": "MinModifitionTime",
             "in": "query",
+            "description": "Deprecated misspelling kept for compatibility. Use MinModificationTime or MaxModificationTime instead. When a request sends both spellings of the same bound, the correctly spelled parameter is used and this one is ignored.",
+            "deprecated": true,
             "schema": {
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "deprecated": true
             }
           },
           {
@@ -141325,6 +141824,134 @@
         "additionalProperties": false,
         "description": "The facts of a cash sale that no instrument block records: how much cash the customer handed\r\nover, how much change was returned, and when the cash was taken."
       },
+      "CashPolicyDto": {
+        "type": "object",
+        "properties": {
+          "maxTransactionAmount": {
+            "type": "number",
+            "description": "The largest amount a single cash sale may be, in major units of the transaction currency\r\n(500.00 means five hundred). Omitted or null sets no maximum. Zero or greater when set.\nConditional: When MaxTransactionAmount is not null. Must be >= 0.",
+            "format": "double",
+            "nullable": true,
+            "x-validation-rules": [
+              {
+                "conditionallyRequired": false,
+                "condition": "When MaxTransactionAmount is not null",
+                "constraints": [
+                  {
+                    "type": "GreaterThanOrEqual",
+                    "conditional": true
+                  }
+                ]
+              }
+            ]
+          },
+          "managerApprovalThreshold": {
+            "type": "number",
+            "description": "The amount above which a cash sale needs a manager's approval, in major units of the\r\ntransaction currency. Omitted or null never requires approval. Zero or greater when set, and no greater than `maxTransactionAmount`\r\nwhen both are set.\nConditional: When ManagerApprovalThreshold is not null. Must be >= 0.\nConditional: When ManagerApprovalThreshold and MaxTransactionAmount meet conditions.",
+            "format": "double",
+            "nullable": true,
+            "x-validation-rules": [
+              {
+                "conditionallyRequired": false,
+                "condition": "When ManagerApprovalThreshold is not null",
+                "constraints": [
+                  {
+                    "type": "GreaterThanOrEqual",
+                    "conditional": true
+                  }
+                ]
+              },
+              {
+                "conditionallyRequired": false,
+                "condition": "When ManagerApprovalThreshold and MaxTransactionAmount meet conditions",
+                "constraints": [
+                  {
+                    "type": "Predicate",
+                    "conditional": true
+                  }
+                ]
+              }
+            ]
+          },
+          "refundPolicy": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CashRefundPolicy"
+              }
+            ],
+            "description": "How a sale paid in cash is refunded. Omitted or null means `ManagerDiscretion`, which\r\nleaves the choice to the person taking the refund.\nConditional: When RefundPolicy is not null.",
+            "nullable": true,
+            "x-validation-rules": [
+              {
+                "conditionallyRequired": false,
+                "condition": "When RefundPolicy is not null",
+                "constraints": [
+                  {
+                    "type": "Enum",
+                    "conditional": true
+                  }
+                ]
+              }
+            ]
+          },
+          "tillTrackingRequired": {
+            "type": "boolean",
+            "description": "Whether a cash transaction has to name the till (cash drawer) it was taken into. Omitted or\r\nnull does not require one.",
+            "nullable": true
+          },
+          "allowNonTerminalSources": {
+            "type": "boolean",
+            "description": "Whether a cash transaction may be recorded from a source other than the Virtual Terminal,\r\nsuch as the API, recurring billing, invoicing or an offline batch. Omitted, null and\r\n`true` allow it; only `false` restricts cash to the Virtual Terminal.",
+            "nullable": true
+          },
+          "cashBackRefundMaxAmount": {
+            "type": "number",
+            "description": "The largest refund of a cash sale that may be paid back in cash, in major units of the\r\ntransaction currency. Omitted or null sets no cap.\r\nZero or greater when set, and no greater than `maxTransactionAmount` when both\r\nare set.\nConditional: When CashBackRefundMaxAmount is not null. Must be >= 0.\nConditional: When CashBackRefundMaxAmount and MaxTransactionAmount meet conditions.",
+            "format": "double",
+            "nullable": true,
+            "x-validation-rules": [
+              {
+                "conditionallyRequired": false,
+                "condition": "When CashBackRefundMaxAmount is not null",
+                "constraints": [
+                  {
+                    "type": "GreaterThanOrEqual",
+                    "conditional": true
+                  }
+                ]
+              },
+              {
+                "conditionallyRequired": false,
+                "condition": "When CashBackRefundMaxAmount and MaxTransactionAmount meet conditions",
+                "constraints": [
+                  {
+                    "type": "Predicate",
+                    "conditional": true
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "description": "The merchant's rules for sales and refunds taken in cash. Additive and optional on the merchant\r\ncreate, update and read surfaces: a caller that omits it keeps today's behavior, which is that no\r\ncash rule applies."
+      },
+      "CashRefundPolicy": {
+        "enum": [
+          "CashBack",
+          "StoreCredit",
+          "OriginalTenderOnly",
+          "ManagerDiscretion"
+        ],
+        "type": "string",
+        "description": "How a merchant refunds a sale that was paid in cash.",
+        "x-enumDescriptions": [
+          "The refund is paid out in cash.",
+          "The refund is issued as store credit rather than cash.",
+          "The refund goes back only to the tender the sale was paid with, and no other refund method is offered.",
+          "A manager decides how each refund is paid."
+        ]
+      },
       "CedpFindingCode": {
         "enum": [
           "QuantityNotPositive",
@@ -151195,17 +151822,31 @@
             "format": "date-time",
             "nullable": true
           },
-          "maxModifitionTime": {
+          "maxModificationTime": {
             "type": "string",
             "description": "Upper bound on last-modification time.",
             "format": "date-time",
             "nullable": true
           },
-          "minModifitionTime": {
+          "maxModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
+          },
+          "minModificationTime": {
             "type": "string",
             "description": "Lower bound on last-modification time.",
             "format": "date-time",
             "nullable": true
+          },
+          "minModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `minModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
           },
           "includeDeleted": {
             "type": "boolean"
@@ -151269,17 +151910,31 @@
             "format": "date-time",
             "nullable": true
           },
-          "maxModifitionTime": {
+          "maxModificationTime": {
             "type": "string",
             "description": "Gets or sets the upper bound for filtering by last modification time.",
             "format": "date-time",
             "nullable": true
           },
-          "minModifitionTime": {
+          "maxModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
+          },
+          "minModificationTime": {
             "type": "string",
             "description": "Gets or sets the lower bound for filtering by last modification time.",
             "format": "date-time",
             "nullable": true
+          },
+          "minModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `minModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
           },
           "includeDeleted": {
             "type": "boolean",
@@ -151350,17 +152005,31 @@
             "format": "date-time",
             "nullable": true
           },
-          "maxModifitionTime": {
+          "maxModificationTime": {
             "type": "string",
             "description": "Upper bound on last modification time.",
             "format": "date-time",
             "nullable": true
           },
-          "minModifitionTime": {
+          "maxModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
+          },
+          "minModificationTime": {
             "type": "string",
             "description": "Lower bound on last modification time.",
             "format": "date-time",
             "nullable": true
+          },
+          "minModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `minModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
           },
           "includeDeleted": {
             "type": "boolean",
@@ -151426,17 +152095,31 @@
             "format": "date-time",
             "nullable": true
           },
-          "maxModifitionTime": {
+          "maxModificationTime": {
             "type": "string",
             "description": "Gets or sets the upper bound for filtering by last modification time.",
             "format": "date-time",
             "nullable": true
           },
-          "minModifitionTime": {
+          "maxModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
+          },
+          "minModificationTime": {
             "type": "string",
             "description": "Gets or sets the lower bound for filtering by last modification time.",
             "format": "date-time",
             "nullable": true
+          },
+          "minModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `minModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
           },
           "includeDeleted": {
             "type": "boolean",
@@ -151677,15 +152360,29 @@
             "format": "date-time",
             "nullable": true
           },
+          "maxModificationTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "maxModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
+          },
+          "minModificationTime": {
             "type": "string",
             "format": "date-time",
             "nullable": true
           },
           "minModifitionTime": {
             "type": "string",
+            "description": "Deprecated misspelled alias of `minModificationTime`.",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "deprecated": true
           },
           "includeDeleted": {
             "type": "boolean"
@@ -152084,17 +152781,31 @@
             "format": "date-time",
             "nullable": true
           },
-          "maxModifitionTime": {
+          "maxModificationTime": {
             "type": "string",
             "description": "Upper bound on last-modification time.",
             "format": "date-time",
             "nullable": true
           },
-          "minModifitionTime": {
+          "maxModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
+          },
+          "minModificationTime": {
             "type": "string",
             "description": "Lower bound on last-modification time.",
             "format": "date-time",
             "nullable": true
+          },
+          "minModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `minModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
           },
           "includeDeleted": {
             "type": "boolean"
@@ -152145,15 +152856,29 @@
             "format": "date-time",
             "nullable": true
           },
+          "maxModificationTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "maxModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
+          },
+          "minModificationTime": {
             "type": "string",
             "format": "date-time",
             "nullable": true
           },
           "minModifitionTime": {
             "type": "string",
+            "description": "Deprecated misspelled alias of `minModificationTime`.",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "deprecated": true
           },
           "includeDeleted": {
             "type": "boolean"
@@ -152218,15 +152943,29 @@
             "format": "date-time",
             "nullable": true
           },
+          "maxModificationTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "maxModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
+          },
+          "minModificationTime": {
             "type": "string",
             "format": "date-time",
             "nullable": true
           },
           "minModifitionTime": {
             "type": "string",
+            "description": "Deprecated misspelled alias of `minModificationTime`.",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "deprecated": true
           },
           "sorting": {
             "$ref": "#/components/schemas/SortDescriptor"
@@ -152310,15 +153049,29 @@
             "format": "date-time",
             "nullable": true
           },
+          "maxModificationTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "maxModifitionTime": {
+            "type": "string",
+            "description": "Deprecated misspelled alias of `maxModificationTime`.",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true
+          },
+          "minModificationTime": {
             "type": "string",
             "format": "date-time",
             "nullable": true
           },
           "minModifitionTime": {
             "type": "string",
+            "description": "Deprecated misspelled alias of `minModificationTime`.",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "deprecated": true
           },
           "includeDeleted": {
             "type": "boolean"
@@ -169793,6 +170546,20 @@
               {
                 "conditionallyRequired": false,
                 "condition": "When CardAcceptancePolicy is not null"
+              }
+            ]
+          },
+          "cashPolicy": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CashPolicyDto"
+              }
+            ],
+            "description": "The merchant's rules for cash sales and refunds, referenced elsewhere as\r\n`Processing.CashPolicy`. `null` (the default) applies no cash rule, which\r\nis what the platform did before this setting existed.\nConditional: When CashPolicy is not null.",
+            "x-validation-rules": [
+              {
+                "conditionallyRequired": false,
+                "condition": "When CashPolicy is not null"
               }
             ]
           },
