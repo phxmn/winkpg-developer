@@ -40860,7 +40860,7 @@
           "Invoicing"
         ],
         "summary": "Invoices: Clones an existing invoice as a new draft.",
-        "description": "**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
+        "description": "The clone carries the source's editable properties and line items. Internal notes,\r\nactivities, and payments stay on the source.\n\n---\n**Required permissions**: `Invoicing.Invoices`, `Invoicing.Invoices.Create`  \n**Scope**: merchant\n\n---\n**Requires features**: `WinkPG.Invoicing.Enable`",
         "operationId": "invoiceLifecycleClone",
         "parameters": [
           {
