@@ -65048,7 +65048,7 @@
           "Merchants"
         ],
         "summary": "Gets the custom field definitions for the current merchant.",
-        "description": "Available to merchant users without admin CRUD permissions.\n\nRequires a signed-in user. This route resolves the merchant from the caller's user context,\nwhich is established at interactive sign-in. A credential that carries no merchant context,\nsuch as an API key, fails with `400 Merchants:NoCurrentMerchant` even when it holds the\nrequired scope and permission. API-key callers read the same values from\n`GET /api/merchants/{id}`, which requires no permission beyond authentication.\n\n---\n**Required permissions**: `Merchants.SelfServiceSettings`  \n**Scope**: merchant",
+        "description": "Available to merchant users without admin CRUD permissions.\n\nRequires a signed-in user. This route resolves the merchant from the caller's user context,\nwhich is established at interactive sign-in. A credential that carries no merchant context,\nsuch as an API key, fails with `400 Merchants:NoCurrentMerchant` even when it holds the\nrequired scope and permission. API-key callers read the same values from\n`GET /api/merchants/{id}`, which requires no permission beyond authentication. For a\nmerchant credential that route answers only the caller's own merchants; any other id returns\n`404`.\n\n---\n**Required permissions**: `Merchants.SelfServiceSettings`  \n**Scope**: merchant",
         "operationId": "merchantsGetCustomFields",
         "parameters": [
           {
@@ -65611,7 +65611,7 @@
           "Merchants"
         ],
         "summary": "Gets the order data default settings for the current merchant.",
-        "description": "Available to merchant users without admin CRUD permissions.\n\nRequires a signed-in user. This route resolves the merchant from the caller's user context,\nwhich is established at interactive sign-in. A credential that carries no merchant context,\nsuch as an API key, fails with `400 Merchants:NoCurrentMerchant` even when it holds the\nrequired scope and permission. API-key callers read the same values from\n`GET /api/merchants/{id}`, which requires no permission beyond authentication.\n\n---\n**Required permissions**: `Merchants.SelfServiceSettings`  \n**Scope**: merchant",
+        "description": "Available to merchant users without admin CRUD permissions.\n\nRequires a signed-in user. This route resolves the merchant from the caller's user context,\nwhich is established at interactive sign-in. A credential that carries no merchant context,\nsuch as an API key, fails with `400 Merchants:NoCurrentMerchant` even when it holds the\nrequired scope and permission. API-key callers read the same values from\n`GET /api/merchants/{id}`, which requires no permission beyond authentication. For a\nmerchant credential that route answers only the caller's own merchants; any other id returns\n`404`.\n\n---\n**Required permissions**: `Merchants.SelfServiceSettings`  \n**Scope**: merchant",
         "operationId": "merchantsGetOrderDataDefaults",
         "parameters": [
           {
