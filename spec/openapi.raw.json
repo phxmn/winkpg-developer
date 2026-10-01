@@ -40579,7 +40579,7 @@
             }
           },
           "404": {
-            "description": "The invoice does not exist, or is not visible to this caller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`).",
+            "description": "The invoice does not exist or the caller cannot see it (`Invoicing:Invoice:NotFound`), or\r\nit belongs to another biller (`Invoicing:Biller:ForeignBillerNotAllowed`).",
             "content": {
               "text/plain": {
                 "schema": {
@@ -42493,10 +42493,10 @@
             }
           },
           "403": {
-            "description": "The caller's biller scope does not cover this invoice."
+            "description": "The caller does not hold the invoice read permission, or invoicing is not enabled for the\r\naccount (`Invoicing:Feature:NotEnabled`)."
           },
           "404": {
-            "description": "No invoice exists with the specified id."
+            "description": "The invoice does not exist or the caller cannot see it (`Invoicing:Invoice:NotFound`), or\r\nit belongs to another biller (`Invoicing:Biller:ForeignBillerNotAllowed`)."
           },
           "401": {
             "description": "Unauthorized",
@@ -44182,7 +44182,7 @@
             }
           },
           "404": {
-            "description": "The invoice does not exist, or is not visible to this caller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`).",
+            "description": "The invoice does not exist or the caller cannot see it (`Invoicing:Invoice:NotFound`), or\r\nit belongs to another biller (`Invoicing:Biller:ForeignBillerNotAllowed`).",
             "content": {
               "text/plain": {
                 "schema": {
@@ -44615,7 +44615,7 @@
             }
           },
           "404": {
-            "description": "The invoice does not exist, or is not visible to this caller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`).",
+            "description": "The invoice does not exist or the caller cannot see it (`Invoicing:Invoice:NotFound`), or\r\nit belongs to another biller (`Invoicing:Biller:ForeignBillerNotAllowed`).",
             "content": {
               "text/plain": {
                 "schema": {
@@ -44816,7 +44816,7 @@
             }
           },
           "404": {
-            "description": "The invoice does not exist, or is not visible to this caller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`).",
+            "description": "The invoice does not exist or the caller cannot see it (`Invoicing:Invoice:NotFound`), or\r\nit belongs to another biller (`Invoicing:Biller:ForeignBillerNotAllowed`).",
             "content": {
               "text/plain": {
                 "schema": {
@@ -44958,10 +44958,10 @@
             }
           },
           "403": {
-            "description": "The caller's biller scope does not cover this invoice."
+            "description": "The caller does not hold the invoice read permission, or invoicing is not enabled for the\r\naccount (`Invoicing:Feature:NotEnabled`)."
           },
           "404": {
-            "description": "No invoice exists with the specified id."
+            "description": "The invoice does not exist or the caller cannot see it (`Invoicing:Invoice:NotFound`), or\r\nit belongs to another biller (`Invoicing:Biller:ForeignBillerNotAllowed`)."
           },
           "401": {
             "description": "Unauthorized",
@@ -47827,7 +47827,7 @@
             }
           },
           "404": {
-            "description": "The invoice does not exist, or is not visible to this caller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`), or no installment with that id is on the\r\ninvoice's payment plan (`Invoicing:PaymentPlan:InstallmentNotFound`).",
+            "description": "The invoice does not exist or the caller cannot see it (`Invoicing:Invoice:NotFound`), or\r\nit belongs to another biller (`Invoicing:Biller:ForeignBillerNotAllowed`), or no\r\ninstallment with that id is on the invoice's payment plan\r\n(`Invoicing:PaymentPlan:InstallmentNotFound`).",
             "content": {
               "text/plain": {
                 "schema": {
