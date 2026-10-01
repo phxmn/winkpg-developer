@@ -86209,7 +86209,42 @@
             "description": "The delivery is not replayable, or its destination endpoint is currently suppressed. Nothing was\r\nchanged either way."
           },
           "429": {
-            "description": "This endpoint's replay budget for the current window is spent. Nothing was changed; try again\r\nafter the window rolls over."
+            "description": "This endpoint's replay budget for the current window is spent. Nothing was changed; try again\r\nafter the window rolls over.\n\nA rate limit refusal carries an `application/problem+json` body instead: wait at least the interval `Retry-After` names before retrying, then back off.",
+            "headers": {
+              "Retry-After": {
+                "description": "How long to wait before retrying, in whole seconds. Sent on every rate limit refusal, where it is always at least one and always the same figure as `retryAfterSeconds` in the body. Other refusals send it only when they know when a retry can succeed.",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "The ceiling the limiter that bound this request measures against. Sent on rate limited responses and on the successful ones the same limiters govern. Absent when no allowance was measured, which a client should read as no reported allowance rather than as zero.",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "How much of that ceiling is left, never below zero. Sent and omitted together with `X-RateLimit-Limit`.",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -103498,7 +103533,7 @@
             }
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests"
+            "$ref": "#/components/responses/TooManyRequestsOrUsageBudgetExceeded"
           }
         },
         "x-permissions": [
@@ -117165,7 +117200,7 @@
             }
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests"
+            "$ref": "#/components/responses/TooManyRequestsOrUsageBudgetExceeded"
           }
         },
         "x-permissions": [
@@ -117648,7 +117683,7 @@
             }
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests"
+            "$ref": "#/components/responses/TooManyRequestsOrUsageBudgetExceeded"
           }
         }
       }
@@ -119928,7 +119963,7 @@
             }
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests"
+            "$ref": "#/components/responses/TooManyRequestsOrUsageBudgetExceeded"
           }
         },
         "x-winkpg-subresource": "Batch Files"
@@ -120107,7 +120142,7 @@
             }
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests"
+            "$ref": "#/components/responses/TooManyRequestsOrUsageBudgetExceeded"
           }
         },
         "x-winkpg-subresource": "Batch Files"
@@ -120710,7 +120745,7 @@
             }
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests"
+            "$ref": "#/components/responses/TooManyRequestsOrUsageBudgetExceeded"
           }
         },
         "x-winkpg-subresource": "Fraud Review",
@@ -121143,7 +121178,7 @@
             }
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests"
+            "$ref": "#/components/responses/TooManyRequestsOrUsageBudgetExceeded"
           }
         },
         "x-winkpg-subresource": "Operations"
@@ -121349,7 +121384,7 @@
             }
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests"
+            "$ref": "#/components/responses/TooManyRequestsOrUsageBudgetExceeded"
           }
         },
         "deprecated": true,
@@ -121936,7 +121971,7 @@
             }
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests"
+            "$ref": "#/components/responses/TooManyRequestsOrUsageBudgetExceeded"
           }
         },
         "x-winkpg-subresource": "Partial Approval",
@@ -124521,7 +124556,7 @@
             }
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests"
+            "$ref": "#/components/responses/TooManyRequestsOrUsageBudgetExceeded"
           }
         },
         "x-winkpg-subresource": "Split Tender",
@@ -185730,6 +185765,45 @@
         "additionalProperties": false,
         "description": "Input for uploading the App Store Connect API `.p8` private key. The content is\r\nwritten to Key Vault and never returned by any read endpoint."
       },
+      "UsageBudgetExceededResponse": {
+        "required": [
+          "code",
+          "error",
+          "limit",
+          "message",
+          "used"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The refusal class. Always `TooManyRequests`.",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "description": "The machine-readable refusal code. Always `USAGE_BUDGET_EXCEEDED`.",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "What ran out and what to do about it: when the allowance resets, or that it does not reset and\r\nretrying won't help.",
+            "nullable": true
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The number of sandbox transactions the plan allows in the window that refused.",
+            "format": "int64"
+          },
+          "used": {
+            "type": "integer",
+            "description": "The number already used in that window. Zero when the plan refuses sandbox transactions\r\noutright, since nothing was spent.",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The body a sandbox request is refused with when its merchant has spent the plan's transaction\r\nallowance."
+      },
       "UsageEnvironment": {
         "enum": [
           "Production",
@@ -188121,10 +188195,10 @@
     },
     "responses": {
       "TooManyRequests": {
-        "description": "The request was refused because a rate limit was exceeded. Wait at least the interval `Retry-After` names before retrying, then back off. Limits are tuned per deployment, so read the allowance from the response headers rather than assuming a fixed ceiling.",
+        "description": "The request was refused because a rate limit was exceeded, or because something a later retry can clear stopped it. A rate limit refusal carries an `application/problem+json` body: wait at least the interval `Retry-After` names before retrying, then back off. Limits are tuned per deployment, so read the allowance from the response headers rather than assuming a fixed ceiling. Any other refusal carries the standard error envelope as `application/json`, and its `error.code` names the cause.",
         "headers": {
           "Retry-After": {
-            "description": "How long to wait before retrying, in whole seconds. Always at least one, and always the same figure as `retryAfterSeconds` in the body.",
+            "description": "How long to wait before retrying, in whole seconds. Sent on every rate limit refusal, where it is always at least one and always the same figure as `retryAfterSeconds` in the body. Other refusals send it only when they know when a retry can succeed.",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -188149,6 +188223,56 @@
           "application/problem+json": {
             "schema": {
               "$ref": "#/components/schemas/RateLimitProblemDetails"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+            }
+          }
+        }
+      },
+      "TooManyRequestsOrUsageBudgetExceeded": {
+        "description": "The request was refused because a rate limit was exceeded, or because something a later retry can clear stopped it. A rate limit refusal carries an `application/problem+json` body: wait at least the interval `Retry-After` names before retrying, then back off. Limits are tuned per deployment, so read the allowance from the response headers rather than assuming a fixed ceiling. Any other refusal carries the standard error envelope as `application/json`, and its `error.code` names the cause. A sandbox request whose merchant has spent the plan's transaction allowance is refused with a different `application/json` body: `code` is `USAGE_BUDGET_EXCEEDED`, and `limit` and `used` report the allowance. `Retry-After` is sent only when the allowance resets. An allowance that never resets sends none, and retrying won't help.",
+        "headers": {
+          "Retry-After": {
+            "description": "How long to wait before retrying, in whole seconds. Sent on every rate limit refusal, where it is always at least one and always the same figure as `retryAfterSeconds` in the body. Other refusals send it only when they know when a retry can succeed.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "X-RateLimit-Limit": {
+            "description": "The ceiling the limiter that bound this request measures against. Sent on rate limited responses and on the successful ones the same limiters govern. Absent when no allowance was measured, which a client should read as no reported allowance rather than as zero.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "X-RateLimit-Remaining": {
+            "description": "How much of that ceiling is left, never below zero. Sent and omitted together with `X-RateLimit-Limit`.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/RateLimitProblemDetails"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/UsageBudgetExceededResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              ]
             }
           }
         }
