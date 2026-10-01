@@ -1,7 +1,86 @@
-## 31.20.0
+## 31.21.0
 
-No contract change: this version is a rebuild of the previous published surface.
+Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
-No integrator-observable change was detected in the API contract.
+### Additions
+
+- field SettlementRunOutcomeDto.completedAtUtc: type=string format=date-time
+- field SettlementRunOutcomeDto.correlationId: type=string format=uuid nullable=true
+- field SettlementRunOutcomeDto.errorMessage: type=string nullable=true
+- field SettlementRunOutcomeDto.instanceId: type=string nullable=true
+- field SettlementRunOutcomeDto.openBatchId: type=string nullable=true
+- field SettlementRunOutcomeDto.processorKey: type=string nullable=true
+- field SettlementRunOutcomeDto.runId: type=string format=uuid
+- field SettlementRunOutcomeDto.settlementBatchId: type=string format=uuid
+- field SettlementRunOutcomeDto.status: allOf(SettlementBatchStatus)
+- field SettlementRunOutcomeDto.triggerType: nullable=true allOf(SettlementTriggerType)
+- field SettlementRunOutcomesDto.items: type=array nullable=true items(SettlementRunOutcomeDto)
+- field SettlementRunOutcomesDto.merchantId: type=string format=uuid
+- field SettlementRunOutcomesDto.queriedAtUtc: type=string format=date-time
+- field SettlementRunOutcomesDto.windowStartUtc: type=string format=date-time
+- field SettlementRunStateDto.merchantId: type=string format=uuid
+- field SettlementRunStateDto.queriedAtUtc: type=string format=date-time
+- field SettlementRunStateDto.runId: type=string format=uuid
+- field SettlementRunStateDto.state: allOf(SettlementRunState)
+- operation GET /api/transactions/settlements/recent-outcomes
+- operation GET /api/transactions/settlements/run-state
+- parameter GET /api/transactions/settlements/recent-outcomes query:LookbackHours: optional type=integer format=int32
+- parameter GET /api/transactions/settlements/recent-outcomes query:MerchantId: optional type=string format=uuid
+- parameter GET /api/transactions/settlements/recent-outcomes query:suppressNulls: optional type=boolean
+- parameter GET /api/transactions/settlements/run-state query:MerchantId: optional type=string format=uuid
+- parameter GET /api/transactions/settlements/run-state query:RunId: optional type=string format=uuid
+- parameter GET /api/transactions/settlements/run-state query:suppressNulls: optional type=boolean
+- response GET /api/transactions/settlements/recent-outcomes 200 (application/json): SettlementRunOutcomesDto
+- response GET /api/transactions/settlements/recent-outcomes 200 (text/json): SettlementRunOutcomesDto
+- response GET /api/transactions/settlements/recent-outcomes 200 (text/plain): SettlementRunOutcomesDto
+- response GET /api/transactions/settlements/recent-outcomes 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 429: no body
+- response GET /api/transactions/settlements/recent-outcomes 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/recent-outcomes default (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 200 (application/json): SettlementRunStateDto
+- response GET /api/transactions/settlements/run-state 200 (text/json): SettlementRunStateDto
+- response GET /api/transactions/settlements/run-state 200 (text/plain): SettlementRunStateDto
+- response GET /api/transactions/settlements/run-state 400 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 400 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 400 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 401 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 401 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 401 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 403 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 403 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 403 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 404 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 404 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 404 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 429: no body
+- response GET /api/transactions/settlements/run-state 500 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 500 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 500 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 501 (application/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 501 (text/json): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state 501 (text/plain): RemoteServiceErrorResponse
+- response GET /api/transactions/settlements/run-state default (application/json): RemoteServiceErrorResponse
+- schema SettlementRunOutcomeDto: type=object additionalProperties=false
+- schema SettlementRunOutcomesDto: type=object additionalProperties=false
+- schema SettlementRunState: type=string enum=[Finished,Running,Unknown]
+- schema SettlementRunStateDto: type=object additionalProperties=false
+- operation id settlementGetRecentSettlementOutcomes (GET /api/transactions/settlements/recent-outcomes)
+- operation id settlementGetSettlementRunState (GET /api/transactions/settlements/run-state)
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.

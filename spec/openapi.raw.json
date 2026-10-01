@@ -123224,6 +123224,402 @@
         "x-scope": "merchant"
       }
     },
+    "/api/transactions/settlements/recent-outcomes": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Returns the merchant's terminal settlement runs, newest first.",
+        "description": "\n\r\nThe outcome half of a manual close, over a lookback window the caller chooses.\r\n`TriggerAsync` answers \"accepted\" and nothing more, so a caller that has to report\r\nwhat the close actually did reads it here. The v1 compatibility facade reads it after a\r\n`SettleAll` once `GetSettlementRunStateAsync` reports the run finished,\r\nbecause v1's `SettleAll` was synchronous and answered a host result code.\r\n\r\n\n\r\nA pending batch is not returned, so every row is a final status for one processor. That is not\r\nthe same as the run having finished: its other batches may not have been written yet. An\r\nall-processor close stamps one row per processor, every one carrying the trigger's run id, so\r\na caller correlating by run id gets a set and collapses it itself.\r\n\r\n\n\r\nAuthorization is enforced by the `[Authorize(SettlementPermissions.View)]` on the\r\napp-service method and merchant scoping by the repository's own data filters; this controller\r\nwidens nothing. A GET, so the class-level anti-forgery opt-out is not in play.\r\n\n\n---\n**Required permissions**: `Transactions.Settlement.View`  \n**Scope**: merchant",
+        "operationId": "settlementGetRecentSettlementOutcomes",
+        "parameters": [
+          {
+            "name": "MerchantId",
+            "in": "query",
+            "description": "The merchant whose recent settlement outcomes should be returned.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "LookbackHours",
+            "in": "query",
+            "description": "How far back to look. Clamped server-side to a sane maximum so a caller cannot turn this into\r\na full-history scan. Null uses the server default.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettlementRunOutcomesDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettlementRunOutcomesDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettlementRunOutcomesDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "x-winkpg-subresource": "Settlement",
+        "x-permissions": [
+          "Transactions.Settlement.View"
+        ],
+        "x-scope": "merchant"
+      }
+    },
+    "/api/transactions/settlements/run-state": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Returns whether a manually triggered settlement run has finished.",
+        "description": "\n\r\nThe liveness half of a manual close, and the only read that says a run has finished. The close\r\nfans out in parallel and each processor's group writes its pending row only once its own step\r\nreaches the submission, so final rows with no pending sibling do not mean the run is done.\r\nFinished is reported only when the run's workflow has ended and none of its batches still\r\nreads as pending.\r\n\r\n\n\r\nCallers read this before `GetRecentSettlementOutcomesAsync`, so the outcome read is\r\nat least as fresh as the state it is paired with.\r\n\r\n\n\r\nAuthorization is enforced by the `[Authorize(SettlementPermissions.View)]` on the\r\napp-service method and merchant scoping by the repository's own data filters; this controller\r\nwidens nothing. A GET, so the class-level anti-forgery opt-out is not in play.\r\n\n\n---\n**Required permissions**: `Transactions.Settlement.View`  \n**Scope**: merchant",
+        "operationId": "settlementGetSettlementRunState",
+        "parameters": [
+          {
+            "name": "MerchantId",
+            "in": "query",
+            "description": "The merchant the run was triggered for.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "RunId",
+            "in": "query",
+            "description": "The run id the manual trigger returned.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettlementRunStateDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettlementRunStateDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettlementRunStateDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "x-winkpg-subresource": "Settlement",
+        "x-permissions": [
+          "Transactions.Settlement.View"
+        ],
+        "x-scope": "merchant"
+      }
+    },
     "/api/transactions/settlements/merchants/{merchantId}/trigger": {
       "post": {
         "tags": [
@@ -177472,6 +177868,140 @@
         },
         "additionalProperties": false,
         "description": "Request payload for an admin-driven manual settlement-status override. Designed\r\nfrom day one to carry one or many transaction ids so the same service can serve\r\nthe single-transaction detail-page modal and a future grid bulk-action."
+      },
+      "SettlementRunOutcomeDto": {
+        "type": "object",
+        "properties": {
+          "settlementBatchId": {
+            "type": "string",
+            "description": "The settlement batch document id, for linking to batch detail.",
+            "format": "uuid"
+          },
+          "runId": {
+            "type": "string",
+            "description": "The settlement run this batch belonged to.",
+            "format": "uuid"
+          },
+          "processorKey": {
+            "type": "string",
+            "description": "Lower-cased processor key the batch was produced for. Null for legacy rows and for synthetic\r\nrows written before a processor could be resolved.",
+            "nullable": true
+          },
+          "openBatchId": {
+            "type": "string",
+            "description": "The gateway batch id this run settled. Null when the run failed before one existed.",
+            "nullable": true
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SettlementBatchStatus"
+              }
+            ],
+            "description": "The batch's terminal status. Never `Pending`."
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "The persisted operator-facing reason (`SettlementBatch.ErrorMessage`). Already sanitized\r\nat write time: raw exception text stays in the structured logs.",
+            "nullable": true
+          },
+          "completedAtUtc": {
+            "type": "string",
+            "description": "When the batch reached its terminal state, falling back to its creation time.",
+            "format": "date-time"
+          },
+          "triggerType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SettlementTriggerType"
+              }
+            ],
+            "nullable": true
+          },
+          "correlationId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "instanceId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "One terminal settlement batch outcome. Carries only the identifiers and the already-sanitized\r\noperator-facing reason persisted on the batch row: no transaction detail, no processor payload."
+      },
+      "SettlementRunOutcomesDto": {
+        "type": "object",
+        "properties": {
+          "merchantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "queriedAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "windowStartUtc": {
+            "type": "string",
+            "description": "The start of the window the outcomes were drawn from.",
+            "format": "date-time"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SettlementRunOutcomeDto"
+            },
+            "description": "Terminal outcomes in the window, newest first.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Result payload for `GetRecentSettlementOutcomesAsync`: the\r\nterminal (non-Pending) settlement batches for a merchant inside a recent window."
+      },
+      "SettlementRunState": {
+        "enum": [
+          "Running",
+          "Finished",
+          "Unknown"
+        ],
+        "type": "string",
+        "description": "The lifecycle of one settlement run, as a caller waiting on it needs to see it.",
+        "x-enumDescriptions": [
+          "The run's workflow is still going, or it has finished and a batch it wrote still reads as pending. Its outcome is not final yet.",
+          "The run's workflow has ended and none of its batches is still pending, so its settlement batches are final.",
+          "The run's workflow could not be found or read. Not a verdict either way: a caller waiting on the run keeps waiting."
+        ]
+      },
+      "SettlementRunStateDto": {
+        "type": "object",
+        "properties": {
+          "merchantId": {
+            "type": "string",
+            "description": "The merchant the run was triggered for.",
+            "format": "uuid"
+          },
+          "runId": {
+            "type": "string",
+            "description": "The run the state is about.",
+            "format": "uuid"
+          },
+          "state": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SettlementRunState"
+              }
+            ],
+            "description": "Whether the run is still going, has finished, or could not be determined. Only\r\n`Finished` means every settlement batch the run will produce\r\nhas reached its final status."
+          },
+          "queriedAtUtc": {
+            "type": "string",
+            "description": "When the state was read, in UTC.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Whether a manually triggered settlement run has finished."
       },
       "SettlementStatus": {
         "enum": [
