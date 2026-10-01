@@ -171583,13 +171583,13 @@
           "amountMin": {
             "minimum": 0,
             "type": "number",
-            "description": "Inclusive lower bound on the transaction amount. Omit for no lower bound.\nConditional: When AmountMin and AmountMax meet conditions.",
+            "description": "Inclusive lower bound on the transaction amount. Omit for no lower bound.\nConditional: When AmountMin is not null and AmountMax is not null.",
             "format": "double",
             "nullable": true,
             "x-validation-rules": [
               {
                 "conditionallyRequired": false,
-                "condition": "When AmountMin and AmountMax meet conditions",
+                "condition": "When AmountMin is not null and AmountMax is not null",
                 "constraints": [
                   {
                     "type": "Predicate",
@@ -174738,12 +174738,12 @@
           },
           "endDate": {
             "type": "string",
-            "description": "The last calendar day to include, for example `2026-03-31`. Included whole: the run covers\r\nup to the first instant of the next day in `timeZoneId`. Must not be before\r\n`startDate`, and the range may cover at most 366 days.\nConditional: When EndDate and StartDate meet conditions.",
+            "description": "The last calendar day to include, for example `2026-03-31`. Included whole: the run covers\r\nup to the first instant of the next day in `timeZoneId`. Must not be before\r\n`startDate`, and the range may cover at most 366 days.\nConditional: When EndDate >= StartDate.",
             "format": "date",
             "x-validation-rules": [
               {
                 "conditionallyRequired": false,
-                "condition": "When EndDate and StartDate meet conditions",
+                "condition": "When EndDate >= StartDate",
                 "constraints": [
                   {
                     "type": "Predicate",
@@ -181100,7 +181100,7 @@
                 "$ref": "#/components/schemas/Invoice"
               }
             ],
-            "description": "Invoice data associated with the transaction, carrying the customer and the amounts.\nRequired: Conditional (see validator source).\nRequired: When TransactionType == Capture.",
+            "description": "Invoice data associated with the transaction, carrying the customer and the amounts.\nRequired: Conditional (see validator source).",
             "x-validation-rules": [
               {
                 "conditionallyRequired": true,
@@ -181114,7 +181114,7 @@
               },
               {
                 "conditionallyRequired": true,
-                "condition": "When TransactionType == Capture",
+                "condition": "Conditional (see validator source)",
                 "constraints": [
                   {
                     "type": "NotNull",
@@ -186144,12 +186144,12 @@
           },
           "allowPartialApprovals": {
             "type": "boolean",
-            "description": "Merchant-level master switch for partial approvals. When false, no processor profile can\r\nenable partial approvals for this merchant; when true, each profile still decides per card\r\ntype through its own partial-auth field. A merchant document written before this setting\r\nexisted carries no value, which reads as the default (available).\nConditional: When AllowPartialApprovals and CardBinPrompting and EnableFsa meet conditions.",
+            "description": "Merchant-level master switch for partial approvals. When false, no processor profile can\r\nenable partial approvals for this merchant; when true, each profile still decides per card\r\ntype through its own partial-auth field. A merchant document written before this setting\r\nexisted carries no value, which reads as the default (available).\nConditional: When AllowPartialApprovals is false and CardBinPrompting is not null and CardBinPrompting.EnableFsa is true.",
             "nullable": true,
             "x-validation-rules": [
               {
                 "conditionallyRequired": false,
-                "condition": "When AllowPartialApprovals and CardBinPrompting and EnableFsa meet conditions",
+                "condition": "When AllowPartialApprovals is false and CardBinPrompting is not null and CardBinPrompting.EnableFsa is true",
                 "constraints": [
                   {
                     "type": "Predicate",
