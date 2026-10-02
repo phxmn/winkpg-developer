@@ -137756,6 +137756,207 @@
         "x-scope": "host"
       }
     },
+    "/api/identity/sessions/revoke-all": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Signs a user out of every session.",
+        "description": "Records the justification on the user's security log. Requires the revoke-all sessions\r\npermission, and the platform administrator role to name anyone but the caller. When the user is\r\nthe caller, the session the call is made from is kept.\n\n---\n**Required permissions**: `AbpIdentity.Sessions`, `AbpIdentity.Sessions.RevokeAll`  \n**Scope**: host",
+        "operationId": "sessionsRevokeAllForUser",
+        "parameters": [
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The user and the reason.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevokeAllUserSessionsInput"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevokeAllUserSessionsInput"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevokeAllUserSessionsInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevokeSessionsResultDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevokeSessionsResultDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevokeSessionsResultDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "x-winkpg-subresource": "Sessions",
+        "x-permissions": [
+          "AbpIdentity.Sessions",
+          "AbpIdentity.Sessions.RevokeAll"
+        ],
+        "x-scope": "host"
+      }
+    },
     "/.well-known/apple-developer-merchantid-domain-association": {
       "get": {
         "tags": [
@@ -177218,6 +177419,27 @@
           "Release the held transaction to authorization when the deadline passes, recording that it was approved by expiry rather than by a reviewer."
         ]
       },
+      "RevokeAllUserSessionsInput": {
+        "required": [
+          "justification",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "The user whose sessions are revoked.",
+            "format": "uuid"
+          },
+          "justification": {
+            "maxLength": 500,
+            "type": "string",
+            "description": "Why the sessions are being revoked. Required, at most 500 characters, and written to the\r\naffected user's security log alongside the administrator who gave it.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "RevokeApiKeyDto": {
         "type": "object",
         "properties": {
@@ -177230,6 +177452,17 @@
         },
         "additionalProperties": false,
         "description": "Input for revoking an API key."
+      },
+      "RevokeSessionsResultDto": {
+        "type": "object",
+        "properties": {
+          "revokedCount": {
+            "type": "integer",
+            "description": "How many sessions were signed out.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
       },
       "RoleType": {
         "enum": [
