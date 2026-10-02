@@ -21217,7 +21217,14 @@
             }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -34062,13 +34069,34 @@
             "description": "No Content"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "413": {
-            "description": "Content Too Large"
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "415": {
-            "description": "Unsupported Media Type"
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -37983,10 +38011,24 @@
             "description": "No Content"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "413": {
-            "description": "Content Too Large"
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -39729,10 +39771,24 @@
             }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "410": {
-            "description": "Gone"
+            "description": "Gone",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -40084,7 +40140,14 @@
             }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -40639,7 +40702,14 @@
             }
           },
           "409": {
-            "description": "The invoice already holds the maximum number of notes\r\n(`Invoicing:Invoice:NoteLimitReached`)."
+            "description": "The invoice already holds the maximum number of notes\r\n(`Invoicing:Invoice:NoteLimitReached`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -42496,7 +42566,14 @@
             "description": "The caller does not hold the invoice read permission, or invoicing is not enabled for the\r\naccount (`Invoicing:Feature:NotEnabled`)."
           },
           "404": {
-            "description": "The invoice does not exist or the caller cannot see it (`Invoicing:Invoice:NotFound`), or\r\nit belongs to another biller (`Invoicing:Biller:ForeignBillerNotAllowed`)."
+            "description": "The invoice does not exist or the caller cannot see it (`Invoicing:Invoice:NotFound`), or\r\nit belongs to another biller (`Invoicing:Biller:ForeignBillerNotAllowed`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -42841,10 +42918,24 @@
             }
           },
           "400": {
-            "description": "The filtered set exceeds the 10,000-row export limit\r\n(`Invoicing:Export:RowLimitExceeded`). Narrow the filter, for example by date range or\r\nstatus, and retry."
+            "description": "The filtered set exceeds the 10,000-row export limit\r\n(`Invoicing:Export:RowLimitExceeded`). Narrow the filter, for example by date range or\r\nstatus, and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist."
+            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -43189,10 +43280,24 @@
             }
           },
           "400": {
-            "description": "The filtered set exceeds the 10,000-row export limit\r\n(`Invoicing:Export:RowLimitExceeded`). Narrow the filter, for example by date range or\r\nstatus, and retry."
+            "description": "The filtered set exceeds the 10,000-row export limit\r\n(`Invoicing:Export:RowLimitExceeded`). Narrow the filter, for example by date range or\r\nstatus, and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist."
+            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -43561,13 +43666,34 @@
             }
           },
           "400": {
-            "description": "The biller is not a merchant (`Invoicing:TaxRateLookup:BillerNotMerchant`). Only a\r\nmerchant holds a tax provider binding; a reseller or gateway-owner biller uses its own tax\r\nrate catalog instead."
+            "description": "The biller is not a merchant (`Invoicing:TaxRateLookup:BillerNotMerchant`). Only a\r\nmerchant holds a tax provider binding; a reseller or gateway-owner biller uses its own tax\r\nrate catalog instead.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist."
+            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "409": {
-            "description": "The lookup cannot run as things stand: the merchant has no enabled, deployed provider\r\n(`Invoicing:TaxRateLookup:ProviderUnavailable`); no origin address could be resolved\r\n(`Invoicing:TaxRateLookup:NoOriginAddress`); no destination address could be resolved\r\n(`Invoicing:TaxRateLookup:NoDestinationAddress`); or the provider answered with a\r\nfailure (`Invoicing:TaxRateLookup:ProviderFailed`), whose normalised error codes travel\r\nin the error's `data.errorCodes`."
+            "description": "The lookup cannot run as things stand: the merchant has no enabled, deployed provider\r\n(`Invoicing:TaxRateLookup:ProviderUnavailable`); no origin address could be resolved\r\n(`Invoicing:TaxRateLookup:NoOriginAddress`); no destination address could be resolved\r\n(`Invoicing:TaxRateLookup:NoDestinationAddress`); or the provider answered with a\r\nfailure (`Invoicing:TaxRateLookup:ProviderFailed`), whose normalised error codes travel\r\nin the error's `data.errorCodes`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -44675,7 +44801,14 @@
             }
           },
           "409": {
-            "description": "The invoice's current state refuses the refund. Callers branch on `error.code`:\r\n`Invoicing:Refund:NotAllowedForStatus`, `Invoicing:Refund:NoRefundablePayments`,\r\n`Invoicing:Refund:ExceedsAmountPaid`, `Invoicing:Refund:RequiresMerchantScope`,\r\n`Invoicing:Refund:RejectedByGateway`, or `Invoicing:Refund:PartialFailure` (some\r\npayments were returned before the sequence stopped; inspect the invoice before retrying)."
+            "description": "The invoice's current state refuses the refund. Callers branch on `error.code`:\r\n`Invoicing:Refund:NotAllowedForStatus`, `Invoicing:Refund:NoRefundablePayments`,\r\n`Invoicing:Refund:ExceedsAmountPaid`, `Invoicing:Refund:RequiresMerchantScope`,\r\n`Invoicing:Refund:RejectedByGateway`, or `Invoicing:Refund:PartialFailure` (some\r\npayments were returned before the sequence stopped; inspect the invoice before retrying).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -44876,7 +45009,14 @@
             }
           },
           "409": {
-            "description": "The invoice is not sent, viewed, partially paid or past due\r\n(`Invoicing:Invoice:InvalidStatusTransition`). Nothing was changed."
+            "description": "The invoice is not sent, viewed, partially paid or past due\r\n(`Invoicing:Invoice:InvalidStatusTransition`). Nothing was changed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -44961,7 +45101,14 @@
             "description": "The caller does not hold the invoice read permission, or invoicing is not enabled for the\r\naccount (`Invoicing:Feature:NotEnabled`)."
           },
           "404": {
-            "description": "The invoice does not exist or the caller cannot see it (`Invoicing:Invoice:NotFound`), or\r\nit belongs to another biller (`Invoicing:Biller:ForeignBillerNotAllowed`)."
+            "description": "The invoice does not exist or the caller cannot see it (`Invoicing:Invoice:NotFound`), or\r\nit belongs to another biller (`Invoicing:Biller:ForeignBillerNotAllowed`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -47887,7 +48034,14 @@
             }
           },
           "409": {
-            "description": "The installment exists but is not pending: it is already paid, failed, or canceled with its plan\r\n(`Invoicing:PaymentPlan:InstallmentNotPending`). `error.data` carries the installment's\r\n`status`, `sequenceNumber` and `installmentId`. Nothing was changed."
+            "description": "The installment exists but is not pending: it is already paid, failed, or canceled with its plan\r\n(`Invoicing:PaymentPlan:InstallmentNotPending`). `error.data` carries the installment's\r\n`status`, `sequenceNumber` and `installmentId`. Nothing was changed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -49774,10 +49928,24 @@
             }
           },
           "400": {
-            "description": "The token is missing or blank."
+            "description": "The token is missing or blank.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "The token is invalid or expired, or the invoice is not found."
+            "description": "The token is invalid or expired, or the invoice is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -52099,13 +52267,27 @@
             }
           },
           "400": {
-            "description": "The receivable set exceeds the report row ceiling\r\n(`Invoicing:Report:RowLimitExceeded`). Narrow by biller, recipient, or currency and retry."
+            "description": "The receivable set exceeds the report row ceiling\r\n(`Invoicing:Report:RowLimitExceeded`). Narrow by biller, recipient, or currency and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "The caller lacks the report export permission."
           },
           "404": {
-            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist."
+            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -52300,13 +52482,27 @@
             }
           },
           "400": {
-            "description": "The receivable set exceeds the report row ceiling\r\n(`Invoicing:Report:RowLimitExceeded`). Narrow by biller, recipient, or currency and retry."
+            "description": "The receivable set exceeds the report row ceiling\r\n(`Invoicing:Report:RowLimitExceeded`). Narrow by biller, recipient, or currency and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "The caller lacks the report export permission."
           },
           "404": {
-            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist."
+            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -52498,10 +52694,24 @@
             }
           },
           "400": {
-            "description": "The receivable set exceeds the report row ceiling\r\n(`Invoicing:Report:RowLimitExceeded`). Narrow by biller, recipient, or currency and retry."
+            "description": "The receivable set exceeds the report row ceiling\r\n(`Invoicing:Report:RowLimitExceeded`). Narrow by biller, recipient, or currency and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist."
+            "description": "The caller's biller scope does not cover the requested biller\r\n(`Invoicing:Biller:ForeignBillerNotAllowed`). Reported as not-found rather than\r\nforbidden so the response cannot be used to probe which billers exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -55576,10 +55786,24 @@
             "description": "The billing run was cancelled."
           },
           "400": {
-            "description": "The run is not in a pending or running state, or the reason is too long."
+            "description": "The run is not in a pending or running state, or the reason is too long.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "No billing run exists with the specified id."
+            "description": "No billing run exists with the specified id.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -55751,7 +55975,14 @@
             }
           },
           "404": {
-            "description": "The reseller does not exist or is outside the caller's scope."
+            "description": "The reseller does not exist or is outside the caller's scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -56453,7 +56684,14 @@
             }
           },
           "404": {
-            "description": "No billing run exists with the specified id."
+            "description": "No billing run exists with the specified id.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -56661,7 +56899,14 @@
             }
           },
           "404": {
-            "description": "No price plan exists with the specified id."
+            "description": "No price plan exists with the specified id.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -57037,7 +57282,14 @@
             }
           },
           "404": {
-            "description": "No billing run exists with the specified id (or it is outside the caller's reseller scope)."
+            "description": "No billing run exists with the specified id (or it is outside the caller's reseller scope).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -57339,7 +57591,14 @@
             }
           },
           "404": {
-            "description": "No merchant exists with the specified id (or it is outside the caller's reseller scope)."
+            "description": "No merchant exists with the specified id (or it is outside the caller's reseller scope).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -57728,7 +57987,14 @@
             }
           },
           "404": {
-            "description": "No price plan exists with the specified id."
+            "description": "No price plan exists with the specified id.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -58093,10 +58359,24 @@
             "description": "The retry was dispatched."
           },
           "400": {
-            "description": "The result is not a failed recurring charge, or is missing its contract binding."
+            "description": "The result is not a failed recurring charge, or is missing its contract binding.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "No billing run or result exists with the specified ids."
+            "description": "No billing run or result exists with the specified ids.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -77861,7 +78141,14 @@
             }
           },
           "400": {
-            "description": "The window is missing, inverted, or wider than the bound."
+            "description": "The window is missing, inverted, or wider than the bound.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "The caller may not read delivery history."
@@ -82874,7 +83161,14 @@
             "description": "The session is ended. Ending an already-ended session also succeeds."
           },
           "404": {
-            "description": "No such session for this caller."
+            "description": "No such session for this caller.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -84055,7 +84349,14 @@
             }
           },
           "400": {
-            "description": "The page size, sort field or filter field is not supported."
+            "description": "The page size, sort field or filter field is not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "The caller is not signed in."
@@ -84502,7 +84803,14 @@
             "description": "The credential resolves no single merchant."
           },
           "404": {
-            "description": "No such delivery for this merchant. A mistyped id, another merchant's id and a delivery on a\r\nchannel this surface does not publish are deliberately indistinguishable."
+            "description": "No such delivery for this merchant. A mistyped id, another merchant's id and a delivery on a\r\nchannel this surface does not publish are deliberately indistinguishable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -85884,7 +86192,14 @@
             }
           },
           "404": {
-            "description": "No such session for this caller. A wrong id, another merchant's session, an ended session and an\r\nexpired one are deliberately indistinguishable, so an id-shaped probe learns nothing."
+            "description": "No such session for this caller. A wrong id, another merchant's session, an ended session and an\r\nexpired one are deliberately indistinguishable, so an id-shaped probe learns nothing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -86122,13 +86437,27 @@
             }
           },
           "400": {
-            "description": "The window is malformed, wider than the platform allows, or narrowed to a status that cannot be\r\nreplayed."
+            "description": "The window is malformed, wider than the platform allows, or narrowed to a status that cannot be\r\nreplayed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "The credential resolves no single merchant."
           },
           "409": {
-            "description": "The platform cannot attempt a delivery in its current state. Nothing was changed."
+            "description": "The platform cannot attempt a delivery in its current state. Nothing was changed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -86203,10 +86532,24 @@
             "description": "The credential resolves no single merchant."
           },
           "404": {
-            "description": "No such delivery for this merchant. A mistyped id, another merchant's id and a delivery on a\r\nchannel this surface does not publish are deliberately indistinguishable."
+            "description": "No such delivery for this merchant. A mistyped id, another merchant's id and a delivery on a\r\nchannel this surface does not publish are deliberately indistinguishable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "409": {
-            "description": "The delivery is not replayable, or its destination endpoint is currently suppressed. Nothing was\r\nchanged either way."
+            "description": "The delivery is not replayable, or its destination endpoint is currently suppressed. Nothing was\r\nchanged either way.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "429": {
             "description": "This endpoint's replay budget for the current window is spent. Nothing was changed; try again\r\nafter the window rolls over.\n\nA rate limit refusal carries an `application/problem+json` body instead: wait at least the interval `Retry-After` names before retrying, then back off.",
@@ -86334,7 +86677,14 @@
             "description": "The event type is unregistered, undeliverable, or outside the caller's scope; or the caller is\r\nnot acting in the test world, which sample events require."
           },
           "404": {
-            "description": "No such session for this caller, or it is no longer active."
+            "description": "No such session for this caller, or it is no longer active.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -118963,10 +119313,24 @@
             }
           },
           "400": {
-            "description": "The batch file is already completed or failed and cannot be cancelled."
+            "description": "The batch file is already completed or failed and cannot be cancelled.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "No batch file exists with the specified ID."
+            "description": "No batch file exists with the specified ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -119114,7 +119478,14 @@
             }
           },
           "404": {
-            "description": "No batch file exists with the specified ID."
+            "description": "No batch file exists with the specified ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -119264,10 +119635,24 @@
             "description": "Batch file deleted successfully."
           },
           "400": {
-            "description": "The batch file is currently being processed and cannot be deleted."
+            "description": "The batch file is currently being processed and cannot be deleted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "No batch file exists with the specified ID."
+            "description": "No batch file exists with the specified ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -119406,10 +119791,24 @@
             }
           },
           "400": {
-            "description": "The batch file has no associated blob storage path."
+            "description": "The batch file has no associated blob storage path.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "No batch file exists with the specified ID."
+            "description": "No batch file exists with the specified ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -119509,10 +119908,24 @@
             }
           },
           "400": {
-            "description": "The batch file has not finished processing yet."
+            "description": "The batch file has not finished processing yet.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "No batch file exists with the specified ID."
+            "description": "No batch file exists with the specified ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -119867,10 +120280,24 @@
             }
           },
           "400": {
-            "description": "The batch file is not in a valid state for processing."
+            "description": "The batch file is not in a valid state for processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "No batch file exists with the specified ID."
+            "description": "No batch file exists with the specified ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -120029,7 +120456,14 @@
             }
           },
           "400": {
-            "description": "File is not CSV, exceeds 10 MB, or the merchant does not exist."
+            "description": "File is not CSV, exceeds 10 MB, or the merchant does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "403": {
             "description": "Forbidden",
@@ -120732,7 +121166,14 @@
             }
           },
           "409": {
-            "description": "The transaction is not awaiting a review decision (`Transactions:ReviewNotPending`): it\r\nwas already approved or declined, or its review deadline passed. Read the transaction; the\r\noutcome is already on it."
+            "description": "The transaction is not awaiting a review decision (`Transactions:ReviewNotPending`): it\r\nwas already approved or declined, or its review deadline passed. Read the transaction; the\r\noutcome is already on it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -120945,7 +121386,14 @@
             }
           },
           "409": {
-            "description": "The transaction is not awaiting a review decision (`Transactions:ReviewNotPending`): it\r\nwas already approved or declined, or its review deadline passed. Read the transaction; the\r\noutcome is already on it."
+            "description": "The transaction is not awaiting a review decision (`Transactions:ReviewNotPending`): it\r\nwas already approved or declined, or its review deadline passed. Read the transaction; the\r\noutcome is already on it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
           },
           "default": {
             "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
@@ -141332,6 +141780,14 @@
             "description": "The merchant's own identifier for this campaign.",
             "nullable": true
           },
+          "overrides": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CampaignOverridesDto"
+              }
+            ],
+            "description": "Branding and text laid over every hosted page and payment link in the campaign when it\r\nrenders. A member that is `null` inherits each member page's own value."
+          },
           "clonedFromCampaignId": {
             "type": "string",
             "description": "The campaign this one was cloned from, or `null` for a campaign created from scratch.\r\nThe source may have been deleted since; the reference is kept either way.",
@@ -141420,6 +141876,174 @@
           "Its configured completion count was reached.",
           "Its configured collected-amount ceiling was reached."
         ]
+      },
+      "CampaignOverridesDto": {
+        "type": "object",
+        "properties": {
+          "panelBackColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Panel background color, for example `#ffffff`.",
+            "nullable": true
+          },
+          "panelBorderColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Panel border color.",
+            "nullable": true
+          },
+          "buttonColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Process button color.",
+            "nullable": true
+          },
+          "buttonBorderColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Process button border color.",
+            "nullable": true
+          },
+          "inputFieldBorderColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Input field border color.",
+            "nullable": true
+          },
+          "inputFieldBackgroundColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Input field background color.",
+            "nullable": true
+          },
+          "inputFieldFontSize": {
+            "maximum": 72,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Input field font size, in pixels.",
+            "format": "int32",
+            "nullable": true
+          },
+          "inputFieldFontColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Input field font color.",
+            "nullable": true
+          },
+          "inputFieldBackgroundFocusColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Input field background color while the field has focus.",
+            "nullable": true
+          },
+          "backColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Page background color.",
+            "nullable": true
+          },
+          "fontColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Body font color.",
+            "nullable": true
+          },
+          "font": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Body font family.",
+            "nullable": true
+          },
+          "fontSize": {
+            "maximum": 72,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Body font size, in pixels.",
+            "format": "int32",
+            "nullable": true
+          },
+          "headerFont": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Header font family.",
+            "nullable": true
+          },
+          "headerFontColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Header font color.",
+            "nullable": true
+          },
+          "headerFontSize": {
+            "maximum": 72,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Header font size, in pixels.",
+            "format": "int32",
+            "nullable": true
+          },
+          "headerBackColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Header background color.",
+            "nullable": true
+          },
+          "headerBorderColor": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Header border color.",
+            "nullable": true
+          },
+          "customCSS": {
+            "maxLength": 3000,
+            "type": "string",
+            "description": "Custom CSS added after each member page's own custom CSS, so a campaign rule wins over a page\r\nrule of equal specificity and the page's other rules keep applying.",
+            "nullable": true
+          },
+          "headerText": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "Text shown at the top of each member page.",
+            "nullable": true
+          },
+          "promoText": {
+            "maxLength": 200,
+            "type": "string",
+            "description": "Highlighted announcement or promotion text.",
+            "nullable": true
+          },
+          "promoLink": {
+            "maxLength": 200,
+            "type": "string",
+            "description": "HTTPS link the promotion text points at.",
+            "nullable": true
+          },
+          "processButtonText": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Text on the process button.",
+            "nullable": true
+          },
+          "callToActionText": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Text on the call-to-action button of a streamlined page.",
+            "nullable": true
+          },
+          "bannerImage": {
+            "maxLength": 128,
+            "type": "string",
+            "description": "Banner image: the filename the portal image uploader returns, for example\r\n`3f2a5b90-7c41-4d2e-9f0a-1b8c6d5e4f21.png`. Not a URL.",
+            "nullable": true
+          },
+          "hideBanner": {
+            "type": "boolean",
+            "description": "Whether the banner is hidden. `true` hides it on every member page, `false` shows it\r\neven on a page that hides its own, and `null` leaves each page's own setting.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Branding and text a campaign lays over every hosted page and payment link that belongs to it.\r\nEach member is optional; leave one out, or send `null`, and each member page keeps its own\r\nvalue for it."
       },
       "CampaignProgressDto": {
         "type": "object",
@@ -147035,6 +147659,14 @@
           "showProgress": {
             "type": "boolean",
             "description": "Whether the campaign's count, total and goal are shown to payers on its hosted pages and\r\nlinks, and published at `GET /api/campaigns/{id}/progress`. Off by default: nothing\r\nabout the campaign leaves the merchant's own surfaces."
+          },
+          "overrides": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CampaignOverridesDto"
+              }
+            ],
+            "description": "Branding and text laid over every hosted page and payment link in the campaign when it\r\nrenders. On an update, leave this out (or send `null`) to keep the overrides the campaign\r\nalready has; send an object to replace them all, where each member left out or `null`\r\ninherits the member page's own value."
           }
         },
         "additionalProperties": false,
@@ -185060,6 +185692,14 @@
           "showProgress": {
             "type": "boolean",
             "description": "Whether the campaign's count, total and goal are shown to payers on its hosted pages and\r\nlinks, and published at `GET /api/campaigns/{id}/progress`. Off by default: nothing\r\nabout the campaign leaves the merchant's own surfaces."
+          },
+          "overrides": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CampaignOverridesDto"
+              }
+            ],
+            "description": "Branding and text laid over every hosted page and payment link in the campaign when it\r\nrenders. On an update, leave this out (or send `null`) to keep the overrides the campaign\r\nalready has; send an object to replace them all, where each member left out or `null`\r\ninherits the member page's own value."
           },
           "concurrencyStamp": {
             "type": "string",
