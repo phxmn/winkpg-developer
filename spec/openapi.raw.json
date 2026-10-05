@@ -24789,6 +24789,60 @@
         "x-scope": "merchant"
       }
     },
+    "/api/platform/contract": {
+      "get": {
+        "tags": [
+          "ContractRevision"
+        ],
+        "operationId": "contractRevisionGet",
+        "parameters": [
+          {
+            "name": "suppressNulls",
+            "in": "query",
+            "description": "If true, omit properties with null values.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractRevisionResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractRevisionResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractRevisionResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request failed. The body carries the standard error envelope: a machine-readable `error.code`, a human-readable `error.message`, and `error.validationErrors` when the failure was a validation rejection. See the error-code reference in this document's description for the values `error.code` can take.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoteServiceErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "security": [ ]
+      }
+    },
     "/api/contracts/{id}/access": {
       "get": {
         "tags": [
@@ -147024,6 +147078,17 @@
           }
         ]
       },
+      "ContractRevisionResponse": {
+        "type": "object",
+        "properties": {
+          "revision": {
+            "type": "integer",
+            "description": "The contract revision: a positive integer that increases each time the published contract\r\nchanges.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "ContractSchedule": {
         "type": "object",
         "properties": {
@@ -189237,6 +189302,11 @@
       "name": "ContractPlans",
       "description": "Reusable plans that recurring contracts subscribe to for their price.",
       "x-category": "Customers & Contracts"
+    },
+    {
+      "name": "ContractRevision",
+      "description": "The API contract revision this instance serves, so a client built against a newer contract can tell an older instance from a missing feature.",
+      "x-category": "Platform Configuration"
     },
     {
       "name": "Contracts",
