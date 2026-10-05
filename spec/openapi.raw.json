@@ -155368,6 +155368,24 @@
             "description": "Gets or sets the visibility of the customer code / purchase order field. `null` is\r\ntreated as `Hidden`.",
             "nullable": true
           },
+          "fieldContactPhone": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/HppFieldVisibility"
+              }
+            ],
+            "description": "Gets or sets the visibility of the contact phone field. `null` means the page has never\r\nconfigured it and the older control decides: the Streamlined `CollectPhone` toggle, or\r\non a Classic page the always-rendered phone input behind `hideAddressAndPhone`.",
+            "nullable": true
+          },
+          "fieldLevel3Amount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/HppFieldVisibility"
+              }
+            ],
+            "description": "Gets or sets the visibility of the read-only Level 3 summary a session can carry.\r\n`null` means the page has never configured it and the older\r\n`AllowLevel3LineItems` toggle decides.",
+            "nullable": true
+          },
           "shippingAmountMode": {
             "allOf": [
               {
@@ -155818,6 +155836,7 @@
           },
           "collectPhone": {
             "type": "boolean",
+            "description": "Older Streamlined control for the payer phone field. Honored only while\r\n`fieldsAndPanels.fieldContactPhone` is `null`; once that visibility is set it decides\r\nwhat the page renders, and this toggle is overwritten from it on every save, so a write here\r\nalongside a set visibility is discarded. Write `fieldsAndPanels.fieldContactPhone` instead.",
             "nullable": true
           },
           "allowPromoCodes": {
@@ -156067,6 +156086,7 @@
           },
           "allowLevel3LineItems": {
             "type": "boolean",
+            "description": "Older control for the read-only Level 3 line-item summary. Honored only while\r\n`fieldsAndPanels.fieldLevel3Amount` is `null`; once that visibility is set it decides\r\nwhat the page renders, and this toggle is overwritten from it on every save, so a write here\r\nalongside a set visibility is discarded. Write `fieldsAndPanels.fieldLevel3Amount` instead.",
             "nullable": true
           },
           "pagePurpose": {
@@ -156378,6 +156398,7 @@
           },
           "collectPhone": {
             "type": "boolean",
+            "description": "Older Streamlined control for the payer phone field. Honored only while\r\n`fieldsAndPanels.fieldContactPhone` is `null`; once that visibility is set it decides\r\nwhat the page renders, and this toggle is kept in step with it on every save.",
             "nullable": true
           },
           "allowPromoCodes": {
@@ -156486,6 +156507,7 @@
           },
           "allowLevel3LineItems": {
             "type": "boolean",
+            "description": "Older control for the read-only Level 3 line-item summary. Honored only while\r\n`fieldsAndPanels.fieldLevel3Amount` is `null`; once that visibility is set it decides\r\nwhat the page renders, and this toggle is kept in step with it on every save.",
             "nullable": true
           },
           "pagePurpose": {
@@ -156705,6 +156727,7 @@
           },
           "collectPhone": {
             "type": "boolean",
+            "description": "Older Streamlined control for the payer phone field. Honored only while\r\n`fieldsAndPanels.fieldContactPhone` is `null`; once that visibility is set it decides\r\nwhat the page renders, and this toggle is overwritten from it on every save, so a write here\r\nalongside a set visibility is discarded. Write `fieldsAndPanels.fieldContactPhone` instead.",
             "nullable": true
           },
           "allowPromoCodes": {
@@ -156954,6 +156977,7 @@
           },
           "allowLevel3LineItems": {
             "type": "boolean",
+            "description": "Older control for the read-only Level 3 line-item summary. Honored only while\r\n`fieldsAndPanels.fieldLevel3Amount` is `null`; once that visibility is set it decides\r\nwhat the page renders, and this toggle is overwritten from it on every save, so a write here\r\nalongside a set visibility is discarded. Write `fieldsAndPanels.fieldLevel3Amount` instead.",
             "nullable": true
           },
           "pagePurpose": {
