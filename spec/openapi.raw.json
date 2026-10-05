@@ -84383,6 +84383,7 @@
           "Notifications"
         ],
         "summary": "Lists the notification categories the inbox can be filtered by.",
+        "description": "Only the categories of event types visible to the caller are listed.",
         "operationId": "notificationsGetInboxCategories",
         "parameters": [
           {
