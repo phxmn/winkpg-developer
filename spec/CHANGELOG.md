@@ -1,19 +1,110 @@
-## 33.5.0
+## 33.6.0
 
 Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
 ### Additions
 
-- field ContractRevisionResponse.revision: type=integer format=int32
-- operation GET /api/platform/contract
-- parameter GET /api/platform/contract query:suppressNulls: optional type=boolean
-- response GET /api/platform/contract 200 (application/json): ContractRevisionResponse
-- response GET /api/platform/contract 200 (text/json): ContractRevisionResponse
-- response GET /api/platform/contract 200 (text/plain): ContractRevisionResponse
-- response GET /api/platform/contract 429: no body
-- response GET /api/platform/contract default (application/json): RemoteServiceErrorResponse
-- schema ContractRevisionResponse: type=object additionalProperties=false
-- security GET /api/platform/contract: (none)
-- operation id contractRevisionGet (GET /api/platform/contract)
+- error code VaultProxy:AmbiguousProperty: 400
+- error code VaultProxy:BodyTooLarge: 413
+- error code VaultProxy:CaptureRouteNotFound: 404
+- error code VaultProxy:CvvAliasStoreUnavailable: 503
+- error code VaultProxy:CvvWithoutCardNumber: 400
+- error code VaultProxy:InvalidCardNumber: 400
+- error code VaultProxy:InvalidCvv: 400
+- error code VaultProxy:InvalidUpstreamPath: 400
+- error code VaultProxy:MalformedBody: 400
+- error code VaultProxy:MerchantIdIsImmutable: 409
+- error code VaultProxy:OriginNotAllowed: 403
+- error code VaultProxy:OriginRequired: 403
+- error code VaultProxy:RouteNotFound: 404
+- error code VaultProxy:UnsupportedMediaType: 415
+- error code VaultProxy:UnvaultedCardNumber: 400
+- error code VaultProxy:UpstreamTimeout: 504
+- error code VaultProxy:UpstreamUnavailable: 502
+- error code VaultProxy:VaultUnavailable: 503
+- field ContinuationPagedResultDtoOfVaultRouteDto.approxTotalCount: type=integer format=int64 nullable=true
+- field ContinuationPagedResultDtoOfVaultRouteDto.items: type=array nullable=true items(VaultRouteDto)
+- field ContinuationPagedResultDtoOfVaultRouteDto.nextContinuationToken: type=string nullable=true
+- field ContinuationPagedResultDtoOfVaultRouteDto.pageItemCount: type=integer format=int32 readOnly=true
+- field ContinuationPagedResultDtoOfVaultRouteDto.retrievedAt: type=string format=date-time
+- field CreateVaultRouteDto.allowNativeClients: type=boolean
+- field CreateVaultRouteDto.allowedOrigins: type=array nullable=true items(type=string)
+- field CreateVaultRouteDto.cvvAliasTimeToLiveMinutes: type=integer format=int32 nullable=true minimum=1 maximum=60
+- field CreateVaultRouteDto.enrichmentEnabled: type=boolean
+- field CreateVaultRouteDto.filters: type=array nullable=true items(VaultRouteFilterDto)
+- field CreateVaultRouteDto.isEnabled: type=boolean
+- field CreateVaultRouteDto.kind: allOf(VaultRouteKind)
+- field CreateVaultRouteDto.maxBodyBytes: type=integer format=int32 nullable=true minimum=1024 maximum=1048576
+- field CreateVaultRouteDto.merchantId: required type=string format=uuid nullable=true
+- field CreateVaultRouteDto.name: required type=string nullable=true maxLength=128
+- field CreateVaultRouteDto.upstreamBaseUrl: required type=string nullable=true maxLength=2048
+- field CreateVaultRouteDto.upstreamTimeoutSeconds: type=integer format=int32 nullable=true minimum=1 maximum=30
+- field GetVaultRouteContinuationInput.continuationToken: type=string nullable=true
+- field GetVaultRouteContinuationInput.filter: FilterGroup
+- field GetVaultRouteContinuationInput.includeApproxTotalCount: type=boolean nullable=true
+- field GetVaultRouteContinuationInput.includeDeleted: type=boolean
+- field GetVaultRouteContinuationInput.includeInactive: type=boolean
+- field GetVaultRouteContinuationInput.isEnabled: type=boolean nullable=true
+- field GetVaultRouteContinuationInput.kind: nullable=true allOf(VaultRouteKind)
+- field GetVaultRouteContinuationInput.maxResultCount: type=integer format=int32 minimum=1 maximum=100
+- field GetVaultRouteContinuationInput.merchantId: type=string format=uuid nullable=true
+- field GetVaultRouteContinuationInput.sorting: SortDescriptor
+- field PagedResultDtoOfVaultRouteDto.items: type=array nullable=true items(VaultRouteDto)
+- field PagedResultDtoOfVaultRouteDto.totalCount: type=integer format=int64
+- field UpdateVaultRouteDto.allowNativeClients: type=boolean
+- field UpdateVaultRouteDto.allowedOrigins: type=array nullable=true items(type=string)
+- field UpdateVaultRouteDto.concurrencyStamp: type=string nullable=true
+- field UpdateVaultRouteDto.cvvAliasTimeToLiveMinutes: type=integer format=int32 nullable=true minimum=1 maximum=60
+- field UpdateVaultRouteDto.enrichmentEnabled: type=boolean
+- field UpdateVaultRouteDto.entityVersion: type=integer format=int32 readOnly=true
+- field UpdateVaultRouteDto.filters: type=array nullable=true items(VaultRouteFilterDto)
+- field UpdateVaultRouteDto.isEnabled: type=boolean
+- field UpdateVaultRouteDto.maxBodyBytes: type=integer format=int32 nullable=true minimum=1024 maximum=1048576
+- field UpdateVaultRouteDto.merchantId: required type=string format=uuid nullable=true
+- field UpdateVaultRouteDto.name: required type=string nullable=true maxLength=128
+- field UpdateVaultRouteDto.upstreamBaseUrl: required type=string nullable=true maxLength=2048
+- field UpdateVaultRouteDto.upstreamTimeoutSeconds: type=integer format=int32 nullable=true minimum=1 maximum=30
+- field VaultRouteDto.allowNativeClients: type=boolean
+- field VaultRouteDto.allowedOrigins: type=array nullable=true items(type=string)
+- field VaultRouteDto.capturePath: type=string nullable=true
+- field VaultRouteDto.concurrencyStamp: type=string nullable=true
+- field VaultRouteDto.creationTime: type=string format=date-time
+- field VaultRouteDto.creatorId: type=string format=uuid nullable=true
+- field VaultRouteDto.cvvAliasTimeToLiveMinutes: type=integer format=int32
+- field VaultRouteDto.deleterId: type=string format=uuid nullable=true
+- field VaultRouteDto.deletionTime: type=string format=date-time nullable=true
+- field VaultRouteDto.enrichmentEnabled: type=boolean
+- field VaultRouteDto.extraProperties: type=object nullable=true readOnly=true
+- field VaultRouteDto.filters: type=array nullable=true items(VaultRouteFilterDto)
+- field VaultRouteDto.id: type=string format=uuid
+- field VaultRouteDto.isDeleted: type=boolean
+- field VaultRouteDto.isEnabled: type=boolean
+- field VaultRouteDto.kind: allOf(VaultRouteKind)
+- field VaultRouteDto.lastModificationTime: type=string format=date-time nullable=true
+- field VaultRouteDto.lastModifierId: type=string format=uuid nullable=true
+- field VaultRouteDto.maxBodyBytes: type=integer format=int32
+- field VaultRouteDto.merchantId: type=string format=uuid
+- field VaultRouteDto.name: type=string nullable=true
+- field VaultRouteDto.publicId: type=string nullable=true
+- field VaultRouteDto.signingSecret: type=string nullable=true
+- field VaultRouteDto.signingSecretRotatedAtUtc: type=string format=date-time nullable=true
+- field VaultRouteDto.upstreamBaseUrl: type=string nullable=true
+- field VaultRouteDto.upstreamTimeoutSeconds: type=integer format=int32
+- field VaultRouteFilterDto.action: allOf(VaultFieldAction)
+- field VaultRouteFilterDto.classifier: allOf(VaultFieldClassifier)
+- field VaultRouteFilterDto.path: required type=string nullable=true maxLength=256
+- field VaultRouteSigningSecretDto.rotatedAtUtc: type=string format=date-time
+- field VaultRouteSigningSecretDto.signingSecret: type=string nullable=true
+- schema ContinuationPagedResultDtoOfVaultRouteDto: type=object additionalProperties=false
+- schema CreateVaultRouteDto: type=object additionalProperties=false
+- schema GetVaultRouteContinuationInput: type=object additionalProperties=false
+- schema PagedResultDtoOfVaultRouteDto: type=object additionalProperties=false
+- schema UpdateVaultRouteDto: type=object additionalProperties=false
+- schema VaultFieldAction: type=string enum=[Keep,Strip,Unknown,Vault,VolatileAlias]
+- schema VaultFieldClassifier: type=string enum=[CardNumber,Cvv,ExpirationDate,ExpirationMonth,ExpirationYear,NameOnCard,Unknown]
+- schema VaultRouteDto: type=object additionalProperties=false
+- schema VaultRouteFilterDto: type=object additionalProperties=false
+- schema VaultRouteKind: type=string enum=[Inbound,Outbound,Unknown]
+- schema VaultRouteSigningSecretDto: type=object additionalProperties=false
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
