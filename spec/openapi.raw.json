@@ -115586,7 +115586,7 @@
           "Tokens"
         ],
         "summary": "Looks up a payment token by its public identifier within a merchant.",
-        "description": "The identifier is either the numeric or the card-format token string. The result is\n`null` when nothing matches, and the call fails when the token exists but is\ndeactivated. Set `doOwnershipCheck` when the token is about to be\ncharged: the merchant and customer that own it are then verified before it is returned.\nThe result carries masked card and check values only.",
+        "description": "The identifier is either the numeric or the card-format token string. The result is\n`null` when nothing matches, and the call fails when the token exists but is\ndeactivated. Set `doOwnershipCheck` when the token is about to be\ncharged: the merchant and customer that own it are then verified before it is returned.\nThe result carries masked card and check values only. Requires the\n`Transactions.PaymentTokens.View` permission, like the other token reads.",
         "operationId": "tokensResolvePaymentToken",
         "parameters": [
           {
@@ -121477,7 +121477,7 @@
           "Transactions"
         ],
         "summary": "Execute a follow-up operation on an existing transaction.",
-        "description": "A client disconnect does not cancel an operation once the request has been received.",
+        "description": "\n\r\nA client disconnect does not cancel an operation once the request has been received.\r\n\r\n\n\r\nThe caller needs the permission for the requested operation type:\r\n`Transactions.Operations.Void` for Void and Reversal, `Transactions.Operations.Refund`\r\nfor Refund, `Transactions.Operations.Capture` for Capture,\r\n`Transactions.Operations.Adjustment` for OfflineAdjustment and IncrementalAuthorization,\r\n`Transactions.Payments.Create` for Repeat and Retry, and\r\n`Transactions.PartialApproval.Acknowledge` for AcceptPartialApproval and SplitTender. A\r\nRefund, Repeat or Retry creates a new transaction, which also requires\r\n`Transactions.Payments.Create`. A caller without the permission receives 403 before the\r\ntransaction is read, so the response does not reveal whether the transaction exists.\r\n",
         "operationId": "transactionOperationsExecuteOperation",
         "parameters": [
           {
@@ -121693,7 +121693,7 @@
           "Transactions"
         ],
         "summary": "Legacy single-id route retained for backward compatibility.",
-        "description": "Looks up the transaction's `MerchantId` first, then forwards to the merchant-scoped path. New callers should target the merchant-scoped route directly, which reads the transaction without that lookup. The `Deprecation` response header lets client telemetry pick up traffic on this route during the migration.",
+        "description": "Looks up the transaction's `MerchantId` first, then forwards to the merchant-scoped path. New callers should target the merchant-scoped route directly, which reads the transaction without that lookup. The `Deprecation` response header lets client telemetry pick up traffic on this route during the migration.\n\n\n\r\nThe caller needs the permission for the requested operation type:\r\n`Transactions.Operations.Void` for Void and Reversal, `Transactions.Operations.Refund`\r\nfor Refund, `Transactions.Operations.Capture` for Capture,\r\n`Transactions.Operations.Adjustment` for OfflineAdjustment and IncrementalAuthorization,\r\n`Transactions.Payments.Create` for Repeat and Retry, and\r\n`Transactions.PartialApproval.Acknowledge` for AcceptPartialApproval and SplitTender. A\r\nRefund, Repeat or Retry creates a new transaction, which also requires\r\n`Transactions.Payments.Create`. A caller without the permission receives 403 before the\r\ntransaction is read, so the response does not reveal whether the transaction exists.\r\n",
         "operationId": "transactionOperationsExecuteOperationLegacy",
         "parameters": [
           {
