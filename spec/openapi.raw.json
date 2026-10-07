@@ -183787,6 +183787,11 @@
             ],
             "description": "What create idempotency did to the request that produced this response: whether a\r\n`idempotencyKey` was sent, whether deduplication was in effect for the merchant, and\r\nwhether this response replays an earlier create.",
             "nullable": true
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "description": "The idempotency key this transaction was created with, exactly as stored.\r\n`null` when the create request carried none. Read-only: the key is fixed at\r\ncreate time and an update never changes it.",
+            "nullable": true
           }
         },
         "additionalProperties": false

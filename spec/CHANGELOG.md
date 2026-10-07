@@ -1,9 +1,11 @@
-## 34.1.0
+## 34.2.0
 
-Generated against contract revision 6. Compare it with the revision the instance you call reports at `GET /api/platform/contract`: an instance with a lower revision may not serve every operation in this package. The reference is `docs/api-contract-revision.md`.
+Generated against contract revision 7. Compare it with the revision the instance you call reports at `GET /api/platform/contract`: an instance with a lower revision may not serve every operation in this package. The reference is `docs/api-contract-revision.md`.
 
-No contract change: this version is a rebuild of the previous published surface.
+Minor release: this version only adds surface, or widens what an existing call accepts. Code written against the previous version keeps working.
 
-No integrator-observable change was detected in the API contract.
+### Additions
+
+- field TransactionDto.idempotencyKey: type=string nullable=true
 
 This changelog is generated from the published OpenAPI contract, not hand written. Every entry names a fact an integrator can observe.
